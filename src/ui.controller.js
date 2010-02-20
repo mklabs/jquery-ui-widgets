@@ -21,10 +21,10 @@
         
         // Store a reference to the instance controller
         controllers[controllerId] = {
-			instance: instance,
-			base: Base,
-			sel: this.selector
-		};
+            instance: instance,
+            base: Base,
+            sel: this.selector
+        };
         
         
         if (!debug) {
