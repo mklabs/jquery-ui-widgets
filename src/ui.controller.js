@@ -1,60 +1,50 @@
 /**
- * Controller widget
+ * <b>jQuery UI Controller Widget</b> <br />
  *
- * @author mdaniel
+ * A jQuery UI Widget that provides you clean and handy way to organize your jQuery code. Controllers organize 
+ * event handlers through the power of event delegation. If something happens in your application, either it is 
+ * browser event or custom ones, a controller should respond to it.
+ * 
+ * <ul>
+ *   <li>Controllers let you know where your code is!</li>
+ *   <li>Controllers force you to group events and label your html in specific ways.</li>
+ *   <li>Controllers are inheritable.</li>
+ *   <li>Controllers use event delegation.</li>
+ * </ul>
+ * 
+ * @module controller
+ * @requires core, widet 
+ * 
  */
 (function(){
 
-    var debug = false;
+	// set this according to your debug will regarding errors thrown in controllers
+    var debug = true;
     
+	// proxied
     var _controller, _live = $.fn.live, _empty = $.fn.empty, _load = $.fn.load;
     
+	// controllers cache
     var controllers = {};
     
     var Class, SandBox, BaseController;
     
-    var createInstance = function(baseController, prototype){
-        var Base = baseController.extend(prototype);
-        var instance = new Base(this), name, method;
-        
-        var controllerId = prototype.id ? prototype.id : this.attr("id").replace(/-/g, "_");
-        
-        // Store a reference to the instance controller
-        controllers[controllerId] = {
-            instance: instance,
-            base: Base,
-            sel: this.selector
-        };
-        
-        
-        if (!debug) {
-            for (name in instance) {
-                method = instance[name];
-                if ($.isFunction(method)) {
-                    instance[name] = function(name, method){
-                        return function(){
-                            try {
-                                return method.apply(this, arguments);
-                            } catch (ex) {
-                                console.error(1, name + "(): " + ex.message);
-                            }
-                        };
-                    }(name, method);
-                }
-            }
-        }
-        return instance;
-    };
-    
-    
+    /**
+     * Base Class.
+     * 
+     * Based on jresig's implementaton (http://ejohn.org/blog/simple-javascript-inheritance/)
+     * 
+     * All subsequent controllers are inherited from BaseController which extend this Class.
+     * 
+     * @class Class
+     */
     (function(){
         var initializing = false, fnTest = /xyz/.test(function(){
             xyz;
         }) ? /\b_super\b/ : /.*/;
         
         // The base Class implementation (does nothing)
-        Class = function(){
-        };
+        Class = function(){};
         
         // Create a new Class that inherits from this class
         Class.extend = function(prop){
@@ -106,9 +96,27 @@
         };
     })();
     
+    /**
+     * SandBox Singleton available in any controllers instance. <br />
+     *
+     * The sandbox is provided to you through parameters in your module impementation:
+     *
+     * <code>
+     * $(".myController").controller(function(sandbox){
+     *	// Some code
+     * });
+     *
+     * @class SandBox
+     * @static
+     */
     SandBox = function(){
     
         return {
+			/**
+			 * Allow you to retrieve a specific controller from the internal cache
+			 * @param {String} id
+			 * @return {BaseController} controller instance 
+			 */
             getController: function(id){
                 if (!id) {
                     throw new Error("SandBox.getController(): Id paramater is mandatory and missing.");
@@ -123,8 +131,20 @@
         }
     }();
     
-    
+    /**
+     * Base Controller Class. All subsequent controller will inherit this one.
+     * 
+     * Provides common interface for controllers communication.
+     * @class BaseController
+     * @extends Class
+     */
     BaseController = Class.extend({
+		/**
+		 * BaseController constructor. Setup empty Model and Elements.
+		 * 
+		 * @constructor
+		 * @param {Object} container
+		 */
         init: function(container){
             console.info("new Controller", this, arguments);
             
@@ -133,10 +153,23 @@
             this.Elements = {};
         },
         
+		/**
+		 * Bind a custom event upon current instance.
+		 * @method listen
+		 * @param {String} eventType
+		 * @param {Function} handler
+		 */
         listen: function(eventType, handler){
             console.log("listen:", this, arguments);
             $(this).bind(eventType, handler);
         },
+		
+		/**
+		 * Fire (Trigger) a custom event upon all registered controllers.
+		 * @method fire
+		 * @param {String} eventType
+		 * @param {Object} data
+		 */
         fire: function(eventType, data){
             console.log("fire:", this, arguments);
             // Fire up to all registered controllers
@@ -149,30 +182,76 @@
         }
     });
     
-    
+	
+    /**
+     *
+     * Widget implementation of controllers. <br />
+     *
+     * Does a few things:
+     * <ul>
+     *     <li>
+     *       At this point, controller instance is already created and provided
+     *       by the proxy controller.
+     *     </li>
+     *     <li>
+     *       Init model by walking through hidden inputs in controller container
+     *       and make it available to use via this.Model
+     *     </li>
+     *     <li>Setup event delegation restricted to controller container.</li>
+     * </ul>
+     *
+     *
+     * @class controller
+     * @namespace $.ui
+     */
     $.widget('ui.controller', {
+		/**
+		 * Controller method. Setup instance in widget ones, init model and events.
+		 * @constructor
+		 * @param {BaseController} instance
+		 */
         _init: function(){
             console.info("Controller widget init", this, arguments);
             
-            var instance = this.instance = this.options;
+            this.instance = this.options;
             
             this._initModel();
             
             this._initEvents();
         },
         
+		/**
+		 * Delegated destroy method from widget's prototype.
+		 * 
+		 * Remove any delegated event handlers, call the controller's destroy 
+		 * method and widget's super one.
+		 * 
+		 * @method destroy
+		 */
         destroy: function(){
-			// Should we also delete instance from cached controllers? Or keep it further use?
+            // Should we also delete instance from cached controllers? Or keep it for further use?
             console.log("What about proper destroy?", this, arguments);
-            var o = this.options;
+            var instance = this.instance;
             
-            if ($.isFunction(o.destroy)) {
-                o.destroy.apply(this, arguments);
+            if ($.isFunction(instance.destroy)) {
+                instance.destroy.apply(this, arguments);
             }
             
             this._unbindEvents();
+			
+			$.widget.prototype.destroy.apply(this, arguments);
         },
         
+		/**
+		 * Setup event delegation restricted to the controller container.
+		 * 
+		 * Each eventHandler is given a context (thanks to $.proxy method) that matchs the correct instance. This means that you could use something 
+		 * like this.doThing() in there. The original or current target are still available in Event object passed in as parameter.
+		 * 
+		 * @method _initEvents
+		 * @private
+		 * 
+		 */
         _initEvents: function(){
             var self = this, instance = this.instance;
             $.each(instance, function(prop, value){
@@ -182,13 +261,19 @@
                 
                 if (!action) return;
                 
-                callback = $.isFunction(value) ? value : function(){
-                };
+                callback = $.isFunction(value) ? value : function(){};
                 instance.Elements[sel] = $(sel, self.element);
                 instance.Elements[sel].live(action, $.proxy(callback, instance));
             });
         },
         
+		/**
+		 * Init model by walking through hidden inputs within controller container 
+	 	 * and make it available to use via this.Model
+	 	 * 
+	 	 * @method _initModel
+	 	 * @private
+		 */
         _initModel: function(){
             // Walk through hidden input and init model
             var model = this.element.find("input[type='hidden']").serializeArray();
@@ -201,6 +286,14 @@
             });
         },
         
+		/**
+		 * FIXME: TDB
+		 * 
+		 * Removes any event handlers fir this particular component.
+		 * @method _unbindEvents
+		 * @private
+		 * 
+		 */
         _unbindEvents: function(){
             // TBD
         }
@@ -208,9 +301,9 @@
     
     $.ui.controller.defaults = {};
     
+	// Make cache globaly accesible via ui controller namespace
     $.ui.controller.controllers = controllers;
     
-    // FIXME: Delegate instance creation to a factory or delegated function
     // 	Handle version?
     _controller = $.fn.controller;
     $.fn.controller = function(parent, entrypoint){
@@ -222,10 +315,10 @@
                 return parent;
             });
         }
-		
-		if(parent instanceof BaseController){
-			return _controller.call(this, parent);			
-		}
+        
+        if (parent instanceof BaseController) {
+            return _controller.call(this, parent);
+        }
         
         if (parent.constructor === String) {
             // We depends on some Base Controller
@@ -242,7 +335,7 @@
         
         if ($.isFunction(entrypoint)) {
             prototype = entrypoint.call(this, SandBox);
-            instance = createInstance.call(this, baseController, prototype)
+            instance = _createInstance.call(this, baseController, prototype)
             
             // Start the controller by calling controller widget			
             return _controller.call(this, instance);
@@ -253,6 +346,8 @@
     
     // create controller constructor
     $.controller = function(name, prototype){
+		// Change this to only be stored in the internal cache? Only accesible via Sandbox?
+		
         // Create namespace under jQuery one and store Controller class
         ns.call($, name, BaseController.extend(prototype));
     };
@@ -268,6 +363,8 @@
         return _live.apply(this, arguments);
     };
     
+	// Workaround to get remove event triggered on empty and load method since jQuery 1.4.
+	// (They don't internally called remove one anymore)
     $.fn.empty = function(){
         console.log("empty:", this, arguments);
         
@@ -288,25 +385,90 @@
         return _load.apply(this, arguments);
     };
 	
+	// May be not so elegant... Responsible of re-binding controller's widget with previously stored instance, if any.
+	// Non event live event a la livequery may be very usefull there.
     $(document).ajaxComplete(function(e, xhr, settings){
 		var t = $(xhr.responseText);
 		var context = settings.context;
 
 		$.each(controllers, function(){
-			var sel = this.sel;
-			var instance = this.instance;
-			var f = $(sel, context);
-			
+			var f = $(this.sel, context);
 			if(f.get(0)){
 				// Reinit controller with previously stored instance
-				f.controller(instance);
+				f.controller(this.instance);
 			}
 			
 		});
 		
     });
     
+	
+	/**
+	 * Internal use only.
+	 * 
+	 * Does three things:
+	 * <ul>
+	 *     <li>Extends the baseController and create a fresh a new instance.</li>
+	 *     <li>
+	 *       Stores a reference of newly created instance in an internal controllers cache 
+	 *       (with some metadata, namely used selector and base Class)</li>
+	 *     <li>Setup error handling in controllers instance.</li>
+	 * </ul>
+	 * 
+	 * FIXME: Prevent multiple instantiation of same controller. 
+	 *   Will have to check in cache first.
+	 * 
+	 * @method _createInstance
+	 * @private
+	 * @param {Object} baseController
+	 * @param {Object} prototype
+	 */
+    function _createInstance(baseController, prototype){
+        var Base = baseController.extend(prototype);
+        var instance = new Base(this), name, method;
+        
+        var controllerId = prototype.id ? prototype.id : this.attr("id").replace(/-/g, "_");
+        
+        // Store a reference to the instance controller
+        controllers[controllerId] = {
+            instance: instance,
+            base: Base,
+            sel: this.selector
+        };
+        
+        
+        if (!debug) {
+            for (name in instance) {
+                method = instance[name];
+                if ($.isFunction(method)) {
+                    instance[name] = function(name, method){
+                        return function(){
+                            try {
+                                return method.apply(this, arguments);
+                            } catch (ex) {
+                                console.error(1, name + "(): " + ex.message);
+                            }
+                        };
+                    }(name, method);
+                }
+            }
+        }
+        return instance;
+    };
     
+    /**
+     * Based on DUI's one.  <br />
+     *
+     * Make a namespace within a class.
+     * Usage 1: MyClass.ns('foo.bar');
+     * Usage 2: MyClass.ns('foo.bar', 'baz');
+     * 
+     * @private
+     * @method ns
+     * @param {String} name Period separated list of namespaces to nest. MyClass.ns('foo.bar') makes MyClass['foo']['bar'].
+     * @param {Object} value Set the contents of the deepest specified namespace to this value. 
+     * 
+     */
     function ns(){
         if (arguments.length == 0) throw new Error('ns should probably have some arguments passed to it.');
         
@@ -337,11 +499,11 @@
                         
                         //Break out of each
                         return false;
-                    }                    //Ok, so we're setting. Is it time to set yet or do we move on?
-                    else if (i == levels.length - 1 && nsValue) {
+                    } else if (i == levels.length - 1 && nsValue) {
+                        //Ok, so we're setting. Is it time to set yet or do we move on?
                         nsobj[level] = nsValue;
-                    }                    //...nope, not yet. Check to see if the ns doesn't already exist in our class...
-                    else if (typeof nsobj[level] == 'undefined') {
+                    } else if (typeof nsobj[level] == 'undefined') {
+                        //...nope, not yet. Check to see if the ns doesn't already exist in our class...
                         //...and make it a new static class
                         nsobj[level] = {};
                     }
@@ -356,5 +518,4 @@
     };
     
     
-    })();
-
+})();
