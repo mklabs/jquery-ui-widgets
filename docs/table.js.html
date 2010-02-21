@@ -1,0 +1,250 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: testCase-controller   table.js  (YUI Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1266755722.99" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1266755722.99" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1266755722.99"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1266755722.99"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="$project_url" title="jQuery UI Controller">jQuery UI Controller</a></h1>
+        <h3>testCase-controller&nbsp; <span class="subtitle">1.0</span></h3>
+        <a href="./index.html" title="jQuery UI Controller">jQuery UI Controller</a> 
+            &gt; <a href="./module_testcase-controller.html" title="testCase-controller">testCase-controller</a>
+                
+                 &gt; table.js (source view) 
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Controller of main table page. &lt;br /&gt;</span>
+<span class="cm"> * </span>
+<span class="cm"> * Deal with user interaction such as mouseover and row selection, so as to buttons binding.  </span>
+<span class="cm"> * </span>
+<span class="cm"> * @module table-controller</span>
+<span class="cm"> */</span>
+<span class="nx">DUI</span><span class="p">([</span><span class="s2">&quot;ui/all.js&quot;</span><span class="p">,</span> <span class="s2">&quot;plugin/ui.controller.js&quot;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(){</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Just for fun. Here is a base class that TableController will extend.</span>
+<span class="cm">	 * </span>
+<span class="cm">	 * @class LogMyRow</span>
+<span class="cm">	 * @namespace wt.controller</span>
+<span class="cm">	 */</span>
+	<span class="nx">$</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s2">&quot;wt.controller.LogMyRow&quot;</span><span class="p">,</span> <span class="p">{</span>
+		<span class="cm">/**</span>
+<span class="cm">		 * Just for logging purpose. We make sure to call the super one.</span>
+<span class="cm">		 * @constructor</span>
+<span class="cm">		 */</span>
+		<span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Base:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+			
+			<span class="k">this</span><span class="p">.</span><span class="nx">_super</span><span class="p">();</span>
+		<span class="p">},</span>
+		
+		<span class="cm">/**</span>
+<span class="cm">		 * Dummy method.</span>
+<span class="cm">		 * @method doCommonStuff</span>
+<span class="cm">		 */</span>
+		<span class="nx">doCommonStuff</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+			<span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;doCommonStuff&quot;</span><span class="p">);</span>
+			
+		<span class="p">},</span>
+		
+		<span class="cm">/**</span>
+<span class="cm">		 * </span>
+<span class="cm">		 */</span>
+		<span class="s2">&quot;table click&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;On tables too!&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+		<span class="p">},</span>
+			
+		<span class="s2">&quot;table tr click&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;I am a logger. I log your row!&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">});</span>
+	
+	
+	<span class="c1">// Use inheritence to get some more features</span>
+	<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#wt-controller-example-crud-table&quot;</span><span class="p">).</span><span class="nx">controller</span><span class="p">(</span><span class="s2">&quot;wt.controller.LogMyRow&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Controller singleton&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+		
+		<span class="kd">var</span> <span class="nx">container</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+		
+		<span class="kd">var</span> <span class="nx">loadingIcon</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;&lt;p /&gt;&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot;Loading...&quot;</span><span class="p">);</span>
+		
+		<span class="c1">// Private stuff</span>
+		<span class="kd">var</span> <span class="nx">Constants</span> <span class="o">=</span> <span class="p">{</span>
+			<span class="nx">DIALOG_URL</span><span class="o">:</span> <span class="s2">&quot;/weekly/test/create/&quot;</span><span class="p">,</span>
+			<span class="nx">SELF_URL</span><span class="o">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span>
+		<span class="p">};</span>
+		
+		<span class="kd">var</span> <span class="nx">myDialog</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;&lt;div /&gt;&quot;</span><span class="p">).</span><span class="nx">dialog</span><span class="p">({</span>
+			<span class="nx">autoOpen</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+		<span class="p">});</span>
+		
+		
+		<span class="k">return</span> <span class="p">{</span>
+			<span class="c1">// Important, identify yourself</span>
+			<span class="nx">id</span><span class="o">:</span> <span class="s2">&quot;wt.TableController&quot;</span><span class="p">,</span>
+			<span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Init testCase&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+				
+				<span class="k">this</span><span class="p">.</span><span class="nx">_super</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
+				
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;handleRefresh?&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleRefresh</span><span class="p">);</span>
+				
+				<span class="k">this</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="s1">&#39;refreshTable&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleRefresh</span><span class="p">);</span>
+				
+			<span class="p">},</span>
+			<span class="s2">&quot;.cmd-add click&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Click add:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+				
+				<span class="nx">myDialog</span><span class="p">.</span><span class="nx">empty</span><span class="p">().</span><span class="nx">load</span><span class="p">(</span><span class="nx">Constants</span><span class="p">.</span><span class="nx">DIALOG_URL</span><span class="p">,</span> <span class="p">{</span>
+                    <span class="nx">start</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">dto</span><span class="p">.</span><span class="nx">start</span><span class="p">,</span>
+                    <span class="nx">end</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">dto</span><span class="p">.</span><span class="nx">end</span>
+                <span class="p">});</span>
+				
+				<span class="nx">myDialog</span><span class="p">.</span><span class="nx">showDialog</span><span class="p">();</span>
+				
+			<span class="p">},</span>
+			<span class="s2">&quot;.cmd-edit click&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Click edit:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+			<span class="p">},</span>
+			<span class="s2">&quot;.cmd-remove click&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Click remove:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+				<span class="kd">var</span> <span class="nx">ids</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+				<span class="kd">var</span> <span class="nx">selected</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getSelected</span><span class="p">();</span>
+				<span class="kd">var</span> <span class="nx">selectedNb</span> <span class="o">=</span> <span class="nx">selected</span><span class="p">.</span><span class="nx">size</span><span class="p">();</span>
+				
+				<span class="k">if</span><span class="p">(</span><span class="nx">selectedNb</span> <span class="o">===</span> <span class="mi">1</span><span class="p">){</span>
+					<span class="nx">ids</span> <span class="o">=</span> <span class="nx">selected</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;td:eq(0)&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">()</span>
+				<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">selectedNb</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+					<span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">selected</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">){</span>
+						<span class="kd">var</span> <span class="nx">last</span> <span class="o">=</span> <span class="p">(</span><span class="nx">selectedNb</span> <span class="o">===</span> <span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+						<span class="nx">ids</span> <span class="o">+=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;td:eq(0)&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="nx">last</span> <span class="o">?</span> <span class="s2">&quot;&quot;</span> <span class="o">:</span> <span class="s2">&quot;,&quot;</span><span class="p">);</span>
+					<span class="p">});</span>
+				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+					<span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;have to select a line, bro!&quot;</span><span class="p">);</span>
+				<span class="p">}</span>
+				
+				<span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;/weekly/event/delete/&quot;</span> <span class="o">+</span> <span class="nx">ids</span><span class="p">);</span>
+				
+				<span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="s1">&#39;refreshTable&#39;</span><span class="p">,</span> <span class="p">{</span>
+					<span class="nx">data</span><span class="o">:</span> <span class="s1">&#39;foo&#39;</span>
+				<span class="p">});</span>
+			<span class="p">},</span>
+			
+			<span class="s2">&quot;table refresh&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;I&#39;m fresh and refresh!&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">handleRefresh</span><span class="p">();</span>
+			<span class="p">},</span>
+			
+			<span class="s2">&quot;tr click&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;click tr&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+				<span class="kd">var</span> <span class="nx">prevSelected</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getSelected</span><span class="p">();</span>
+				<span class="k">if</span><span class="p">(</span><span class="nx">prevSelected</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">ev</span><span class="p">.</span><span class="nx">altKey</span><span class="p">){</span>
+					<span class="nx">prevSelected</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;ui-state-highlight&quot;</span><span class="p">);</span>
+				<span class="p">}</span>
+				
+				<span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;ui-state-highlight&quot;</span><span class="p">);</span>
+			<span class="p">},</span>
+			
+			<span class="s2">&quot;tr mouseover&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">){</span>
+				<span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;cursor&#39;</span><span class="p">,</span> <span class="s1">&#39;pointer&#39;</span><span class="p">);</span>
+			<span class="p">},</span>
+			
+			<span class="nx">handleRefresh</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;handleRefresh&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+				<span class="kd">var</span> <span class="nx">table</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">,</span> <span class="nx">container</span><span class="p">);</span>
+				<span class="kd">var</span> <span class="nx">caption</span> <span class="o">=</span> <span class="nx">table</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;caption&quot;</span><span class="p">)</span>
+				<span class="kd">var</span> <span class="nx">prevText</span> <span class="o">=</span> <span class="nx">caption</span><span class="p">.</span><span class="nx">text</span><span class="p">()</span>
+				
+				<span class="nx">caption</span><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot;En chargement&quot;</span><span class="p">);</span>
+				
+				<span class="nx">table</span>
+					<span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;tbody&quot;</span><span class="p">)</span>
+					<span class="p">.</span><span class="nx">empty</span><span class="p">()</span>
+					<span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">Constants</span><span class="p">.</span><span class="nx">SELF_URL</span> <span class="o">+</span> <span class="s2">&quot; table tbody tr&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+						<span class="nx">caption</span><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="nx">prevText</span><span class="p">);</span>
+					<span class="p">});</span>								
+			<span class="p">},</span>
+			
+			<span class="nx">getSelected</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+				<span class="k">return</span> <span class="nx">container</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;table tr.ui-state-highlight&quot;</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">});</span>
+	
+<span class="p">});</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class=""><a href="module_controller.html" title="controller">controller</a></li>
+                                <li class=""><a href="module_table-controller.html" title="table-controller">table-controller</a></li>
+                                <li class="selected"><a href="module_testCase-controller.html" title="testCase-controller">testCase-controller</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class="selected"><a href="table.js.html" title="table.js">table.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [];
+</script>
+</body>
+</html>
