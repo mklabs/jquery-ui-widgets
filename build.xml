@@ -85,6 +85,5 @@
         </echo>
         <delete dir="${build_dir}"/>
         <delete dir="${tmp_dir}"/>
-        <delete dir="${doc_dir}"/>
     </target>
 </project>
