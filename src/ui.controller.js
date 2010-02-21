@@ -13,6 +13,7 @@
  * </ul>
  * 
  * @module controller
+ * @namespace ui
  * @requires core, widet 
  * 
  */
@@ -30,14 +31,23 @@
     var Class, SandBox, BaseController;
     
     /**
-     * Base Class.
+     * Based on jresig's implementaton (http://ejohn.org/blog/simple-javascript-inheritance/) <br />
      * 
-     * Based on jresig's implementaton (http://ejohn.org/blog/simple-javascript-inheritance/)
-     * 
-     * All subsequent controllers are inherited from BaseController which extend this Class.
+	 * A base class which objects requiring oop implementation can extend. Class also handles 
+	 * the support of a _super method that allow you to override methods while keeping the ability 
+	 * to call overriden method somewhere in the process. <br /> 
+	 *
+     * All subsequent controllers are inherited from BaseController which extends this Class.
      * 
      * @class Class
      */
+	/**
+	 * Extends a class with a new prototype. 
+	 * @static
+	 * @method extend
+	 * @param {Object} prototype
+	 * @return Class
+	 */
     (function(){
         var initializing = false, fnTest = /xyz/.test(function(){
             xyz;
@@ -99,7 +109,7 @@
     /**
      * SandBox Singleton available in any controllers instance. <br />
      *
-     * The sandbox is provided to you through parameters in your module impementation:
+     * The sandbox is provided to you through parameters in your module implementation:
      *
      * <code>
      * $(".myController").controller(function(sandbox){
@@ -114,6 +124,8 @@
         return {
 			/**
 			 * Allow you to retrieve a specific controller from the internal cache
+			 * @static
+			 * @method getController
 			 * @param {String} id
 			 * @return {BaseController} controller instance 
 			 */
@@ -132,9 +144,10 @@
     }();
     
     /**
-     * Base Controller Class. All subsequent controller will inherit this one.
+     * Base Controller Class. All subsequent controller will inherit this one. <br/>
      * 
      * Provides common interface for controllers communication.
+     * 
      * @class BaseController
      * @extends Class
      */

@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<project name="jquery-ui-controller">
+    <property name="build_dir" location="build"/>
+    <property name="src" location="src"/>
+    <property name="projectname" value="jQuery UI Controller"/>
+    <property name="version" value="1.0"/>
+    <property name="project_url" value="http://weekly-task.appspot.com/weekly/test/"/>
+    <property name="doc_dir" location="docs"/>
+    <property name="yuidoc_home" location="yuidoc"/>
+    <property name="yuidoc_exec" location="${yuidoc_home}/bin/yuidoc.py"/>
+	<property name="yuidoc_tmpl" location="${yuidoc_home}/template"/>
+    <property name="tmp_dir" location="tmp"/>
+    <property name="parser_in" location="src"/>
+    <target name="init">
+        <echo>
+            Making sure build dir is there
+        </echo>
+        <mkdir dir="${build_dir}"/>
+    </target>
+    
+    <target name="doc">
+        <mkdir dir="${tmp_dir}"/>
+        <mkdir dir="${tmp_dir}/parsertmp"/>
+        
+        
+        <property name="parser_out" location="${tmp_dir}/parsertmp"/>
+        <property name="generator_out" location="${doc_dir}"/>
+        <property name="yuiversion" location="3.0.0"/>
+        
+        <echo>
+            generating documentation
+        </echo>
+        <exec dir="${yuidoc_home}/bin/" executable="python">
+            <arg value="yuidoc.py" />
+            <arg value="${parser_in}"/>
+            <arg value="-p"/>
+            <arg value="${parser_out}"/>
+            <arg value="-o"/>
+            <arg value="${generator_out}"/>
+            <arg value="-t"/>
+            <arg value="${yuidoc_tmpl}"/>
+            <arg value="-m"/>
+            <arg value="${projectname}"/>
+            <arg value="-Y"/>
+            <arg value="${yuiversion}"/>
+            <arg value="-v"/>
+            <arg value="${version}"/>
+            <arg value="-u"/>
+            <arg value="$project_url"/>
+        </exec>
+    </target>
+	
+	<target name="yui-compressor">
+		<echo>Nothing done for the moment.</echo>
+	</target>
+    
+    <target name="build" depends="init,doc, yui-compressor" description="A simple build file">
+        <echo>
+            Starting build
+        </echo>
+        <copy todir="${build_dir}">
+            <fileset dir="src">
+                <exclude name=".*"/>
+            </fileset>
+            <filterset>
+                <filter token="VERSION" value="${version}"/>
+            </filterset>
+        </copy>
+		
+		<copy todir="${build_dir}">
+            <fileset dir="src">
+                <exclude name=".*"/>
+            </fileset>
+            <filterset>
+                <filter token="VERSION" value="${version}"/>
+            </filterset>
+        </copy>
+		
+    </target>
+    
+    <target name="clean" description="Clean out build">
+        <echo>
+            Removing built files
+        </echo>
+        <delete dir="${build_dir}"/>
+        <delete dir="${tmp_dir}"/>
+        <delete dir="${doc_dir}"/>
+    </target>
+</project>

@@ -4,20 +4,20 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: controller   ui.controller.js  (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1266691250.82" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1266691250.82" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1266755722.94" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1266755722.94" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1266691250.82"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1266691250.82"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1266755722.94"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1266755722.94"></script>
 </head>
 
 <body id="yahoo-com">
 
 <div id="doc3" class="yui-t2">
 	<div id="hd">
-        <h1><a href="http://developer.yahoo.com/yui/" title="MkLabs">MkLabs</a></h1>
-        <h3>controller&nbsp; <span class="subtitle">1.0.0</span></h3>
-        <a href="./index.html" title="MkLabs">MkLabs</a> 
+        <h1><a href="$project_url" title="jQuery UI Controller">jQuery UI Controller</a></h1>
+        <h3>controller&nbsp; <span class="subtitle">1.0</span></h3>
+        <a href="./index.html" title="jQuery UI Controller">jQuery UI Controller</a> 
             &gt; <a href="./module_controller.html" title="controller">controller</a>
                 
                  &gt; ui.controller.js (source view) 
@@ -62,6 +62,7 @@
 <span class="cm"> * &lt;/ul&gt;</span>
 <span class="cm"> * </span>
 <span class="cm"> * @module controller</span>
+<span class="cm"> * @namespace ui</span>
 <span class="cm"> * @requires core, widet </span>
 <span class="cm"> * </span>
 <span class="cm"> */</span>
@@ -79,14 +80,23 @@
     <span class="kd">var</span> <span class="nx">Class</span><span class="p">,</span> <span class="nx">SandBox</span><span class="p">,</span> <span class="nx">BaseController</span><span class="p">;</span>
     
     <span class="cm">/**</span>
-<span class="cm">     * Base Class.</span>
+<span class="cm">     * Based on jresig&#39;s implementaton (http://ejohn.org/blog/simple-javascript-inheritance/) &lt;br /&gt;</span>
 <span class="cm">     * </span>
-<span class="cm">     * Based on jresig&#39;s implementaton (http://ejohn.org/blog/simple-javascript-inheritance/)</span>
-<span class="cm">     * </span>
-<span class="cm">     * All subsequent controllers are inherited from BaseController which extend this Class.</span>
+<span class="cm">	 * A base class which objects requiring oop implementation can extend. Class also handles </span>
+<span class="cm">	 * the support of a _super method that allow you to override methods while keeping the ability </span>
+<span class="cm">	 * to call overriden method somewhere in the process. &lt;br /&gt; </span>
+<span class="cm">	 *</span>
+<span class="cm">     * All subsequent controllers are inherited from BaseController which extends this Class.</span>
 <span class="cm">     * </span>
 <span class="cm">     * @class Class</span>
 <span class="cm">     */</span>
+	<span class="cm">/**</span>
+<span class="cm">	 * Extends a class with a new prototype. </span>
+<span class="cm">	 * @static</span>
+<span class="cm">	 * @method extend</span>
+<span class="cm">	 * @param {Object} prototype</span>
+<span class="cm">	 * @return Class</span>
+<span class="cm">	 */</span>
     <span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
         <span class="kd">var</span> <span class="nx">initializing</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">fnTest</span> <span class="o">=</span> <span class="sr">/xyz/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
             <span class="nx">xyz</span><span class="p">;</span>
@@ -148,7 +158,7 @@
     <span class="cm">/**</span>
 <span class="cm">     * SandBox Singleton available in any controllers instance. &lt;br /&gt;</span>
 <span class="cm">     *</span>
-<span class="cm">     * The sandbox is provided to you through parameters in your module impementation:</span>
+<span class="cm">     * The sandbox is provided to you through parameters in your module implementation:</span>
 <span class="cm">     *</span>
 <span class="cm">     * &lt;code&gt;</span>
 <span class="cm">     * $(&quot;.myController&quot;).controller(function(sandbox){</span>
@@ -163,6 +173,8 @@
         <span class="k">return</span> <span class="p">{</span>
 			<span class="cm">/**</span>
 <span class="cm">			 * Allow you to retrieve a specific controller from the internal cache</span>
+<span class="cm">			 * @static</span>
+<span class="cm">			 * @method getController</span>
 <span class="cm">			 * @param {String} id</span>
 <span class="cm">			 * @return {BaseController} controller instance </span>
 <span class="cm">			 */</span>
@@ -181,9 +193,10 @@
     <span class="p">}();</span>
     
     <span class="cm">/**</span>
-<span class="cm">     * Base Controller Class. All subsequent controller will inherit this one.</span>
+<span class="cm">     * Base Controller Class. All subsequent controller will inherit this one. &lt;br/&gt;</span>
 <span class="cm">     * </span>
 <span class="cm">     * Provides common interface for controllers communication.</span>
+<span class="cm">     * </span>
 <span class="cm">     * @class BaseController</span>
 <span class="cm">     * @extends Class</span>
 <span class="cm">     */</span>
@@ -579,6 +592,8 @@
                         <h4>Modules</h4>
                         <ul class="content">
                                 <li class="selected"><a href="module_controller.html" title="controller">controller</a></li>
+                                <li class=""><a href="module_table-controller.html" title="table-controller">table-controller</a></li>
+                                <li class=""><a href="module_testCase-controller.html" title="testCase-controller">testCase-controller</a></li>
                         </ul>
                     </div>
 
@@ -586,15 +601,16 @@
                         <h4>Classes</h4>
                         <ul class="content">
                                 <li class=""><a href="$.ui.controller.html" title="$.ui.controller">$.ui.controller</a></li>
-                                <li class=""><a href="BaseController.html" title="BaseController">BaseController</a></li>
-                                <li class=""><a href="Class.html" title="Class">Class</a></li>
-                                <li class=""><a href="SandBox.html" title="SandBox">SandBox</a></li>
+                                <li class=""><a href="ui.BaseController.html" title="ui.BaseController">ui.BaseController</a></li>
+                                <li class=""><a href="ui.Class.html" title="ui.Class">ui.Class</a></li>
+                                <li class=""><a href="ui.SandBox.html" title="ui.SandBox">ui.SandBox</a></li>
                         </ul>
                     </div>
 
                     <div id="fileList" class="module">
                         <h4>Files</h4>
                         <ul class="content">        
+                                <li class=""><a href="testCase.js.html" title="testCase.js">testCase.js</a></li>
                                 <li class="selected"><a href="ui.controller.js.html" title="ui.controller.js">ui.controller.js</a></li>
                         </ul>
                     </div>
@@ -612,7 +628,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "$.ui.controller.html#method_destroy", "access": "", "host": "$.ui.controller", "type": "method", "name": "destroy"}, {"url": "BaseController.html#method_fire", "access": "", "host": "BaseController", "type": "method", "name": "fire"}, {"url": "SandBox.html#method_getController", "access": "", "host": "SandBox", "type": "method", "name": "getController"}, {"url": "BaseController.html#method_listen", "access": "", "host": "BaseController", "type": "method", "name": "listen"}];
+    ALL_YUI_PROPS = [{"url": "$.ui.controller.html#method_destroy", "access": "", "host": "$.ui.controller", "type": "method", "name": "destroy"}, {"url": "ui.Class.html#method_extend", "access": "", "host": "ui.Class", "type": "method", "name": "extend"}, {"url": "ui.BaseController.html#method_fire", "access": "", "host": "ui.BaseController", "type": "method", "name": "fire"}, {"url": "ui.SandBox.html#method_getController", "access": "", "host": "ui.SandBox", "type": "method", "name": "getController"}, {"url": "ui.BaseController.html#method_listen", "access": "", "host": "ui.BaseController", "type": "method", "name": "listen"}];
 </script>
 </body>
 </html>

@@ -1,16 +1,41 @@
+/**
+ * Controller of main table page. <br />
+ * 
+ * Deal with user interaction such as mouseover and row selection, so as to buttons binding.  
+ * 
+ * @module table-controller
+ */
 DUI(["ui/all.js", "plugin/ui.controller.js"], function(){
 	
-	var LogMyRow = $.controller("wt.controller.LogMyRow", {
+	/**
+	 * Just for fun. Here is a base class that TableController will extend.
+	 * 
+	 * @class LogMyRow
+	 * @namespace wt.controller
+	 */
+	$.controller("wt.controller.LogMyRow", {
+		/**
+		 * Just for logging purpose. We make sure to call the super one.
+		 * @constructor
+		 */
 		init: function(){
 			console.log("Base:", this, arguments);
 			
 			this._super();
 		},
 		
+		/**
+		 * Dummy method.
+		 * @method doCommonStuff
+		 */
 		doCommonStuff: function(){
 			alert("doCommonStuff");
+			
 		},
 		
+		/**
+		 * 
+		 */
 		"table click": function(){
 			console.log("On tables too!", this, arguments);
 		},
