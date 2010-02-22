@@ -1,10 +1,13 @@
 <?xml version="1.0"?>
 
 <project name="jquery-ui-controller">
+	<property name="tmp_dir" location="/Applications/MAMP/htdocs/testswarm/build/tmp"/>
 	<property name="target_dir" location="/Applications/MAMP/htdocs/testswarm/build/jquery-ui-controller"/>
 
 	<target name="clean">
 		<echo>Making sure build dir is empty and there.</echo>
+		<delete dir="${tmp_dir}" />
+		<mkdir dir="${tmp_dir}" />
 		<delete dir="${target_dir}" />
 		<mkdir dir="${target_dir}" />
 	</target>
@@ -12,11 +15,8 @@
 	<target name="add-job" depends="clean">
 		<property name="swarm_service" value="http://localhost/testswarm/index.php" />
 		<property name="checkout_url" value="git://github.com/MkLabs/jquery-ui-controller.git" />
-		<property name="suite_url" value="http://localhost/testswarm/build/jquery-ui-controller/test/core.html" />
-		<property name="suite_name" value="Pass%20Core%20Module" />
 		<property name="user" value="test" />
 		<property name="max" value="1" />
-		<property name="job_name" value="ControllerJobs" />
 		<property name="browsers" value="popularbeta" />
 		<property name="auth" value="807f0787339bb9a83ef82c418c15155d9f91df72" />
 
@@ -25,7 +25,7 @@
 		<exec executable="git">
 			<arg value="clone"/>
 			<arg value="${checkout_url}"/>
-			<arg value="${target_dir}"/>
+			<arg value="${tmp_dir}"/>
 		</exec>
 
 		<echo>Figuring out  last rev from git repo...</echo>
@@ -34,7 +34,20 @@
 			<arg value="--short"/>
 			<arg value="HEAD"/>
 		</exec>
+
 		<echo>Rev: ${revision}</echo>
+		<property name="suite_url" value="http://localhost/testswarm/build/jquery-ui-controller/${revision}/test/core.html" />
+		<property name="suite_name" value="Core module test suite" />
+		<property name="job_name" value="jQuery UI Controller commit #${revision}" />
+
+		<echo>Starting build to own local testswarm instance</echo>
+		<delete dir="${tmp_dir}/${revision}" />
+		<mkdir dir="${tmp_dir}/${revision}" />
+		<copy todir="${target_dir}/${revision}">
+			<fileset dir="${tmp_dir}" />
+		</copy>
+		
+		<delete dir="${tmp_dir}" />
 
 		<property name="query" value="auth=${auth}&amp;job_name=${job_name}&amp;max=${max}&amp;user=${test}&amp;browsers={browsers}&amp;output=dump&amp;state=addjob&amp;suites[]=${suite_name}&amp;urls[]=${suite_url}" />
 		<echo>Will curl -d ${query}</echo>
