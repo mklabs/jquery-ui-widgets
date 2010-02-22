@@ -13,7 +13,7 @@
 		<property name="swarm_service" value="http://localhost/testswarm/index.php" />
 		<property name="checkout_url" value="git://github.com/MkLabs/jquery-ui-controller.git" />
 		<property name="suite_url" value="http://localhost/testswarm/build/jquery-ui-controller/test/core.html" />
-		<property name="suite_name" value="Core%20Module" />
+		<property name="suite_name" value="Pass%20Core%20Module" />
 		<property name="user" value="test" />
 		<property name="max" value="1" />
 		<property name="job_name" value="ControllerJobs" />
