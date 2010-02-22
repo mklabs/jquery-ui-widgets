@@ -51,12 +51,8 @@
             <arg value="$project_url"/>
         </exec>
     </target>
-	
-	<target name="yui-compressor">
-		<echo>Nothing done for the moment.</echo>
-	</target>
     
-    <target name="build" depends="init,doc, yui-compressor" description="A simple build file">
+    <target name="build" depends="init,doc" description="A simple build file">
         <echo>
             Starting build
         </echo>
