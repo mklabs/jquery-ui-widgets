@@ -11,6 +11,7 @@
     <property name="yuidoc_exec" location="${yuidoc_home}/bin/yuidoc.py"/>
 	<property name="yuidoc_tmpl" location="${yuidoc_home}/template"/>
     <property name="tmp_dir" location="tmp"/>
+	<property name="out_dir" location="out"/>
     <property name="parser_in" location="src"/>
     <target name="init">
         <echo>
@@ -85,5 +86,6 @@
         </echo>
         <delete dir="${build_dir}"/>
         <delete dir="${tmp_dir}"/>
+		<delete dir="${out_dir}"/>
     </target>
 </project>
