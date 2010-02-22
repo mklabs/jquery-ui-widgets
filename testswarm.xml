@@ -2,13 +2,13 @@
 
 <project name="jquery-ui-controller">
 	<property name="target_dir" location="/Applications/MAMP/htdocs/testswarm/build/jquery-ui-controller"/>
-	
+
 	<target name="clean">
 		<echo>Making sure build dir is empty and there.</echo>
 		<delete dir="${target_dir}" />
 		<mkdir dir="${target_dir}" />
 	</target>
-	
+
 	<target name="add-job" depends="clean">
 		<property name="swarm_service" value="http://localhost/testswarm/index.php" />
 		<property name="checkout_url" value="git://github.com/MkLabs/jquery-ui-controller.git" />
@@ -19,7 +19,6 @@
 		<property name="job_name" value="ControllerJobs" />
 		<property name="browsers" value="popularbeta" />
 		<property name="auth" value="807f0787339bb9a83ef82c418c15155d9f91df72" />
-		<property name="revison" value="" />
 
 		<!-- Checkout last rev -->
 		<echo>Checkout last rev from git repo...</echo>
@@ -28,6 +27,14 @@
 			<arg value="${checkout_url}"/>
 			<arg value="${target_dir}"/>
 		</exec>
+
+		<echo>Figuring out  last rev from git repo...</echo>
+		<exec executable="git" outputproperty="revision">
+			<arg value="rev-parse"/>
+			<arg value="--short"/>
+			<arg value="HEAD"/>
+		</exec>
+		<echo>Rev: ${revision}</echo>
 
 		<property name="query" value="auth=${auth}&amp;job_name=${job_name}&amp;max=${max}&amp;user=${test}&amp;browsers={browsers}&amp;output=dump&amp;state=addjob&amp;suites[]=${suite_name}&amp;urls[]=${suite_url}" />
 		<echo>Will curl -d ${query}</echo>
