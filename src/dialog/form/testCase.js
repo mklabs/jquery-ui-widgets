@@ -1,6 +1,3 @@
-/**
- * @module testCase-controller
- */
 DUI(["ui/all.js", "plugin/ui.controller.js"], function(){
 	
 	$("#wt-event-form-test-case").controller(function(sb){

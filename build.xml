@@ -1,87 +1,129 @@
 <?xml version="1.0"?>
 
 <project name="jquery-ui-controller">
-    <property name="build_dir" location="build"/>
-    <property name="src" location="src"/>
-    <property name="projectname" value="jQuery UI Controller"/>
-    <property name="version" value="1.0"/>
-    <property name="project_url" value="http://weekly-task.appspot.com/weekly/test/"/>
-    <property name="doc_dir" location="docs"/>
-    <property name="yuidoc_home" location="yuidoc"/>
-    <property name="yuidoc_exec" location="${yuidoc_home}/bin/yuidoc.py"/>
-	<property name="yuidoc_tmpl" location="${yuidoc_home}/template"/>
-    <property name="tmp_dir" location="tmp"/>
-	<property name="out_dir" location="out"/>
-    <property name="parser_in" location="src"/>
-    <target name="init">
-        <echo>
+	<import file="macros.xml" description="Macrodef definitions - jslint, yuicompessor" />
+
+	<!-- Supporting Tools -->
+	<property name="libs" location="lib" />
+	<property name="rhino.jar" location="lib/rhino/js.jar" />
+	<property name="jslintconsole.js" location="lib/jslint/jslint-console.js" />
+	<property name="jslintsrc.js" location="lib/jslint/fulljslint.js" />
+	<property name="yuicompressor.jar" location="${libs}/yuicompressor/yuicompressor-2.4.2.jar" />
+	<property name="yuicompressor-ant-task.jar" location="${libs}/yuicompressor-ant-task/yuicompressor-ant-task-0.4.jar" />
+
+	<!-- YUI Compressor arguments for JS and CSS files -->
+	<property name="yuicompressor.js.args" value="-v --charset utf-8  --disable-optimizations --preserve-semi --line-break 6000" />
+
+	<property name="build_dir" location="build" />
+	<property name="src_dir" location="src" />
+	<property name="tmp_dir" location="tmp" />
+	<property name="parser_out" location="${tmp_dir}/parsertmp" />
+	<property name="version" value="1.0" />
+
+	<path id="task.classpath">
+		<pathelement location="${yuicompressor.jar}" />
+		<pathelement location="${yuicompressor-ant-task.jar}" />
+	</path>
+	<taskdef name="yui-compressor" classname="net.noha.tools.ant.yuicompressor.tasks.YuiCompressorTask">
+		<classpath refid="task.classpath" />
+	</taskdef>
+
+	<target name="init">
+		<echo>
             Making sure build dir is there
         </echo>
-        <mkdir dir="${build_dir}"/>
-    </target>
-    
-    <target name="doc">
-        <mkdir dir="${tmp_dir}"/>
-        <mkdir dir="${tmp_dir}/parsertmp"/>
-        
-        
-        <property name="parser_out" location="${tmp_dir}/parsertmp"/>
-        <property name="generator_out" location="${doc_dir}"/>
-        <property name="yuiversion" location="3.0.0"/>
-        
-        <echo>
+		<mkdir dir="${build_dir}" />
+		<mkdir dir="${tmp_dir}" />
+		<mkdir dir="${tmp_dir}/parsertmp" />
+	</target>
+
+
+
+	<!-- MIN -->
+	<target name="minify" description="Create component-min.js from component.js">
+		<yui-compressor warn="false" munge="true" jsSuffix="-${version}.min.js" cssSuffix=".css" preserveAllSemiColons="false" fromDir="${src_dir}" toDir="${src_dir}">
+			<include name="**/*.js" />
+			<exclude name="**/*.min.js" />
+		</yui-compressor>
+	</target>
+
+	<target name="lint" description="Run jslint over the local build files (default settings)" unless="lint.skip">
+		<jslint>
+			<jsfiles>
+				<fileset dir="${src_dir}" includes="**/*.js" excludes="**/*.min.js" />
+			</jsfiles>
+		</jslint>
+	</target>
+
+	<target name="doc" description="Generate documentation via YUI Doc." depends="init">
+		<property name="projectname" value="jQuery UI Controller" />
+
+		<property name="project_url" value="http://weekly-task.appspot.com/weekly/test/" />
+
+
+		<property name="doc_dir" location="docs" />
+		<property name="out_dir" location="out" />
+		<property name="parser_in" location="${src_dir}" />
+		<property name="generator_out" location="${doc_dir}" />
+		<property name="yuidoc_home" location="yuidoc" />
+		<property name="yuidoc_tmpl" location="${yuidoc_home}/template" />
+
+		<property name="yuiversion" location="3.0.0" />
+
+		<echo>
             generating documentation
         </echo>
-        <exec dir="${yuidoc_home}/bin/" executable="python">
-            <arg value="yuidoc.py" />
-            <arg value="${parser_in}"/>
-            <arg value="-p"/>
-            <arg value="${parser_out}"/>
-            <arg value="-o"/>
-            <arg value="${generator_out}"/>
-            <arg value="-t"/>
-            <arg value="${yuidoc_tmpl}"/>
-            <arg value="-m"/>
-            <arg value="${projectname}"/>
-            <arg value="-Y"/>
-            <arg value="${yuiversion}"/>
-            <arg value="-v"/>
-            <arg value="${version}"/>
-            <arg value="-u"/>
-            <arg value="$project_url"/>
-        </exec>
-    </target>
-    
-    <target name="build" depends="init,doc" description="A simple build file">
-        <echo>
+		<exec dir="${yuidoc_home}/bin/" executable="python">
+			<arg value="yuidoc.py" />
+			<arg value="${parser_in}" />
+			<arg value="-p" />
+			<arg value="${parser_out}" />
+			<arg value="-o" />
+			<arg value="${generator_out}" />
+			<arg value="-t" />
+			<arg value="${yuidoc_tmpl}" />
+			<arg value="-m" />
+			<arg value="${projectname}" />
+			<arg value="-Y" />
+			<arg value="${yuiversion}" />
+			<arg value="-v" />
+			<arg value="${version}" />
+			<arg value="-u" />
+			<arg value="${project_url}" />
+		</exec>
+	</target>
+
+	<target name="build" depends="init,doc,minify" description="A simple build file">
+		<echo>
             Starting build
         </echo>
-        <copy todir="${build_dir}">
-            <fileset dir="src">
-                <exclude name=".*"/>
-            </fileset>
-            <filterset>
-                <filter token="VERSION" value="${version}"/>
-            </filterset>
-        </copy>
-		
 		<copy todir="${build_dir}">
-            <fileset dir="src">
-                <exclude name=".*"/>
-            </fileset>
-            <filterset>
-                <filter token="VERSION" value="${version}"/>
-            </filterset>
-        </copy>
-		
-    </target>
-    
-    <target name="clean" description="Clean out build">
-        <echo>
+			<fileset dir="${src_dir}">
+				<exclude name=".*" />
+			</fileset>
+			<filterset>
+				<filter token="VERSION" value="${version}" />
+			</filterset>
+		</copy>
+
+		<copy todir="${build_dir}">
+			<fileset dir="${src_dir}">
+				<exclude name=".*" />
+			</fileset>
+			<filterset>
+				<filter token="VERSION" value="${version}" />
+			</filterset>
+		</copy>
+
+		<antcall target="clean" />
+	</target>
+
+	<target name="clean" description="Clean out build">
+		<echo>
             Removing built files
         </echo>
-        <delete dir="${build_dir}"/>
-        <delete dir="${tmp_dir}"/>
-		<delete dir="${out_dir}"/>
-    </target>
+		<delete dir="${build_dir}" />
+		<delete dir="${tmp_dir}" />
+		<delete dir="${out_dir}" />
+	</target>
 </project>

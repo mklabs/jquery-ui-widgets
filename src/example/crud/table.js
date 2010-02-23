@@ -33,9 +33,6 @@ DUI(["ui/all.js", "plugin/ui.controller.js"], function(){
 			
 		},
 		
-		/**
-		 * 
-		 */
 		"table click": function(){
 			console.log("On tables too!", this, arguments);
 		},

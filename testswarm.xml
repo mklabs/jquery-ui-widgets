@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="jquery-ui-controller">
+<project name="testswarm-ui-controller">
 	<property name="tmp_dir" location="/Applications/MAMP/htdocs/testswarm/build/tmp"/>
 	<property name="target_dir" location="/Applications/MAMP/htdocs/testswarm/build/jquery-ui-controller"/>
 
