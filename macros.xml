@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="MacroLib">
+    
+   <macrodef name="yuicompress">
+        <attribute name="src" />
+        <attribute name="dest" />
+        <attribute name="args" />
+ 
+        <sequential>
+            <echo level="info">Running yuicompressor on @{src}</echo>
+            <java jar="${yuicompressor.jar}" fork="true" failonerror="true">
+                <arg line="@{args} -o" />
+                <arg file="@{dest}" />
+                <arg file="@{src}" />
+            </java>
+        </sequential>
+    </macrodef>
+    
+    <macrodef name="jslint">
+        <element name="jsfiles" optional="false"/>
+        <sequential>
+            <pathconvert pathsep="' '" property="jsfileargs">
+                <jsfiles/>
+            </pathconvert>
+            
+            <java jar="${rhino.jar}" fork="true" failonerror="true">
+                <arg file="${jslintconsole.js}"/>
+                <arg value="${jslintsrc.js}"/>
+                <arg line="'${jsfileargs}'"/>
+            </java>
+        </sequential>
+    </macrodef>
+</project>

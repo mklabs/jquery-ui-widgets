@@ -1,169 +1,32 @@
 /**
- * <b>jQuery UI Controller Widget</b> <br />
- *
- * A jQuery UI Widget that provides you clean and handy way to organize your jQuery code. Controllers organize 
- * event handlers through the power of event delegation. If something happens in your application, either it is 
- * browser event or custom ones, a controller should respond to it.
- * 
- * <ul>
- *   <li>Controllers let you know where your code is!</li>
- *   <li>Controllers force you to group events and label your html in specific ways.</li>
- *   <li>Controllers are inheritable.</li>
- *   <li>Controllers use event delegation.</li>
- * </ul>
- * 
+ * The Controller widget module provides clean and handy way to organize your jQuery code.
  * @module controller
- * @namespace ui
- * @requires core, widet 
- * 
+ * @author mdaniel
  */
 (function($){
 
 	// set this according to your debug will regarding errors thrown in controllers
     var debug = true;
-    
+	   
 	// proxied
     var _controller, _live = $.fn.live, _empty = $.fn.empty, _load = $.fn.load;
     
 	// controllers cache
     var controllers = {};
     
+	var basePath = "/js/src/controller";
+	
     var Class, SandBox, BaseController;
-	
-	/**
-     * Based on DUI's one.  <br />
-     *
-     * Make a namespace within a class.
-     * Usage 1: MyClass.ns('foo.bar');
-     * Usage 2: MyClass.ns('foo.bar', 'baz');
-     * 
-     * @private
-     * @method ns
-     * @param {String} name Period separated list of namespaces to nest. MyClass.ns('foo.bar') makes MyClass['foo']['bar'].
-     * @param {Object} value Set the contents of the deepest specified namespace to this value. 
-     * 
-     */
-	var ns = function(){
-        if (arguments.length === 0) {
-			throw new Error('ns should probably have some arguments passed to it.');
-		}
-        
-        var arg = arguments[0];
-        var levels = null;
-        var get = (arguments.length == 1 || arguments[1] === undefined) && arg.constructor != Object ? true : false;
-        
-        if (arg.constructor == String) {
-            var dummy = {};
-            dummy[arg] = arguments[1] ? arguments[1] : undefined;
-            
-            arg = dummy;
-        }
-        
-        if (arg.constructor == Object) {
-            var _class = this, miss = false, last = this;
-            
-            $.each(arg, function(nsName, nsValue){
-                //Reset nsobj back to the top each time
-                var nsobj = _class;
-                var levels = nsName.split('.');
-                
-                $.each(levels, function(i, level){
-                    //First, are we using ns as a getter? Also, did our get attempt fail?
-                    if (get && typeof nsobj[level] == 'undefined') {
-                        //Dave's not here, man
-                        miss = true;
-                        
-                        //Break out of each
-                        return false;
-                    } else if (i == levels.length - 1 && nsValue) {
-                        //Ok, so we're setting. Is it time to set yet or do we move on?
-                        nsobj[level] = nsValue;
-                    } else if (typeof nsobj[level] == 'undefined') {
-                        //...nope, not yet. Check to see if the ns doesn't already exist in our class...
-                        //...and make it a new static class
-                        nsobj[level] = {};
-                    }
-                    
-                    //Move one level deeper for the next iteration
-                    last = nsobj = nsobj[level];
-                });
-            });
-            
-            return miss ? undefined : last;
-        }
-    };
-	
-	/**
-	 * Internal use only.
-	 * 
-	 * Does three things:
-	 * <ul>
-	 *     <li>Extends the baseController and create a fresh a new instance.</li>
-	 *     <li>
-	 *       Stores a reference of newly created instance in an internal controllers cache 
-	 *       (with some metadata, namely used selector and base Class)</li>
-	 *     <li>Setup error handling in controllers instance.</li>
-	 * </ul>
-	 * 
-	 * FIXME: Prevent multiple instantiation of same controller. 
-	 *   Will have to check in cache first.
-	 * 
-	 * @method _createInstance
-	 * @private
-	 * @param {Object} baseController
-	 * @param {Object} prototype
-	 */
-    var _createInstance = function(baseController, prototype){
-        var Base = baseController.extend(prototype);
-        var instance = new Base(this), name, method;
-        
-        var controllerId = prototype.id ? prototype.id : this.attr("id").replace(/-/g, "_");
-        
-        // Store a reference to the instance controller
-        controllers[controllerId] = {
-            instance: instance,
-            base: Base,
-            sel: this.selector
-        };
-        
-        
-        if (!debug) {
-            for (name in instance) {
-                if ($.isFunction(instance[name])) {
-					method = instance[name];
-                    instance[name] = function(name, method){
-                        return function(){
-                            try {
-                                return method.apply(this, arguments);
-                            } catch (ex) {
-                                console.error(1, name + "(): " + ex.message);
-                            }
-                        };
-                    }(name, method);
-                }
-            }
-        }
-        return instance;
-    };
     
     /**
-     * Based on jresig's implementaton (http://ejohn.org/blog/simple-javascript-inheritance/) <br />
+     * Base Class.
      * 
-	 * A base class which objects requiring oop implementation can extend. Class also handles 
-	 * the support of a _super method that allow you to override methods while keeping the ability 
-	 * to call overriden method somewhere in the process. <br /> 
-	 *
-     * All subsequent controllers are inherited from BaseController which extends this Class.
+     * Based on jresig's implementaton (http://ejohn.org/blog/simple-javascript-inheritance/)
+     * 
+     * All subsequent controllers are inherited from BaseController which extend this Class.
      * 
      * @class Class
      */
-	/**
-	 * Extends a class with a new prototype. 
-	 * @static
-	 * @method extend
-	 * @param {Object} prototype
-	 * @return Class
-	 */
     (function(){
         var initializing = false, fnTest = /xyz/.test(function(){
             xyz;
@@ -221,11 +84,11 @@
             return Class;
         };
     })();
-   
+    
     /**
      * SandBox Singleton available in any controllers instance. <br />
      *
-     * The sandbox is provided to you through parameters in your module implementation:
+     * The sandbox is provided to you through parameters in your module impementation:
      *
      * <code>
      * $(".myController").controller(function(sandbox){
@@ -240,8 +103,6 @@
         return {
 			/**
 			 * Allow you to retrieve a specific controller from the internal cache
-			 * @static
-			 * @method getController
 			 * @param {String} id
 			 * @return {BaseController} controller instance 
 			 */
@@ -256,23 +117,19 @@
                 
                 return controllers[id].instance;
             }
-        };
+        }
     }();
     
     /**
      * Base Controller Class. All subsequent controller will inherit this one.
      * 
      * Provides common interface for controllers communication.
+     * 
      * @class BaseController
      * @extends Class
+     * @constructor
      */
     BaseController = Class.extend({
-		/**
-		 * BaseController constructor. Setup empty Model and Elements.
-		 * 
-		 * @constructor
-		 * @param {Object} container
-		 */
         init: function(container){
             console.info("new Controller", this, arguments);
             
@@ -281,23 +138,10 @@
             this.Elements = {};
         },
         
-		/**
-		 * Bind a custom event upon current instance.
-		 * @method listen
-		 * @param {String} eventType
-		 * @param {Function} handler
-		 */
         listen: function(eventType, handler){
             console.log("listen:", this, arguments);
             $(this).bind(eventType, handler);
         },
-		
-		/**
-		 * Fire (Trigger) a custom event upon all registered controllers.
-		 * @method fire
-		 * @param {String} eventType
-		 * @param {Object} data
-		 */
         fire: function(eventType, data){
             console.log("fire:", this, arguments);
             // Fire up to all registered controllers
@@ -312,31 +156,32 @@
     
 	
     /**
-     *
-     * Widget implementation of controllers. <br />
-     *
-     * Does a few things:
-     * <ul>
-     *     <li>
-     *       At this point, controller instance is already created and provided
-     *       by the proxy controller.
-     *     </li>
-     *     <li>
-     *       Init model by walking through hidden inputs in controller container
-     *       and make it available to use via this.Model
-     *     </li>
-     *     <li>Setup event delegation restricted to controller container.</li>
-     * </ul>
-     *
-     *
+     * 
+     * Widget implentation of controllers. <br />
+     * 
+	 * Does a few things:
+	 * <ul>
+	 *     <li>
+	 *       At this point, controller instance is already created and provided 
+	 *       by the proxy controller.
+	 *     </li>
+	 *     <li>
+	 *       Init model by walking through hidden inputs in controller container 
+	 *       and make it available to use via this.Model
+	 *     </li>
+	 *     <li>Setup event delegation restricted to controller container.</li>
+	 * </ul>
+
+     * 
      * @class controller
      * @namespace $.ui
+     * @constructor
      */
     $.widget('ui.controller', {
 		/**
 		 * Controller method. Setup instance in widget ones, init model and events.
-		 * @constructor
-		 * @param {BaseController} instance
+		 * @method _init
+		 * @private
 		 */
         _init: function(){
             console.info("Controller widget init", this, arguments);
@@ -387,9 +232,7 @@
                 var action = prop.split(" ")[1];
                 var callback, context;
                 
-                if (!action) {
-					return;
-				}
+                if (!action) return;
                 
                 callback = $.isFunction(value) ? value : function(){};
                 instance.Elements[sel] = $(sel, self.element);
@@ -452,7 +295,7 @@
         
         if (parent.constructor === String) {
             // We depends on some Base Controller
-            baseController = controllers[parent] ? controllers[parent].base : ns.call($, parent);
+            baseController = controllers[parent] ? _controllers[parent].base : ns.call($, parent);
             
             if (!baseController) {
                 throw new Error("$.fn.controller: Unable to retrieve base controller: " + parent);
@@ -465,7 +308,7 @@
         
         if ($.isFunction(entrypoint)) {
             prototype = entrypoint.call(this, SandBox);
-            instance = _createInstance.call(this, baseController, prototype);
+            instance = _createInstance.call(this, baseController, prototype)
             
             // Start the controller by calling controller widget			
             return _controller.call(this, instance);
@@ -515,6 +358,7 @@
         return _load.apply(this, arguments);
     };
 	
+	/* * /
 	// May be not so elegant... Responsible of re-binding controller's widget with previously stored instance, if any.
 	// Non event live event a la livequery may be very usefull there.
     $(document).ajaxComplete(function(e, xhr, settings){
@@ -529,7 +373,144 @@
 			}
 			
 		});
-		
     });
+    /* */
+	
+	$("[class^='ui-controller']").livequery(function(){
+		console.log("Livequery in:", this, arguments);
+		
+		var target = $(this);
+		var context = target.parent();
+		var url = target.attr("class").replace("ui-controller", "").replace(/-/g, "/") + ".js";
+		console.log("Load features ", basePath + url);
+		
+		wtf.require(basePath + url);
+		console.log("parent:", context);
+		$.each(controllers, function(){
+			var f = $(this.sel, context);
+			if(f.get(0)){
+				// Reinit controller with previously stored instance
+				f.controller(this.instance);
+			}
+			
+		});
+		
+	}, function(){
+		console.log("Livequery out:", this, arguments);
+	});
+	
+    
+	
+	/**
+	 * Internal use only.
+	 * 
+	 * Does three things:
+	 * <ul>
+	 *     <li>Extends the baseController and create a fresh a new instance.</li>
+	 *     <li>
+	 *       Stores a reference of newly created instance in an internal controllers cache 
+	 *       (with some metadata, namely used selector and base Class)</li>
+	 *     <li>Setup error handling in controllers instance.</li>
+	 * </ul>
+	 * 
+	 * FIXME: Prevent multiple instantiation of same controller. 
+	 *   Will have to check in cache first.
+	 * 
+	 * @method _createInstance
+	 * @private
+	 * @param {Object} baseController
+	 * @param {Object} prototype
+	 */
+    function _createInstance(baseController, prototype){
+        var Base = baseController.extend(prototype);
+        var instance = new Base(this), name, method;
+        
+        var controllerId = prototype.id ? prototype.id : this.attr("id").replace(/-/g, "_");
+        
+        // Store a reference to the instance controller
+        controllers[controllerId] = {
+            instance: instance,
+            base: Base,
+            sel: this.selector
+        };
+        
+        
+        if (!debug) {
+            for (name in instance) {
+                method = instance[name];
+                if ($.isFunction(method)) {
+                    instance[name] = function(name, method){
+                        return function(){
+                            try {
+                                return method.apply(this, arguments);
+                            } catch (ex) {
+                                console.error(1, name + "(): " + ex.message);
+                            }
+                        };
+                    }(name, method);
+                }
+            }
+        }
+        return instance;
+    };
+    
+    /**
+     * Based on DUI's one.  <br />
+     *
+     * Make a namespace within a class.
+     * Usage 1: MyClass.ns('foo.bar');
+     * Usage 2: MyClass.ns('foo.bar', 'baz');
+     * 
+     * @param {String} name Period separated list of namespaces to nest. MyClass.ns('foo.bar') makes MyClass['foo']['bar'].
+     * @param {optional mixed} value Set the contents of the deepest specified namespace to this value. 
+     * 
+     */
+    function ns(){
+        if (arguments.length == 0) throw new Error('ns should probably have some arguments passed to it.');
+        
+        var arg = arguments[0];
+        var levels = null;
+        var get = (arguments.length == 1 || arguments[1] === undefined) && arg.constructor != Object ? true : false;
+        
+        if (arg.constructor == String) {
+            var dummy = {};
+            dummy[arg] = arguments[1] ? arguments[1] : undefined;
+            
+            arg = dummy;
+        }
+        
+        if (arg.constructor == Object) {
+            var _class = this, miss = false, last = this;
+            
+            $.each(arg, function(nsName, nsValue){
+                //Reset nsobj back to the top each time
+                var nsobj = _class;
+                var levels = nsName.split('.');
+                
+                $.each(levels, function(i, level){
+                    //First, are we using ns as a getter? Also, did our get attempt fail?
+                    if (get && typeof nsobj[level] == 'undefined') {
+                        //Dave's not here, man
+                        miss = true;
+                        
+                        //Break out of each
+                        return false;
+                    } else if (i == levels.length - 1 && nsValue) {
+                        //Ok, so we're setting. Is it time to set yet or do we move on?
+                        nsobj[level] = nsValue;
+                    } else if (typeof nsobj[level] == 'undefined') {
+                        //...nope, not yet. Check to see if the ns doesn't already exist in our class...
+                        //...and make it a new static class
+                        nsobj[level] = {};
+                    }
+                    
+                    //Move one level deeper for the next iteration
+                    last = nsobj = nsobj[level];
+                });
+            });
+            
+            return miss ? undefined : last;
+        }
+    };
     
 })(jQuery);

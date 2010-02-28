@@ -5,10 +5,15 @@
         <link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen" />
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="qunit/qunit.js"></script>
 		
-        <script type="text/javascript" src="qunit/qunit.js"></script>
-        <script type="text/javascript" src="../src/ui.controller.js"></script>
+		<!-- Code -->
+        <script type="text/javascript" src="../ui.controller.js"></script>
+		<script type="text/javascript" src="../ui.template.js"></script>
+		
+		<!-- Unit tests -->
         <script type="text/javascript" src="core.js"></script>
+		<script type="text/javascript" src="unit/template.js"></script>
 		<script type="text/javascript" src="http://localhost/testswarm/js/inject.js"></script>
     </head>
     <body>
@@ -19,5 +24,13 @@
         <h2 id="qunit-userAgent"></h2>
         <ol id="qunit-tests">
         </ol>
+		
+		
+		<script type="text/html" id="user_tmpl">
+		  <% for ( var i = 0; i < users.length; i++ ) { %>
+		    <li><a href="<%=users[i].url%>"><%=users[i].name%></a></li>
+		  <% } %>
+		</script>
+
     </body>
 </html>

@@ -16,6 +16,7 @@
 
 	<property name="build_dir" location="build" />
 	<property name="src_dir" location="src" />
+	<property name="test_dir" location="test" />
 	<property name="tmp_dir" location="tmp" />
 	<property name="parser_out" location="${tmp_dir}/parsertmp" />
 	<property name="version" value="1.0" />
@@ -126,4 +127,26 @@
 		<delete dir="${tmp_dir}" />
 		<delete dir="${out_dir}" />
 	</target>
+
+	<target name="copy-demo">
+		<property name="demo.dir" location="/Users/mdaniel/Documents/workspace/WeeklyTask/war/js/src/controller" />
+		<copy todir="${demo.dir}">
+			<fileset dir="${src_dir}">
+				<exclude name=".*" />
+			</fileset>
+			<filterset>
+				<filter token="VERSION" value="${version}" />
+			</filterset>
+		</copy>
+
+		<copy todir="${demo.dir}/test">
+			<fileset dir="${test_dir}">
+				<exclude name=".*" />
+			</fileset>
+			<filterset>
+				<filter token="VERSION" value="${version}" />
+			</filterset>
+		</copy>
+	</target>
+
 </project>
