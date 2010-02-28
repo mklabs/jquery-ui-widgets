@@ -1,0 +1,171 @@
+html {
+    color: #000;
+    background: #FFF;
+    font-size: 11px;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+fieldset, img {
+    border: 0;
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+li {
+    list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+q:before, q:after {
+    content: '';
+}
+
+abbr, acronym {
+    border: 0;
+    font-variant: normal;
+}
+
+sup {
+    vertical-align: text-top;
+}
+
+sub {
+    vertical-align: text-bottom;
+}
+
+input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+h1#wt-header-title {
+    padding: 0.5em;
+}
+
+#wt-switcher {
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+}
+
+#wt-userinfo a {
+    font-size: 0.7em;
+    text-decoration: none;
+}
+
+p {
+    margin: 0.5em;
+}
+
+label {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+form ul {
+    padding: 0.3em;
+}
+
+select, input[type =
+'text'], textarea {
+    width: 250px;
+    padding: 3px;
+}
+
+input[type =
+'text'] {
+    width: 245px;
+}
+
+ul.formatted, ol.formatted {
+    display: block;
+    margin: 1em 0.5em;
+}
+
+ul.formatted li, ol.formatted li {
+    margin: 5px 30px;
+}
+
+ul.formatted li {
+    list-style-type: disc;
+}
+
+ol.formatted li {
+    list-style-type: decimal;
+}
+
+.loading {
+    display: block;
+    margin: auto;
+    width: 24px;
+    height: 24px;
+    background: url("../img/load-black.gif");
+}
+
+/* Main page */
+.ui-tabs-nav li {
+    position: relative;
+}
+
+.ui-tabs .ui-tabs-nav li a {
+    padding: 0.5em 1.5em 0.5em 1em !important;
+}
+
+
+.ui-tabs-selected a span {
+    padding-right: 10px;
+}
+
+.ui-tabs-close {
+    display: none;
+    position: absolute;
+    top: 3px;
+    right: 0px;
+    z-index: 800;
+    width: 16px;
+    height: 14px;
+    font-size: 10px;
+    font-style: normal;
+    cursor: pointer;
+}
+
+.ui-tabs-selected .ui-tabs-close {
+    display: block;
+}
+
+.ui-layout-west .ui-jqgrid tr.jqgrow td {
+    border-bottom: 0px none;
+}
+
+.ui-datepicker {
+    z-index: 1200;
+}
+
+table tbody tr td{
+	padding: 0.5em;
+}
+.site {
+  width: 60em;
+}
+
+#content.site {
+  width: 59em;
+}
