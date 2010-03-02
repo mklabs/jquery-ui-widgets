@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<project name="gh-ui-controller">
+	<property name="build_dir" location="./"/>
+	<property name="target_dir" location="/Applications/MAMP/htdocs/gh-pages"/>
+	
+	<target name="init">
+		<echo>
+            Making sure build dir is there
+        </echo>
+		<mkdir dir="${target_dir}" />
+	</target>
+
+	<target name="build" depends="init" description="A simple build file">
+		<echo>
+            Starting build
+        </echo>
+		<copy todir="${target_dir}">
+			<fileset dir="${build_dir}">
+				<exclude name="*.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+</project>

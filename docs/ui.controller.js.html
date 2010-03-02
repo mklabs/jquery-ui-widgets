@@ -1,0 +1,616 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: controller   ui.controller.js  (YUI Library)</title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1267392115.66" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1267392115.66" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1267392115.66"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1267392115.66"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="http://github.com/MkLabs/jquery-ui-controller" title="jQuery UI Controller">jQuery UI Controller</a></h1>
+        <h3>controller&nbsp; <span class="subtitle">1.0</span></h3>
+        <a href="./index.html" title="jQuery UI Controller">jQuery UI Controller</a> 
+            &gt; <a href="./module_controller.html" title="controller">controller</a>
+                
+                 &gt; ui.controller.js (source view) 
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * The Controller widget module provides clean and handy way to organize your jQuery code.</span>
+<span class="cm"> * @module controller</span>
+<span class="cm"> * @author mdaniel</span>
+<span class="cm"> */</span>
+<span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">){</span>
+
+	<span class="c1">// set this according to your debug will regarding errors thrown in controllers</span>
+    <span class="kd">var</span> <span class="nx">debug</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+	   
+	<span class="c1">// proxied</span>
+    <span class="kd">var</span> <span class="nx">_controller</span><span class="p">,</span> <span class="nx">_live</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">live</span><span class="p">,</span> <span class="nx">_empty</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">empty</span><span class="p">,</span> <span class="nx">_load</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">load</span><span class="p">;</span>
+    
+	<span class="c1">// controllers cache</span>
+    <span class="kd">var</span> <span class="nx">controllers</span> <span class="o">=</span> <span class="p">{};</span>
+    
+	<span class="kd">var</span> <span class="nx">basePath</span> <span class="o">=</span> <span class="s2">&quot;/js/src/controller&quot;</span><span class="p">;</span>
+	
+    <span class="kd">var</span> <span class="nx">Class</span><span class="p">,</span> <span class="nx">SandBox</span><span class="p">,</span> <span class="nx">BaseController</span><span class="p">;</span>
+    
+    <span class="cm">/**</span>
+<span class="cm">     * Base Class.</span>
+<span class="cm">     * </span>
+<span class="cm">     * Based on jresig&#39;s implementaton (http://ejohn.org/blog/simple-javascript-inheritance/)</span>
+<span class="cm">     * </span>
+<span class="cm">     * All subsequent controllers are inherited from BaseController which extend this Class.</span>
+<span class="cm">     * </span>
+<span class="cm">     * @class Class</span>
+<span class="cm">     */</span>
+    <span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="kd">var</span> <span class="nx">initializing</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">fnTest</span> <span class="o">=</span> <span class="sr">/xyz/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+            <span class="nx">xyz</span><span class="p">;</span>
+        <span class="p">})</span> <span class="o">?</span> <span class="sr">/\b_super\b/</span> <span class="o">:</span> <span class="sr">/.*/</span><span class="p">;</span>
+        
+        <span class="c1">// The base Class implementation (does nothing)</span>
+        <span class="nx">Class</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){};</span>
+        
+        <span class="c1">// Create a new Class that inherits from this class</span>
+        <span class="nx">Class</span><span class="p">.</span><span class="nx">extend</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">prop</span><span class="p">){</span>
+            <span class="kd">var</span> <span class="nx">_super</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
+            
+            <span class="c1">// Instantiate a base class (but only create the instance,</span>
+            <span class="c1">// don&#39;t run the init constructor)</span>
+            <span class="nx">initializing</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">prototype</span> <span class="o">=</span> <span class="k">new</span> <span class="k">this</span><span class="p">();</span>
+            <span class="nx">initializing</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            
+            <span class="c1">// Copy the properties over onto the new prototype</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">name</span> <span class="k">in</span> <span class="nx">prop</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// Check if we&#39;re overwriting an existing function</span>
+                <span class="nx">prototype</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">prop</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">_super</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span> <span class="o">&amp;&amp;</span> <span class="nx">fnTest</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">prop</span><span class="p">[</span><span class="nx">name</span><span class="p">])</span> <span class="o">?</span> <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">fn</span><span class="p">){</span>
+                    <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
+                        <span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_super</span><span class="p">;</span>
+                        
+                        <span class="c1">// Add a new ._super() method that is the same method</span>
+                        <span class="c1">// but on the super-class</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">_super</span> <span class="o">=</span> <span class="nx">_super</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span>
+                        
+                        <span class="c1">// The method only need to be bound temporarily, so we</span>
+                        <span class="c1">// remove it when we&#39;re done executing</span>
+                        <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">_super</span> <span class="o">=</span> <span class="nx">tmp</span><span class="p">;</span>
+                        
+                        <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
+                    <span class="p">};</span>
+                <span class="p">})(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">prop</span><span class="p">[</span><span class="nx">name</span><span class="p">])</span> <span class="o">:</span> <span class="nx">prop</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span>
+            <span class="p">}</span>
+            
+            <span class="c1">// The dummy class constructor</span>
+            <span class="kd">function</span> <span class="nx">Class</span><span class="p">(){</span>
+                <span class="c1">// All construction is actually done in the init method</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">initializing</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">init</span><span class="p">)</span> <span class="k">this</span><span class="p">.</span><span class="nx">init</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+            <span class="p">}</span>
+            
+            <span class="c1">// Populate our constructed prototype object</span>
+            <span class="nx">Class</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nx">prototype</span><span class="p">;</span>
+            
+            <span class="c1">// Enforce the constructor to be what we expect</span>
+            <span class="nx">Class</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">Class</span><span class="p">;</span>
+            
+            <span class="c1">// And make this class extendable</span>
+            <span class="nx">Class</span><span class="p">.</span><span class="nx">extend</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">callee</span><span class="p">;</span>
+            
+            <span class="k">return</span> <span class="nx">Class</span><span class="p">;</span>
+        <span class="p">};</span>
+    <span class="p">})();</span>
+    
+    <span class="cm">/**</span>
+<span class="cm">     * SandBox Singleton available in any controllers instance. &lt;br /&gt;</span>
+<span class="cm">     *</span>
+<span class="cm">     * The sandbox is provided to you through parameters in your module impementation:</span>
+<span class="cm">     *</span>
+<span class="cm">     * &lt;code&gt;</span>
+<span class="cm">     * $(&quot;.myController&quot;).controller(function(sandbox){</span>
+<span class="cm">     *	// Some code</span>
+<span class="cm">     * });</span>
+<span class="cm">     *</span>
+<span class="cm">     * @class SandBox</span>
+<span class="cm">     * @static</span>
+<span class="cm">     */</span>
+    <span class="nx">SandBox</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+    
+        <span class="k">return</span> <span class="p">{</span>
+			<span class="cm">/**</span>
+<span class="cm">			 * Allow you to retrieve a specific controller from the internal cache</span>
+<span class="cm">			 * @param {String} id</span>
+<span class="cm">			 * @return {BaseController} controller instance </span>
+<span class="cm">			 */</span>
+            <span class="nx">getController</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">){</span>
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;SandBox.getController(): Id paramater is mandatory and missing.&quot;</span><span class="p">);</span>
+                <span class="p">}</span>
+                
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">controllers</span><span class="p">[</span><span class="nx">id</span><span class="p">])</span> <span class="p">{</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Sandbox.getController(): Couldn&#39;t retrive controller with id ==&gt; &quot;</span> <span class="o">+</span> <span class="nx">id</span><span class="p">);</span>
+                <span class="p">}</span>
+                
+                <span class="k">return</span> <span class="nx">controllers</span><span class="p">[</span><span class="nx">id</span><span class="p">].</span><span class="nx">instance</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}();</span>
+    
+    <span class="cm">/**</span>
+<span class="cm">     * Base Controller Class. All subsequent controller will inherit this one.</span>
+<span class="cm">     * </span>
+<span class="cm">     * Provides common interface for controllers communication.</span>
+<span class="cm">     * </span>
+<span class="cm">     * @class BaseController</span>
+<span class="cm">     * @extends Class</span>
+<span class="cm">     * @constructor</span>
+<span class="cm">     */</span>
+    <span class="nx">BaseController</span> <span class="o">=</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+        <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">container</span><span class="p">){</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">&quot;new Controller&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+            
+            <span class="k">this</span><span class="p">.</span><span class="nx">container</span> <span class="o">=</span> <span class="nx">container</span><span class="p">;</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">Model</span> <span class="o">=</span> <span class="p">{};</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">Elements</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="p">},</span>
+        
+        <span class="nx">listen</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">eventType</span><span class="p">,</span> <span class="nx">handler</span><span class="p">){</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;listen:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+            <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="nx">eventType</span><span class="p">,</span> <span class="nx">handler</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="nx">fire</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">eventType</span><span class="p">,</span> <span class="nx">data</span><span class="p">){</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;fire:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+            <span class="c1">// Fire up to all registered controllers</span>
+            
+            <span class="c1">// Role of sandbox to talk to strangers? </span>
+            <span class="c1">// Should prototyped fire function just fire on the current instance?</span>
+            <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">controllers</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+                <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">instance</span><span class="p">).</span><span class="nx">trigger</span><span class="p">(</span><span class="nx">eventType</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+    
+	
+    <span class="cm">/**</span>
+<span class="cm">     * </span>
+<span class="cm">     * Widget implentation of controllers. &lt;br /&gt;</span>
+<span class="cm">     * </span>
+<span class="cm">	 * Does a few things:</span>
+<span class="cm">	 * &lt;ul&gt;</span>
+<span class="cm">	 *     &lt;li&gt;</span>
+<span class="cm">	 *       At this point, controller instance is already created and provided </span>
+<span class="cm">	 *       by the proxy controller.</span>
+<span class="cm">	 *     &lt;/li&gt;</span>
+<span class="cm">	 *     &lt;li&gt;</span>
+<span class="cm">	 *       Init model by walking through hidden inputs in controller container </span>
+<span class="cm">	 *       and make it available to use via this.Model</span>
+<span class="cm">	 *     &lt;/li&gt;</span>
+<span class="cm">	 *     &lt;li&gt;Setup event delegation restricted to controller container.&lt;/li&gt;</span>
+<span class="cm">	 * &lt;/ul&gt;</span>
+
+<span class="cm">     * </span>
+<span class="cm">     * @class controller</span>
+<span class="cm">     * @namespace $.ui</span>
+<span class="cm">     * @constructor</span>
+<span class="cm">     */</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">widget</span><span class="p">(</span><span class="s1">&#39;ui.controller&#39;</span><span class="p">,</span> <span class="p">{</span>
+		<span class="cm">/**</span>
+<span class="cm">		 * Controller method. Setup instance in widget ones, init model and events.</span>
+<span class="cm">		 * @method _init</span>
+<span class="cm">		 * @private</span>
+<span class="cm">		 */</span>
+        <span class="nx">_init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">&quot;Controller widget init&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+            
+            <span class="k">this</span><span class="p">.</span><span class="nx">instance</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">;</span>
+            
+            <span class="k">this</span><span class="p">.</span><span class="nx">_initModel</span><span class="p">();</span>
+            
+            <span class="k">this</span><span class="p">.</span><span class="nx">_initEvents</span><span class="p">();</span>
+        <span class="p">},</span>
+        
+		<span class="cm">/**</span>
+<span class="cm">		 * Delegated destroy method from widget&#39;s prototype.</span>
+<span class="cm">		 * </span>
+<span class="cm">		 * Remove any delegated event handlers, call the controller&#39;s destroy </span>
+<span class="cm">		 * method and widget&#39;s super one.</span>
+<span class="cm">		 * </span>
+<span class="cm">		 * @method destroy</span>
+<span class="cm">		 */</span>
+        <span class="nx">destroy</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+            <span class="c1">// Should we also delete instance from cached controllers? Or keep it for further use?</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;What about proper destroy?&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">instance</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">instance</span><span class="p">;</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">instance</span><span class="p">.</span><span class="nx">destroy</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">instance</span><span class="p">.</span><span class="nx">destroy</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+            <span class="p">}</span>
+            
+            <span class="k">this</span><span class="p">.</span><span class="nx">_unbindEvents</span><span class="p">();</span>
+			
+			<span class="nx">$</span><span class="p">.</span><span class="nx">widget</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">destroy</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+        <span class="p">},</span>
+        
+		<span class="cm">/**</span>
+<span class="cm">		 * Setup event delegation restricted to the controller container.</span>
+<span class="cm">		 * </span>
+<span class="cm">		 * Each eventHandler is given a context (thanks to $.proxy method) that matchs the correct instance. This means that you could use something </span>
+<span class="cm">		 * like this.doThing() in there. The original or current target are still available in Event object passed in as parameter.</span>
+<span class="cm">		 * </span>
+<span class="cm">		 * @method _initEvents</span>
+<span class="cm">		 * @private</span>
+<span class="cm">		 * </span>
+<span class="cm">		 */</span>
+        <span class="nx">_initEvents</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+            <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span> <span class="nx">instance</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">instance</span><span class="p">;</span>
+            <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">instance</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">value</span><span class="p">){</span>
+                <span class="kd">var</span> <span class="nx">sel</span> <span class="o">=</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+                <span class="kd">var</span> <span class="nx">action</span> <span class="o">=</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">];</span>
+                <span class="kd">var</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">context</span><span class="p">;</span>
+                
+                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">action</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+                
+                <span class="nx">callback</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">?</span> <span class="nx">value</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(){};</span>
+                <span class="nx">instance</span><span class="p">.</span><span class="nx">Elements</span><span class="p">[</span><span class="nx">sel</span><span class="p">]</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">sel</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">element</span><span class="p">);</span>
+                <span class="nx">instance</span><span class="p">.</span><span class="nx">Elements</span><span class="p">[</span><span class="nx">sel</span><span class="p">].</span><span class="nx">live</span><span class="p">(</span><span class="nx">action</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">proxy</span><span class="p">(</span><span class="nx">callback</span><span class="p">,</span> <span class="nx">instance</span><span class="p">));</span>
+            <span class="p">});</span>
+        <span class="p">},</span>
+        
+		<span class="cm">/**</span>
+<span class="cm">		 * Init model by walking through hidden inputs within controller container </span>
+<span class="cm">	 	 * and make it available to use via this.Model</span>
+<span class="cm">	 	 * </span>
+<span class="cm">	 	 * @method _initModel</span>
+<span class="cm">	 	 * @private</span>
+<span class="cm">		 */</span>
+        <span class="nx">_initModel</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+            <span class="c1">// Walk through hidden input and init model</span>
+            <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;input[type=&#39;hidden&#39;]&quot;</span><span class="p">).</span><span class="nx">serializeArray</span><span class="p">();</span>
+            <span class="kd">var</span> <span class="nx">instance</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">instance</span><span class="p">;</span>
+            <span class="c1">// Fill in model</span>
+            <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">model</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">data</span><span class="p">){</span>
+                <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+                <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+                <span class="nx">ns</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">instance</span><span class="p">.</span><span class="nx">Model</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="p">},</span>
+        
+		<span class="cm">/**</span>
+<span class="cm">		 * FIXME: TDB</span>
+<span class="cm">		 * </span>
+<span class="cm">		 * Removes any event handlers fir this particular component.</span>
+<span class="cm">		 * @method _unbindEvents</span>
+<span class="cm">		 * @private</span>
+<span class="cm">		 * </span>
+<span class="cm">		 */</span>
+        <span class="nx">_unbindEvents</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+            <span class="c1">// TBD</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+    
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ui</span><span class="p">.</span><span class="nx">controller</span><span class="p">.</span><span class="nx">defaults</span> <span class="o">=</span> <span class="p">{};</span>
+    
+	<span class="c1">// Make cache globaly accesible via ui controller namespace</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ui</span><span class="p">.</span><span class="nx">controller</span><span class="p">.</span><span class="nx">controllers</span> <span class="o">=</span> <span class="nx">controllers</span><span class="p">;</span>
+    
+    <span class="c1">// 	Handle version?</span>
+    <span class="nx">_controller</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">controller</span><span class="p">;</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">controller</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">parent</span><span class="p">,</span> <span class="nx">entrypoint</span><span class="p">){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">&quot;Init controller:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">instance</span><span class="p">,</span> <span class="nx">prototype</span><span class="p">,</span> <span class="nx">baseController</span><span class="p">,</span> <span class="nx">controllerId</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nx">parent</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">===</span> <span class="nb">Object</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">controller</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">sb</span><span class="p">){</span>
+                <span class="k">return</span> <span class="nx">parent</span><span class="p">;</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nx">parent</span> <span class="k">instanceof</span> <span class="nx">BaseController</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">_controller</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">parent</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nx">parent</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">===</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// We depends on some Base Controller</span>
+            <span class="nx">baseController</span> <span class="o">=</span> <span class="nx">controllers</span><span class="p">[</span><span class="nx">parent</span><span class="p">]</span> <span class="o">?</span> <span class="nx">_controllers</span><span class="p">[</span><span class="nx">parent</span><span class="p">].</span><span class="nx">base</span> <span class="o">:</span> <span class="nx">ns</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">$</span><span class="p">,</span> <span class="nx">parent</span><span class="p">);</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">baseController</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;$.fn.controller: Unable to retrieve base controller: &quot;</span> <span class="o">+</span> <span class="nx">parent</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">parent</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">baseController</span> <span class="o">=</span> <span class="nx">BaseController</span><span class="p">;</span>
+            <span class="nx">entrypoint</span> <span class="o">=</span> <span class="nx">parent</span><span class="p">;</span>
+            <span class="nx">parent</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">entrypoint</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">prototype</span> <span class="o">=</span> <span class="nx">entrypoint</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">SandBox</span><span class="p">);</span>
+            <span class="nx">instance</span> <span class="o">=</span> <span class="nx">_createInstance</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">baseController</span><span class="p">,</span> <span class="nx">prototype</span><span class="p">)</span>
+            
+            <span class="c1">// Start the controller by calling controller widget			</span>
+            <span class="k">return</span> <span class="nx">_controller</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">instance</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Controllers must follow the module pattern.&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    
+    <span class="c1">// create controller constructor</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">controller</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">prototype</span><span class="p">){</span>
+		<span class="c1">// Change this to only be stored in the internal cache? Only accesible via Sandbox?</span>
+		
+        <span class="c1">// Create namespace under jQuery one and store Controller class</span>
+        <span class="nx">ns</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">$</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">BaseController</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">prototype</span><span class="p">));</span>
+    <span class="p">};</span>
+    
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">showDialog</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">){</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+            <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">dialog</span><span class="p">(</span><span class="s1">&#39;open&#39;</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">};</span>
+    
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">live</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Live:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">_live</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+    <span class="p">};</span>
+    
+	<span class="c1">// Workaround to get remove event triggered on empty and load method since jQuery 1.4.</span>
+	<span class="c1">// (They don&#39;t internally called remove one anymore)</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">empty</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;empty:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+        
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+            <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">triggerHandler</span><span class="p">(</span><span class="s2">&quot;remove&quot;</span><span class="p">);</span>
+        <span class="p">});</span>
+        
+        <span class="k">return</span> <span class="nx">_empty</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+    <span class="p">};</span>
+    
+    <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">load</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;load:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+        
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+            <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">triggerHandler</span><span class="p">(</span><span class="s2">&quot;remove&quot;</span><span class="p">);</span>
+        <span class="p">});</span>
+        
+        <span class="k">return</span> <span class="nx">_load</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+    <span class="p">};</span>
+	
+	<span class="cm">/* * /</span>
+<span class="cm">	// May be not so elegant... Responsible of re-binding controller&#39;s widget with previously stored instance, if any.</span>
+<span class="cm">	// Non event live event a la livequery may be very usefull there.</span>
+<span class="cm">    $(document).ajaxComplete(function(e, xhr, settings){</span>
+<span class="cm">		var t = $(xhr.responseText);</span>
+<span class="cm">		var context = settings.context;</span>
+
+<span class="cm">		$.each(controllers, function(){</span>
+<span class="cm">			var f = $(this.sel, context);</span>
+<span class="cm">			if(f.get(0)){</span>
+<span class="cm">				// Reinit controller with previously stored instance</span>
+<span class="cm">				f.controller(this.instance);</span>
+<span class="cm">			}</span>
+<span class="cm">			</span>
+<span class="cm">		});</span>
+<span class="cm">    });</span>
+<span class="cm">    /* */</span>
+	
+	<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;[class^=&#39;ui-controller&#39;]&quot;</span><span class="p">).</span><span class="nx">livequery</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Livequery in:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+		
+		<span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+		<span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">parent</span><span class="p">();</span>
+		<span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;ui-controller&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/-/g</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.js&quot;</span><span class="p">;</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Load features &quot;</span><span class="p">,</span> <span class="nx">basePath</span> <span class="o">+</span> <span class="nx">url</span><span class="p">);</span>
+		
+		<span class="nx">wtf</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="nx">basePath</span> <span class="o">+</span> <span class="nx">url</span><span class="p">);</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;parent:&quot;</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+		<span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">controllers</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+			<span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">sel</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+			<span class="k">if</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)){</span>
+				<span class="c1">// Reinit controller with previously stored instance</span>
+				<span class="nx">f</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">instance</span><span class="p">);</span>
+			<span class="p">}</span>
+			
+		<span class="p">});</span>
+		
+	<span class="p">},</span> <span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Livequery out:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+	<span class="p">});</span>
+	
+    
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Internal use only.</span>
+<span class="cm">	 * </span>
+<span class="cm">	 * Does three things:</span>
+<span class="cm">	 * &lt;ul&gt;</span>
+<span class="cm">	 *     &lt;li&gt;Extends the baseController and create a fresh a new instance.&lt;/li&gt;</span>
+<span class="cm">	 *     &lt;li&gt;</span>
+<span class="cm">	 *       Stores a reference of newly created instance in an internal controllers cache </span>
+<span class="cm">	 *       (with some metadata, namely used selector and base Class)&lt;/li&gt;</span>
+<span class="cm">	 *     &lt;li&gt;Setup error handling in controllers instance.&lt;/li&gt;</span>
+<span class="cm">	 * &lt;/ul&gt;</span>
+<span class="cm">	 * </span>
+<span class="cm">	 * FIXME: Prevent multiple instantiation of same controller. </span>
+<span class="cm">	 *   Will have to check in cache first.</span>
+<span class="cm">	 * </span>
+<span class="cm">	 * @method _createInstance</span>
+<span class="cm">	 * @private</span>
+<span class="cm">	 * @param {Object} baseController</span>
+<span class="cm">	 * @param {Object} prototype</span>
+<span class="cm">	 */</span>
+    <span class="kd">function</span> <span class="nx">_createInstance</span><span class="p">(</span><span class="nx">baseController</span><span class="p">,</span> <span class="nx">prototype</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">Base</span> <span class="o">=</span> <span class="nx">baseController</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">prototype</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Base</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">method</span><span class="p">;</span>
+        
+        <span class="kd">var</span> <span class="nx">controllerId</span> <span class="o">=</span> <span class="nx">prototype</span><span class="p">.</span><span class="nx">id</span> <span class="o">?</span> <span class="nx">prototype</span><span class="p">.</span><span class="nx">id</span> <span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/-/g</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">);</span>
+        
+        <span class="c1">// Store a reference to the instance controller</span>
+        <span class="nx">controllers</span><span class="p">[</span><span class="nx">controllerId</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nx">instance</span><span class="o">:</span> <span class="nx">instance</span><span class="p">,</span>
+            <span class="nx">base</span><span class="o">:</span> <span class="nx">Base</span><span class="p">,</span>
+            <span class="nx">sel</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">selector</span>
+        <span class="p">};</span>
+        
+        
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">debug</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="nx">name</span> <span class="k">in</span> <span class="nx">instance</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">method</span> <span class="o">=</span> <span class="nx">instance</span><span class="p">[</span><span class="nx">name</span><span class="p">];</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">method</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="nx">instance</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">method</span><span class="p">){</span>
+                        <span class="k">return</span> <span class="kd">function</span><span class="p">(){</span>
+                            <span class="k">try</span> <span class="p">{</span>
+                                <span class="k">return</span> <span class="nx">method</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+                            <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">ex</span><span class="p">)</span> <span class="p">{</span>
+                                <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;(): &quot;</span> <span class="o">+</span> <span class="nx">ex</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+                            <span class="p">}</span>
+                        <span class="p">};</span>
+                    <span class="p">}(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">method</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">instance</span><span class="p">;</span>
+    <span class="p">};</span>
+    
+    <span class="cm">/**</span>
+<span class="cm">     * Based on DUI&#39;s one.  &lt;br /&gt;</span>
+<span class="cm">     *</span>
+<span class="cm">     * Make a namespace within a class.</span>
+<span class="cm">     * Usage 1: MyClass.ns(&#39;foo.bar&#39;);</span>
+<span class="cm">     * Usage 2: MyClass.ns(&#39;foo.bar&#39;, &#39;baz&#39;);</span>
+<span class="cm">     * </span>
+<span class="cm">     * @param {String} name Period separated list of namespaces to nest. MyClass.ns(&#39;foo.bar&#39;) makes MyClass[&#39;foo&#39;][&#39;bar&#39;].</span>
+<span class="cm">     * @param {optional mixed} value Set the contents of the deepest specified namespace to this value. </span>
+<span class="cm">     * </span>
+<span class="cm">     */</span>
+    <span class="kd">function</span> <span class="nx">ns</span><span class="p">(){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;ns should probably have some arguments passed to it.&#39;</span><span class="p">);</span>
+        
+        <span class="kd">var</span> <span class="nx">arg</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+        <span class="kd">var</span> <span class="nx">levels</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">get</span> <span class="o">=</span> <span class="p">(</span><span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">arg</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">!=</span> <span class="nb">Object</span> <span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="kc">false</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nx">arg</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">==</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">dummy</span> <span class="o">=</span> <span class="p">{};</span>
+            <span class="nx">dummy</span><span class="p">[</span><span class="nx">arg</span><span class="p">]</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">?</span> <span class="nx">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">:</span> <span class="kc">undefined</span><span class="p">;</span>
+            
+            <span class="nx">arg</span> <span class="o">=</span> <span class="nx">dummy</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nx">arg</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">==</span> <span class="nb">Object</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">_class</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span> <span class="nx">miss</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">last</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+            
+            <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">arg</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">nsName</span><span class="p">,</span> <span class="nx">nsValue</span><span class="p">){</span>
+                <span class="c1">//Reset nsobj back to the top each time</span>
+                <span class="kd">var</span> <span class="nx">nsobj</span> <span class="o">=</span> <span class="nx">_class</span><span class="p">;</span>
+                <span class="kd">var</span> <span class="nx">levels</span> <span class="o">=</span> <span class="nx">nsName</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">);</span>
+                
+                <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">levels</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">level</span><span class="p">){</span>
+                    <span class="c1">//First, are we using ns as a getter? Also, did our get attempt fail?</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">get</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">nsobj</span><span class="p">[</span><span class="nx">level</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="c1">//Dave&#39;s not here, man</span>
+                        <span class="nx">miss</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+                        
+                        <span class="c1">//Break out of each</span>
+                        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+                    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">==</span> <span class="nx">levels</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">nsValue</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="c1">//Ok, so we&#39;re setting. Is it time to set yet or do we move on?</span>
+                        <span class="nx">nsobj</span><span class="p">[</span><span class="nx">level</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nsValue</span><span class="p">;</span>
+                    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">nsobj</span><span class="p">[</span><span class="nx">level</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="c1">//...nope, not yet. Check to see if the ns doesn&#39;t already exist in our class...</span>
+                        <span class="c1">//...and make it a new static class</span>
+                        <span class="nx">nsobj</span><span class="p">[</span><span class="nx">level</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+                    <span class="p">}</span>
+                    
+                    <span class="c1">//Move one level deeper for the next iteration</span>
+                    <span class="nx">last</span> <span class="o">=</span> <span class="nx">nsobj</span> <span class="o">=</span> <span class="nx">nsobj</span><span class="p">[</span><span class="nx">level</span><span class="p">];</span>
+                <span class="p">});</span>
+            <span class="p">});</span>
+            
+            <span class="k">return</span> <span class="nx">miss</span> <span class="o">?</span> <span class="kc">undefined</span> <span class="o">:</span> <span class="nx">last</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    
+<span class="p">})(</span><span class="nx">jQuery</span><span class="p">);</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="module_controller.html" title="controller">controller</a></li>
+                                <li class=""><a href="module_table-controller.html" title="table-controller">table-controller</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="$.ui.controller.html" title="$.ui.controller">$.ui.controller</a></li>
+                                <li class=""><a href="BaseController.html" title="BaseController">BaseController</a></li>
+                                <li class=""><a href="Class.html" title="Class">Class</a></li>
+                                <li class=""><a href="SandBox.html" title="SandBox">SandBox</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="table.js.html" title="table.js">table.js</a></li>
+                                <li class=""><a href="testCase.js.html" title="testCase.js">testCase.js</a></li>
+                                <li class="selected"><a href="ui.controller.js.html" title="ui.controller.js">ui.controller.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft" class="ui-widget ui-widget-header">
+        <hr />
+        Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "$.ui.controller.html#method_destroy", "access": "", "host": "$.ui.controller", "type": "method", "name": "destroy"}, {"url": "SandBox.html#method_getController", "access": "", "host": "SandBox", "type": "method", "name": "getController"}];
+</script>
+</body>
+</html>
