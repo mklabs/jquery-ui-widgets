@@ -3,5 +3,10 @@
     <page>1</page>
     <total>1</total>
     <records>1</records>
-    <row><cell>0</cell><cell>Home</cell><cell>#home</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+    <row><cell>0</cell><cell>Home</cell><cell>/jquery-ui-controller/</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+	<row><cell>1</cell><cell>API</cell><cell>/jquery-ui-controller/docs/</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+	<row><cell>2</cell><cell>Demos</cell><cell>/jquery-ui-controller/demos/</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+	<row><cell>2</cell><cell>Tests</cell><cell>/jquery-ui-controller/tests/</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+	<row><cell>2</cell><cell>Source</cell><cell>http://github.com/MkLabs/jquery-ui-controller/</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+	<row><cell>2</cell><cell>Wiki</cell><cell>http://wiki.github.com/MkLabs/jquery-ui-controller/</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
 </rows>

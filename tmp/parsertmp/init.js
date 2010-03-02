@@ -15,7 +15,7 @@
 	 * @class InitLayout
 	 * @namespace demo.layout
 	 */
-	$(".ui-controller-demo-layout-init").controller(function(sandbox){
+	$(".ui-controller-index-layout-init").controller(function(sandbox){
 		console.log("Controller demo.layout.init:", this, arguments);
 		
 		var container = this, 
@@ -53,7 +53,7 @@
         });
 		
 		grid.jqGrid({
-            url: Constants.basePath + "demo/layout/tree.xml",
+            url: Constants.basePath + "/index/layout/tree.xml",
             datatype: "xml",
             height: "auto",
             pager: false,
@@ -111,7 +111,7 @@
 	    	});
 		
 		return {
-			id: "demo.layout.init",
+			id: "index.layout.init",
 			init: function(){
 				this.listen("gridComplete", this.gridCompleteHandler);
 			},

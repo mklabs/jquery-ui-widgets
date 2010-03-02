@@ -9,15 +9,15 @@
 	<link rel='stylesheet' type='text/css' href='../css/demo.css' />
 	<link rel='stylesheet' type='text/css' href='../css/api.css' />
 	
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1267563678.83" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1267563678.83" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1267568092.66" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1267568092.66" />
 	
 	<link type="text/css" rel="stylesheet" media="screen" href="../css/github/bundle_github.css">
 	
 
-    <script type="text/javascript" src="assets/api-js?stamp=1267563678.83"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1267563678.83"></script>
-	<script type="text/javascript" src="assets/ac-js?stamp=1267563678.83"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1267568092.66"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1267568092.66"></script>
+	<script type="text/javascript" src="assets/ac-js?stamp=1267568092.66"></script>
 </head>
 
 <body id="yahoo-com">
@@ -75,7 +75,48 @@
 <span class="cm"> * @author mdaniel</span>
 <span class="cm"> */</span>
 <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">){</span>
-
+	<span class="c1">// set this according to your debug will regarding errors thrown in controllers</span>
+    <span class="kd">var</span> <span class="nx">debug</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+	   
+	<span class="c1">// proxied</span>
+    <span class="kd">var</span> <span class="nx">_controller</span><span class="p">,</span> <span class="nx">_live</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">live</span><span class="p">,</span> <span class="nx">_empty</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">empty</span><span class="p">,</span> <span class="nx">_load</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">load</span><span class="p">;</span>
+    
+	<span class="c1">// controllers cache</span>
+    <span class="kd">var</span> <span class="nx">controllers</span> <span class="o">=</span> <span class="p">{};</span>
+    
+	<span class="c1">// The queue of required scripts currently being loaded</span>
+    <span class="kd">var</span> <span class="nx">requireQueue</span> <span class="o">=</span> <span class="p">[];</span>
+	
+	<span class="c1">// Keep track of URLs that have been loaded</span>
+	<span class="kd">var</span> <span class="nx">requireCache</span> <span class="o">=</span> <span class="p">{};</span>
+	
+	<span class="c1">// The functions to execute on DOM ready</span>
+    <span class="kd">var</span> <span class="nx">readyList</span> <span class="o">=</span> <span class="p">[];</span>
+	
+	<span class="c1">// Match portions of a URL</span>
+    <span class="kd">var</span> <span class="nx">rurl</span> <span class="o">=</span> <span class="sr">/^(\w+:)?\/\/([^\/?#]+)/</span><span class="p">;</span>
+	
+	<span class="kd">var</span> <span class="nx">getScriptPath</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">script</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">scripts</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">reg</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">path</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nb">document</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">scripts</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;script[type=&#39;text/javascript&#39;]&quot;</span><span class="p">);</span>
+            <span class="nx">reg</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="nx">script</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">);</span>
+            
+            <span class="nx">scripts</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">){</span>
+                <span class="kd">var</span> <span class="nx">src</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">),</span> <span class="nx">m</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+                
+                <span class="k">if</span> <span class="p">(</span><span class="nx">src</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">m</span> <span class="o">=</span> <span class="nx">src</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">reg</span><span class="p">);</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">m</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">path</span> <span class="o">=</span> <span class="nx">src</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">m</span><span class="p">.</span><span class="nx">index</span><span class="p">);</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="nx">path</span><span class="p">;</span>
+    <span class="p">};</span>
 	
     <span class="kd">var</span> <span class="nx">Class</span><span class="p">,</span> <span class="nx">SandBox</span><span class="p">,</span> <span class="nx">BaseController</span><span class="p">;</span>
 	
@@ -843,6 +884,7 @@
 	</div>
 </div>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/external/jquery.themeswitcher.js"></script>
 <script type="text/javascript" src="../js/src/api.bootstrap.js"></script>
 <script type="text/javascript">
     ALL_YUI_PROPS = [];

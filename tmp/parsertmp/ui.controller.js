@@ -7,7 +7,48 @@
  * @author mdaniel
  */
 (function($){
-
+	// set this according to your debug will regarding errors thrown in controllers
+    var debug = true;
+	   
+	// proxied
+    var _controller, _live = $.fn.live, _empty = $.fn.empty, _load = $.fn.load;
+    
+	// controllers cache
+    var controllers = {};
+    
+	// The queue of required scripts currently being loaded
+    var requireQueue = [];
+	
+	// Keep track of URLs that have been loaded
+	var requireCache = {};
+	
+	// The functions to execute on DOM ready
+    var readyList = [];
+	
+	// Match portions of a URL
+    var rurl = /^(\w+:)?\/\/([^\/?#]+)/;
+	
+	var getScriptPath = function(script){
+        var scripts = null, reg = null, path = null;
+        
+        if (document) {
+            scripts = $("script[type='text/javascript']");
+            reg = new RegExp(script, 'i');
+            
+            scripts.each(function(i){
+                var src = $(this).attr('src'), m = null;
+                
+                if (src) {
+                    m = src.match(reg);
+                    if (m && !path) {
+                        path = src.substring(0, m.index);
+                    }
+                }
+            });
+        }
+        
+        return path;
+    };
 	
     var Class, SandBox, BaseController;
 	
