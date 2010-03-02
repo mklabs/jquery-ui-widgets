@@ -79,6 +79,7 @@
             },
             onSelectRow: function(rowid){
                 var treedata = grid.jqGrid('getRowData', rowid);
+				alert("url:"+treedata.url);
                 window.location.href = treedata.url;
             },
             gridComplete: function(){
