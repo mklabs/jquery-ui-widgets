@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: bootstrap   api.bootstrap.js  (YUI Library)</title>
+
+	<link rel='stylesheet' type='text/css' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/pepper-grinder/jquery-ui.css' />
+	<link rel="stylesheet" type="text/css" href='../css/ui.jqgrid.css' />
+	<link rel='stylesheet' type='text/css' href='../css/demo.css' />
+	<link rel='stylesheet' type='text/css' href='../css/api.css' />
+	
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1267562151.11" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1267562151.11" />
+	
+	<link type="text/css" rel="stylesheet" media="screen" href="../css/github/bundle_github.css">
+	
+
+    <script type="text/javascript" src="assets/api-js?stamp=1267562151.11"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1267562151.11"></script>
+	<script type="text/javascript" src="assets/ac-js?stamp=1267562151.11"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2 ui-widget ui-widget-content">
+	<div class="ui-layout-north">
+	<h1 id="mk-header-title" class="ui-widget-header">
+		<a href="./index.html"><img alt="github pages" src="http://github.com/images/modules/header/logo_pages.png" width="104" height="30"></a>
+		<span class="mk-header-title-sub">
+			jQuery UI Controller - Api - <em>bootstrap</em>
+		</span>
+		<span class="subtitle">1.0</span>
+	</h1>
+	<div id="mk-switcher"></div>
+</div>
+	<div id="hd">
+        <div id="path">
+        	<b><a href="./index.html" title="jquery-ui-controller">jquery-ui-controller</a></b>
+	            / <b><a href="./module_bootstrap.html" title="bootstrap">bootstrap</a></b>
+	                
+	                 / api.bootstrap.js (source view) 
+        </div>
+        <form onsubmit="return false">
+            <div id="propertysearch" class="ui-state-highlight ui-corner-all">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd" class="ui-widget-content">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts ui-state-highlight ui-corner-br"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts ui-state-highlight"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts ui-state-highlight ui-corner-bl"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Bootstrap file.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @module bootstrap</span>
+<span class="cm"> * @author mdaniel</span>
+<span class="cm"> */</span>
+<span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">Constants</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">SWITCHER_SEL</span><span class="o">:</span> <span class="s2">&quot;#mk-switcher&quot;</span>
+    <span class="p">};</span>
+    
+    <span class="c1">// Setup console case not defined</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">console</span> <span class="o">===</span> <span class="s2">&quot;undefined&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="p">};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="p">};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">debug</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="p">};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">warn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="p">};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// ThemeRoller demo</span>
+    <span class="nx">$</span><span class="p">(</span><span class="nx">Constants</span><span class="p">.</span><span class="nx">SWITCHER_SEL</span><span class="p">).</span><span class="nx">themeswitcher</span><span class="p">();</span>
+    
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.ui-state-default&quot;</span><span class="p">).</span><span class="nx">live</span><span class="p">(</span><span class="s2">&quot;mouseover&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;ui-state-hover&#39;</span><span class="p">);</span>
+    <span class="p">}).</span><span class="nx">live</span><span class="p">(</span><span class="s2">&quot;mouseout&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;ui-state-hover&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+	
+	<span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#doc3 #bd .module li:last&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;ui-corner-bottom&quot;</span><span class="p">);</span>
+	<span class="p">})</span>
+	
+<span class="p">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4 class="ui-widget-header ui-corner-top">Modules</h4>
+                        <ul class="content">
+                                <li class="ui-state-default ui-state-active"><a href="module_bootstrap.html" title="bootstrap">bootstrap</a></li>
+                                <li class="ui-state-default "><a href="module_controller.html" title="controller">controller</a></li>
+                                <li class="ui-state-default "><a href="module_layout.html" title="layout">layout</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div id="fileList" class="module">
+                        <h4 class="ui-widget-header ui-corner-top">Files</h4>
+                        <ul class="content">        
+                                <li class="ui-state-default ui-state-active"><a href="api.bootstrap.js.html" title="api.bootstrap.js">api.bootstrap.js</a></li>
+                                <li class="ui-state-default "><a href="bootstrap.js.html" title="bootstrap.js">bootstrap.js</a></li>
+                                <li class="ui-state-default "><a href="ui.controller.js.html" title="ui.controller.js">ui.controller.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft" class="ui-widget-header">
+        <hr />
+        Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+	</div>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../js/external/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="../js/external/jquery.layout.js"></script>
+<script type="text/javascript" src="../js/external/jquery.themeswitcher.js"></script>
+<script type="text/javascript" src="../js/external/jquery.livequery.js"></script>
+<script type="text/javascript" src="../js/src/ui.controller.js"></script>
+<script type="text/javascript" src="../js/src/api.bootstrap.js"></script>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [];
+</script>
+</body>
+</html>

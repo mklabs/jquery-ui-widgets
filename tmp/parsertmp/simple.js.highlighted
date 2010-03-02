@@ -1,0 +1,40 @@
+<div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+	<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.ui-controller-demo-simple&quot;</span><span class="p">).</span><span class="nx">controller</span><span class="p">({</span>
+		<span class="nx">id</span><span class="o">:</span> <span class="s2">&quot;demo.simple&quot;</span><span class="p">,</span>
+		<span class="nx">verbose</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+	    <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">){</span>
+	        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;I am a fancy controller =)&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+	        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;And i have a model:&quot;</span><span class="p">,</span> <span class="nx">model</span><span class="p">);</span>
+			
+			<span class="k">this</span><span class="p">.</span><span class="nx">uiStateHover</span> <span class="o">=</span> <span class="s2">&quot;ui-state-highlight&quot;</span><span class="p">;</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">uiStateHover</span> <span class="o">=</span> <span class="s2">&quot;ui-state-hover&quot;</span><span class="p">;</span>
+	    <span class="p">},</span>
+	    <span class="s2">&quot;.todo mouseover&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">){</span> <span class="c1">//matches .ui-controller-demo-simple .todo</span>
+	        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;mouseover&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+	        <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+	        <span class="nx">el</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">uiStateHover</span><span class="p">);</span>
+	    <span class="p">},</span>
+	    <span class="s2">&quot;.todo mouseout&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">){</span> <span class="c1">//matches .ui-controller-demo-simple .todo</span>
+	        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;mouseout&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+	        <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+	        <span class="nx">el</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">uiStateHover</span><span class="p">);</span>
+	    <span class="p">},</span>
+	    <span class="s2">&quot;button click&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">){</span> <span class="c1">//matches .ui-controller-demo-simple button</span>
+	        <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">);</span>
+			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+	        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Have I access to the Model?&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">Model</span><span class="p">);</span>
+			
+	        <span class="k">this</span><span class="p">.</span><span class="nx">container</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;ol&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s2">&quot;&lt;li class=&#39;todo&#39;&gt;New Todo&lt;/li&gt;&quot;</span><span class="p">);</span>
+	        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Have I access to the Model? dto&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">dto</span><span class="p">);</span>
+	    <span class="p">},</span>
+		
+		<span class="s2">&quot;button mouseover&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">){</span>
+			<span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">uiStateHover</span><span class="p">);</span>
+	    <span class="p">},</span>
+		
+		<span class="s2">&quot;button mouseout&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">){</span> 
+			<span class="nx">$</span><span class="p">(</span><span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">uiStateHover</span><span class="p">);</span>
+	    <span class="p">}</span>
+	<span class="p">});</span>
+<span class="p">})();</span>
+</pre></div>

@@ -1,0 +1,42 @@
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Bootstrap file.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @module bootstrap</span>
+<span class="cm"> * @author mdaniel</span>
+<span class="cm"> */</span>
+<span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">Constants</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">SWITCHER_SEL</span><span class="o">:</span> <span class="s2">&quot;#mk-switcher&quot;</span>
+    <span class="p">};</span>
+    
+    <span class="c1">// Setup console case not defined</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">console</span> <span class="o">===</span> <span class="s2">&quot;undefined&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="p">};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">info</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="p">};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">debug</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="p">};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">warn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="p">};</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="p">};</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// ThemeRoller demo</span>
+    <span class="nx">$</span><span class="p">(</span><span class="nx">Constants</span><span class="p">.</span><span class="nx">SWITCHER_SEL</span><span class="p">).</span><span class="nx">themeswitcher</span><span class="p">();</span>
+    
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.ui-state-default&quot;</span><span class="p">).</span><span class="nx">live</span><span class="p">(</span><span class="s2">&quot;mouseover&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;ui-state-hover&#39;</span><span class="p">);</span>
+    <span class="p">}).</span><span class="nx">live</span><span class="p">(</span><span class="s2">&quot;mouseout&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;ui-state-hover&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+    
+	
+	<span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#doc3 #bd .module li:last&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;ui-corner-bottom&quot;</span><span class="p">);</span>
+	<span class="p">})</span>
+	
+<span class="p">})();</span>
+</pre></div>

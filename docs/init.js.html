@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: controller   init.js  (YUI Library)</title>
+
+	<link rel='stylesheet' type='text/css' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/pepper-grinder/jquery-ui.css' />
+	<link rel="stylesheet" type="text/css" href='../css/ui.jqgrid.css' />
+	<link rel='stylesheet' type='text/css' href='../css/demo.css' />
+	<link rel='stylesheet' type='text/css' href='../css/api.css' />
+	
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1267562151.06" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1267562151.06" />
+	
+	<link type="text/css" rel="stylesheet" media="screen" href="../css/github/bundle_github.css">
+	
+
+    <script type="text/javascript" src="assets/api-js?stamp=1267562151.06"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1267562151.06"></script>
+	<script type="text/javascript" src="assets/ac-js?stamp=1267562151.06"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2 ui-widget ui-widget-content">
+	<div class="ui-layout-north">
+	<h1 id="mk-header-title" class="ui-widget-header">
+		<a href="./index.html"><img alt="github pages" src="http://github.com/images/modules/header/logo_pages.png" width="104" height="30"></a>
+		<span class="mk-header-title-sub">
+			jQuery UI Controller - Api - <em>controller</em>
+		</span>
+		<span class="subtitle">1.0</span>
+	</h1>
+	<div id="mk-switcher"></div>
+</div>
+	<div id="hd">
+        <div id="path">
+        	<b><a href="./index.html" title="jquery-ui-controller">jquery-ui-controller</a></b>
+	            / <b><a href="./module_controller.html" title="controller">controller</a></b>
+	                
+	                 / init.js (source view) 
+        </div>
+        <form onsubmit="return false">
+            <div id="propertysearch" class="ui-state-highlight ui-corner-all">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd" class="ui-widget-content">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts ui-state-highlight ui-corner-br"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts ui-state-highlight"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts ui-state-highlight ui-corner-bl"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <div id="srcout">
+                        <style>
+                            #doc3 .classopts { display:none; }
+                        </style>
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Controller responsible of main layout rendering and behaviour</span>
+<span class="cm"> * (jqGrid, tabs, layout).</span>
+<span class="cm"> * </span>
+<span class="cm"> * @module layout</span>
+<span class="cm"> * </span>
+<span class="cm"> */</span>
+<span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+	
+	<span class="cm">/**</span>
+<span class="cm">	 * Setup the layout and behvaiour of main page.</span>
+<span class="cm">	 * </span>
+<span class="cm">	 * Init the layout plugin.</span>
+<span class="cm">	 * </span>
+<span class="cm">	 * @class InitLayout</span>
+<span class="cm">	 * @namespace demo.layout</span>
+<span class="cm">	 */</span>
+	<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.ui-controller-demo-layout-init&quot;</span><span class="p">).</span><span class="nx">controller</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">sandbox</span><span class="p">){</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Controller demo.layout.init:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+		
+		<span class="kd">var</span> <span class="nx">container</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span> 
+			<span class="nx">mainTabs</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#mk-tabs&#39;</span><span class="p">,</span> <span class="nx">container</span><span class="p">),</span>
+			<span class="nx">grid</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#mk-west-grid&quot;</span><span class="p">,</span> <span class="nx">container</span><span class="p">),</span>
+			<span class="nx">Constants</span> <span class="o">=</span> <span class="p">{</span>
+				<span class="nx">tabPrefix</span><span class="o">:</span> <span class="s2">&quot;#mk-tabs-&quot;</span><span class="p">,</span>
+				<span class="nx">basePath</span><span class="o">:</span> <span class="nx">$</span><span class="p">.</span><span class="nx">ui</span><span class="p">.</span><span class="nx">controller</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">basePath</span>
+			<span class="p">};</span>
+			
+		
+		<span class="k">this</span><span class="p">.</span><span class="nx">layout</span><span class="p">({</span>
+            <span class="nx">north__resizable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nx">togglerClass</span><span class="o">:</span> <span class="s2">&quot;ui-state-default&quot;</span><span class="p">,</span>
+            <span class="nx">west__onresize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">pane</span><span class="p">,</span> <span class="nx">$Pane</span><span class="p">){</span>
+                <span class="nx">grid</span><span class="p">.</span><span class="nx">jqGrid</span><span class="p">(</span><span class="s1">&#39;setGridWidth&#39;</span><span class="p">,</span> <span class="nx">$Pane</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+        
+        <span class="nx">mainTabs</span><span class="p">.</span><span class="nx">tabs</span><span class="p">({</span>
+            <span class="nx">add</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">ui</span><span class="p">){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Add:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+                <span class="c1">// append close thingy</span>
+                <span class="nx">$</span><span class="p">(</span><span class="nx">ui</span><span class="p">.</span><span class="nx">tab</span><span class="p">)</span>
+					<span class="p">.</span><span class="nx">parents</span><span class="p">(</span><span class="s1">&#39;li:first&#39;</span><span class="p">)</span>
+					<span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;&lt;span class=&quot;ui-tabs-close ui-icon ui-icon-close&quot; title=&quot;Close Tab&quot;&gt;&lt;/span&gt;&#39;</span><span class="p">)</span>
+					<span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;span.ui-tabs-close&#39;</span><span class="p">)</span>
+					<span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+                    	<span class="nx">mainTabs</span><span class="p">.</span><span class="nx">tabs</span><span class="p">(</span><span class="s1">&#39;remove&#39;</span><span class="p">,</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="nx">mainTabs</span><span class="p">).</span><span class="nx">index</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">parents</span><span class="p">(</span><span class="s1">&#39;li:first&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]));</span>
+                	<span class="p">});</span>
+                
+                <span class="c1">// select just added tab</span>
+                <span class="nx">mainTabs</span><span class="p">.</span><span class="nx">tabs</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="nx">ui</span><span class="p">.</span><span class="nx">panel</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">});</span>
+		
+		<span class="nx">grid</span><span class="p">.</span><span class="nx">jqGrid</span><span class="p">({</span>
+            <span class="nx">url</span><span class="o">:</span> <span class="nx">Constants</span><span class="p">.</span><span class="nx">basePath</span> <span class="o">+</span> <span class="s2">&quot;demo/layout/tree.xml&quot;</span><span class="p">,</span>
+            <span class="nx">datatype</span><span class="o">:</span> <span class="s2">&quot;xml&quot;</span><span class="p">,</span>
+            <span class="nx">height</span><span class="o">:</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+            <span class="nx">pager</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nx">loadui</span><span class="o">:</span> <span class="s2">&quot;disable&quot;</span><span class="p">,</span>
+            <span class="nx">colNames</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;Items&quot;</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">],</span>
+            <span class="nx">colModel</span><span class="o">:</span> <span class="p">[</span>
+				<span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">hidden</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">key</span><span class="o">:</span> <span class="kc">true</span><span class="p">},</span> 
+				<span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;menu&quot;</span><span class="p">,</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">150</span><span class="p">,</span> <span class="nx">resizable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">sortable</span><span class="o">:</span> <span class="kc">false</span><span class="p">},</span>
+				<span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="nx">width</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">hidden</span><span class="o">:</span> <span class="kc">true</span><span class="p">}</span>
+			<span class="p">],</span>
+            <span class="nx">treeGrid</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+			<span class="nx">treeGridModel</span><span class="o">:</span> <span class="s2">&quot;adjacency&quot;</span><span class="p">,</span>
+            <span class="nx">caption</span><span class="o">:</span> <span class="s2">&quot;Menu&quot;</span><span class="p">,</span>
+            <span class="nx">ExpandColumn</span><span class="o">:</span> <span class="s2">&quot;menu&quot;</span><span class="p">,</span>
+            <span class="nx">autowidth</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">rowNum</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+            <span class="nx">ExpandColClick</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">treeIcons</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">leaf</span><span class="o">:</span> <span class="s1">&#39;ui-icon-document-b&#39;</span>
+            <span class="p">},</span>
+            <span class="nx">onSelectRow</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">rowid</span><span class="p">){</span>
+                <span class="kd">var</span> <span class="nx">st</span><span class="p">,</span> <span class="nx">tab</span><span class="p">,</span> <span class="nx">treedata</span> <span class="o">=</span> <span class="nx">grid</span><span class="p">.</span><span class="nx">jqGrid</span><span class="p">(</span><span class="s1">&#39;getRowData&#39;</span><span class="p">,</span> <span class="nx">rowid</span><span class="p">),</span> <span class="nx">url</span><span class="p">;</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;id:&quot;</span><span class="p">,</span> <span class="nx">treedata</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="k">typeof</span> <span class="nx">treedata</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+				<span class="k">if</span><span class="p">(</span><span class="nx">treedata</span><span class="p">.</span><span class="nx">id</span> <span class="o">!==</span> <span class="s2">&quot;0&quot;</span><span class="p">){</span>
+					<span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;More to come soon...&quot;</span><span class="p">);</span>
+					<span class="k">return</span><span class="p">;</span>
+				<span class="p">}</span>
+				
+                <span class="k">if</span> <span class="p">(</span><span class="nx">treedata</span><span class="p">.</span><span class="nx">isLeaf</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">st</span> <span class="o">=</span> <span class="nx">Constants</span><span class="p">.</span><span class="nx">tabPrefix</span> <span class="o">+</span> <span class="nx">treedata</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+					<span class="nx">tab</span> <span class="o">=</span> <span class="nx">mainTabs</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">st</span><span class="p">);</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nx">tab</span><span class="p">.</span><span class="nx">html</span><span class="p">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">mainTabs</span><span class="p">.</span><span class="nx">tabs</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">,</span> <span class="nx">st</span><span class="p">);</span>
+                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                        <span class="nx">mainTabs</span><span class="p">.</span><span class="nx">tabs</span><span class="p">(</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="nx">st</span><span class="p">,</span> <span class="nx">treedata</span><span class="p">.</span><span class="nx">menu</span><span class="p">);</span>
+						<span class="nx">url</span> <span class="o">=</span> <span class="nx">Constants</span><span class="p">.</span><span class="nx">basePath</span> <span class="o">+</span> <span class="s2">&quot;../../&quot;</span> <span class="o">+</span> <span class="nx">treedata</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">);</span>
+						<span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">treedata</span><span class="p">.</span><span class="nx">url</span><span class="p">;</span>
+						<span class="nx">mainTabs</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">st</span><span class="p">).</span><span class="nx">load</span><span class="p">(</span><span class="nx">url</span> <span class="o">+</span> <span class="s2">&quot; .demo-container&quot;</span><span class="p">);</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+			<span class="nx">gridComplete</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Grid Complete:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+				<span class="nx">sandbox</span><span class="p">.</span><span class="nx">getController</span><span class="p">(</span><span class="s2">&quot;demo.layout.init&quot;</span><span class="p">).</span><span class="nx">fire</span><span class="p">(</span><span class="s1">&#39;gridComplete&#39;</span><span class="p">);</span>
+			<span class="p">}</span>
+        <span class="p">});</span>
+		
+		<span class="c1">// append close thingy</span>
+	    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;li&quot;</span><span class="p">,</span> <span class="nx">mainTabs</span><span class="p">)</span>
+			<span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s2">&quot;:first&quot;</span><span class="p">)</span>
+			<span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;&lt;span class=&quot;ui-tabs-close ui-icon ui-icon-close&quot; title=&quot;Close Tab&quot;&gt;&lt;/span&gt;&#39;</span><span class="p">)</span>
+			<span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;span.ui-tabs-close&#39;</span><span class="p">)</span>
+			<span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+	        	<span class="nx">mainTabs</span><span class="p">.</span><span class="nx">tabs</span><span class="p">(</span><span class="s1">&#39;remove&#39;</span><span class="p">,</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">,</span> <span class="nx">mainTabs</span><span class="p">).</span><span class="nx">index</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">parents</span><span class="p">(</span><span class="s1">&#39;li:first&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]));</span>
+	    	<span class="p">});</span>
+		
+		<span class="k">return</span> <span class="p">{</span>
+			<span class="nx">id</span><span class="o">:</span> <span class="s2">&quot;demo.layout.init&quot;</span><span class="p">,</span>
+			<span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="s2">&quot;gridComplete&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">gridCompleteHandler</span><span class="p">);</span>
+			<span class="p">},</span>
+			
+			<span class="cm">/**</span>
+<span class="cm">			 * event grid</span>
+<span class="cm">			 * @event gridCompleteHandler</span>
+<span class="cm">			 */</span>
+			<span class="nx">gridCompleteHandler</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Grid Complete Handler:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+				<span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">;</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Url in place:&quot;</span><span class="p">,</span> <span class="nx">url</span><span class="p">);</span>
+				
+				<span class="kd">var</span> <span class="nx">anchor</span> <span class="o">=</span> <span class="nx">url</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">);</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;anchor&quot;</span><span class="p">,</span> <span class="nx">anchor</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+				<span class="k">if</span><span class="p">(</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">){</span>
+					<span class="nx">anchor</span> <span class="o">=</span> <span class="nx">anchor</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+				<span class="p">}</span>
+				<span class="nx">container</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;td[title=&#39;#&quot;</span> <span class="o">+</span> <span class="nx">anchor</span> <span class="o">+</span> <span class="s2">&quot;&#39;]&quot;</span><span class="p">).</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">};</span>
+	<span class="p">});</span>
+<span class="p">})();</span>
+</pre></div>
+                    </div>
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4 class="ui-widget-header ui-corner-top">Modules</h4>
+                        <ul class="content">
+                                <li class="ui-state-default "><a href="module_bootstrap.html" title="bootstrap">bootstrap</a></li>
+                                <li class="ui-state-default ui-state-active"><a href="module_controller.html" title="controller">controller</a></li>
+                                <li class="ui-state-default "><a href="module_layout.html" title="layout">layout</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4 class="ui-widget-header ui-corner-top">Classes</h4>
+                        <ul class="content">
+                                <li class="ui-state-default "><a href="$.ui.controller.html" title="$.ui.controller">$.ui.controller</a></li>
+                                <li class="ui-state-default "><a href="BaseController.html" title="BaseController">BaseController</a></li>
+                                <li class="ui-state-default "><a href="Class.html" title="Class">Class</a></li>
+                                <li class="ui-state-default "><a href="SandBox.html" title="SandBox">SandBox</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4 class="ui-widget-header ui-corner-top">Files</h4>
+                        <ul class="content">        
+                                <li class="ui-state-default ui-state-active"><a href="init.js.html" title="init.js">init.js</a></li>
+                                <li class="ui-state-default "><a href="simple.js.html" title="simple.js">simple.js</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft" class="ui-widget-header">
+        <hr />
+        Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
+	</div>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../js/external/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="../js/external/jquery.layout.js"></script>
+<script type="text/javascript" src="../js/external/jquery.themeswitcher.js"></script>
+<script type="text/javascript" src="../js/external/jquery.livequery.js"></script>
+<script type="text/javascript" src="../js/src/ui.controller.js"></script>
+<script type="text/javascript" src="../js/src/api.bootstrap.js"></script>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "BaseController.html#method_destroy", "access": "", "host": "BaseController", "type": "method", "name": "destroy"}, {"url": "$.ui.controller.html#method_destroy", "access": "", "host": "$.ui.controller", "type": "method", "name": "destroy"}, {"url": "SandBox.html#method_getController", "access": "", "host": "SandBox", "type": "method", "name": "getController"}, {"url": "BaseController.html#method_init", "access": "", "host": "BaseController", "type": "method", "name": "init"}];
+</script>
+</body>
+</html>
