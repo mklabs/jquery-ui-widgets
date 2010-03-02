@@ -304,7 +304,7 @@
     });
     
     $.ui.controller.defaults = {
-		basePath: getScriptPath("ui.controller.js")
+		basePath: "/jquery-ui-controller/js/src/"
 	};
     
 	// Make cache globaly accesible via ui controller namespace
