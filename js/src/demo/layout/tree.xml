@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding="utf-8"?>
+<rows>
+    <page>1</page>
+    <total>1</total>
+    <records>1</records>
+    <row><cell>0</cell><cell>Simple</cell><cell>#demos/simple.html</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+    <row><cell>1</cell><cell>Inherited controller</cell><cell>#demos/inheritence.html</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+    <row><cell>2</cell><cell>Controller communication</cell><cell>#demos/communication.html</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+	<row><cell>3</cell><cell>Model</cell><cell>#demos/model.html</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+	<row><cell>3</cell><cell>Ajax</cell><cell>#demos/ajax.html</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+	<row><cell>4</cell><cell>Crud Use Case</cell><cell>#demos/crud.html</cell><cell>0</cell><cell><![CDATA["NULL"]]></cell><cell>true</cell><cell>false</cell></row>
+</rows>

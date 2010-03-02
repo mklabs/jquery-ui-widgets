@@ -17,7 +17,6 @@
         </echo>
 		<copy todir="${target_dir}">
 			<fileset dir="${build_dir}">
-				<exclude name="*.xml" />
 			</fileset>
 		</copy>
 	</target>

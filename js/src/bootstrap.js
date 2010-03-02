@@ -3,7 +3,7 @@
  */
 (function(){
     var Constants = {
-        SWITCHER_SEL: "#wt-switcher"
+        SWITCHER_SEL: "#mk-switcher"
     };
     
     // Setup console case not defined
