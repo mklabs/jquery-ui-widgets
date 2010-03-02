@@ -2,27 +2,46 @@
 <html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<title>API: controller   ui.controller.js  (YUI Library)</title>
+	<title>API: bootstrap   ui.controller.js  (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1267392115.66" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1267392115.66" />
+	<link rel='stylesheet' type='text/css' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/pepper-grinder/jquery-ui.css' />
+	<link rel="stylesheet" type="text/css" href='../css/ui.jqgrid.css' />
+	<link rel='stylesheet' type='text/css' href='../css/demo.css' />
+	<link rel='stylesheet' type='text/css' href='../css/api.css' />
+	
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1267562151.11" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1267562151.11" />
+	
+	<link type="text/css" rel="stylesheet" media="screen" href="../css/github/bundle_github.css">
+	
 
-    <script type="text/javascript" src="assets/api-js?stamp=1267392115.66"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1267392115.66"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1267562151.11"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1267562151.11"></script>
+	<script type="text/javascript" src="assets/ac-js?stamp=1267562151.11"></script>
 </head>
 
 <body id="yahoo-com">
 
-<div id="doc3" class="yui-t2">
+<div id="doc3" class="yui-t2 ui-widget ui-widget-content">
+	<div class="ui-layout-north">
+	<h1 id="mk-header-title" class="ui-widget-header">
+		<a href="./index.html"><img alt="github pages" src="http://github.com/images/modules/header/logo_pages.png" width="104" height="30"></a>
+		<span class="mk-header-title-sub">
+			jQuery UI Controller - Api - <em>bootstrap</em>
+		</span>
+		<span class="subtitle">1.0</span>
+	</h1>
+	<div id="mk-switcher"></div>
+</div>
 	<div id="hd">
-        <h1><a href="http://github.com/MkLabs/jquery-ui-controller" title="jQuery UI Controller">jQuery UI Controller</a></h1>
-        <h3>controller&nbsp; <span class="subtitle">1.0</span></h3>
-        <a href="./index.html" title="jQuery UI Controller">jQuery UI Controller</a> 
-            &gt; <a href="./module_controller.html" title="controller">controller</a>
-                
-                 &gt; ui.controller.js (source view) 
+        <div id="path">
+        	<b><a href="./index.html" title="jquery-ui-controller">jquery-ui-controller</a></b>
+	            / <b><a href="./module_bootstrap.html" title="bootstrap">bootstrap</a></b>
+	                
+	                 / ui.controller.js (source view) 
+        </div>
         <form onsubmit="return false">
-            <div id="propertysearch">
+            <div id="propertysearch" class="ui-state-highlight ui-corner-all">
                 Search: <input autocomplete="off" id="searchinput" />
                 <div id="searchresults">
                     &nbsp;
@@ -31,15 +50,15 @@
         </form>
 	</div>
 
-	<div id="bd">
+	<div id="bd" class="ui-widget-content">
 		<div id="yui-main">
 			<div class="yui-b">
             <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
                 <fieldset>
                     <legend>Filters</legend>
-                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
-                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
-                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                <span class="classopts ui-state-highlight ui-corner-br"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts ui-state-highlight"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts ui-state-highlight ui-corner-bl"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
                 </fieldset>
             </form>
 
@@ -48,24 +67,33 @@
                             #doc3 .classopts { display:none; }
                         </style>
 <div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * The Controller widget module provides clean and handy way to organize your jQuery code.</span>
+<span class="cm"> * The Controller widget module provides clean and handy way </span>
+<span class="cm"> * to organize your jQuery code.</span>
+<span class="cm"> * </span>
+<span class="cm"> * </span>
 <span class="cm"> * @module controller</span>
 <span class="cm"> * @author mdaniel</span>
 <span class="cm"> */</span>
 <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">){</span>
 
-	<span class="c1">// set this according to your debug will regarding errors thrown in controllers</span>
-    <span class="kd">var</span> <span class="nx">debug</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-	   
-	<span class="c1">// proxied</span>
-    <span class="kd">var</span> <span class="nx">_controller</span><span class="p">,</span> <span class="nx">_live</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">live</span><span class="p">,</span> <span class="nx">_empty</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">empty</span><span class="p">,</span> <span class="nx">_load</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">load</span><span class="p">;</span>
-    
-	<span class="c1">// controllers cache</span>
-    <span class="kd">var</span> <span class="nx">controllers</span> <span class="o">=</span> <span class="p">{};</span>
-    
-	<span class="kd">var</span> <span class="nx">basePath</span> <span class="o">=</span> <span class="s2">&quot;/js/src/controller&quot;</span><span class="p">;</span>
 	
     <span class="kd">var</span> <span class="nx">Class</span><span class="p">,</span> <span class="nx">SandBox</span><span class="p">,</span> <span class="nx">BaseController</span><span class="p">;</span>
+	
+	<span class="kd">var</span> <span class="nx">urlFilter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">url</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/\./</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="sr">/^(\w+)./</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="sr">/\//</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="sr">/.js$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">url</span><span class="p">)))</span> <span class="p">{</span>
+            <span class="nx">url</span> <span class="o">=</span> <span class="nx">url</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^(\w+)./</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">all</span><span class="p">,</span> <span class="nx">name</span><span class="p">){</span>
+                <span class="k">return</span> <span class="p">(</span><span class="nx">require</span><span class="p">.</span><span class="nx">namespace</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">||</span> <span class="nx">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">;</span>
+            <span class="p">});</span>
+			
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="nx">url</span><span class="p">;</span>
+    <span class="p">};</span>
+
+	<span class="kd">var</span> <span class="nx">isRemote</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">url</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">parts</span> <span class="o">=</span> <span class="nx">rurl</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">parts</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!==</span> <span class="nx">location</span><span class="p">.</span><span class="nx">protocol</span> <span class="o">||</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!==</span> <span class="nx">location</span><span class="p">.</span><span class="nx">host</span><span class="p">);</span>
+    <span class="p">};</span>
     
     <span class="cm">/**</span>
 <span class="cm">     * Base Class.</span>
@@ -75,6 +103,7 @@
 <span class="cm">     * All subsequent controllers are inherited from BaseController which extend this Class.</span>
 <span class="cm">     * </span>
 <span class="cm">     * @class Class</span>
+<span class="cm">     * </span>
 <span class="cm">     */</span>
     <span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
         <span class="kd">var</span> <span class="nx">initializing</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">fnTest</span> <span class="o">=</span> <span class="sr">/xyz/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
@@ -176,16 +205,32 @@
 <span class="cm">     * </span>
 <span class="cm">     * @class BaseController</span>
 <span class="cm">     * @extends Class</span>
-<span class="cm">     * @constructor</span>
 <span class="cm">     */</span>
     <span class="nx">BaseController</span> <span class="o">=</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+		<span class="cm">/**</span>
+<span class="cm">		 * Init method. Called each time a controller is destroyed </span>
+<span class="cm">		 * (usually removed from the dom).</span>
+<span class="cm">		 * @method init</span>
+<span class="cm">		 * @constructor</span>
+<span class="cm">		 */</span>
         <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">container</span><span class="p">){</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">&quot;new Controller&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-            
-            <span class="k">this</span><span class="p">.</span><span class="nx">container</span> <span class="o">=</span> <span class="nx">container</span><span class="p">;</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">Model</span> <span class="o">=</span> <span class="p">{};</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">Elements</span> <span class="o">=</span> <span class="p">{};</span>
         <span class="p">},</span>
+		
+		<span class="cm">/**</span>
+<span class="cm">		 * Destroy method. Called each time a controller is destroyed </span>
+<span class="cm">		 * (usually removed from the dom).</span>
+<span class="cm">		 * </span>
+<span class="cm">		 * Basically just delete container reference and re-init the model.</span>
+<span class="cm">		 * Elements are kept since are needed for events unbinding.</span>
+<span class="cm">		 * </span>
+<span class="cm">		 * @method destroy</span>
+<span class="cm">		 */</span>
+		<span class="nx">destroy</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+			<span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">&quot;BaseController.destroy()&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">Model</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+		<span class="p">},</span>
         
         <span class="nx">listen</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">eventType</span><span class="p">,</span> <span class="nx">handler</span><span class="p">){</span>
             <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;listen:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
@@ -220,7 +265,6 @@
 <span class="cm">	 *     &lt;/li&gt;</span>
 <span class="cm">	 *     &lt;li&gt;Setup event delegation restricted to controller container.&lt;/li&gt;</span>
 <span class="cm">	 * &lt;/ul&gt;</span>
-
 <span class="cm">     * </span>
 <span class="cm">     * @class controller</span>
 <span class="cm">     * @namespace $.ui</span>
@@ -234,11 +278,9 @@
 <span class="cm">		 */</span>
         <span class="nx">_init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
             <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">&quot;Controller widget init&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-            
             <span class="k">this</span><span class="p">.</span><span class="nx">instance</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">;</span>
-            
+			<span class="k">this</span><span class="p">.</span><span class="nx">instance</span><span class="p">.</span><span class="nx">container</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">;</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">_initModel</span><span class="p">();</span>
-            
             <span class="k">this</span><span class="p">.</span><span class="nx">_initEvents</span><span class="p">();</span>
         <span class="p">},</span>
         
@@ -258,9 +300,7 @@
             <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">instance</span><span class="p">.</span><span class="nx">destroy</span><span class="p">))</span> <span class="p">{</span>
                 <span class="nx">instance</span><span class="p">.</span><span class="nx">destroy</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
             <span class="p">}</span>
-            
             <span class="k">this</span><span class="p">.</span><span class="nx">_unbindEvents</span><span class="p">();</span>
-			
 			<span class="nx">$</span><span class="p">.</span><span class="nx">widget</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">destroy</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
         <span class="p">},</span>
         
@@ -276,10 +316,12 @@
 <span class="cm">		 */</span>
         <span class="nx">_initEvents</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
             <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span> <span class="nx">instance</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">instance</span><span class="p">;</span>
+			
+			<span class="c1">// Iterate trough controller instance to attach event handlers</span>
             <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">instance</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">prop</span><span class="p">,</span> <span class="nx">value</span><span class="p">){</span>
                 <span class="kd">var</span> <span class="nx">sel</span> <span class="o">=</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
                 <span class="kd">var</span> <span class="nx">action</span> <span class="o">=</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">];</span>
-                <span class="kd">var</span> <span class="nx">callback</span><span class="p">,</span> <span class="nx">context</span><span class="p">;</span>
+                <span class="kd">var</span> <span class="nx">callback</span><span class="p">;</span>
                 
                 <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">action</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
                 
@@ -317,11 +359,21 @@
 <span class="cm">		 * </span>
 <span class="cm">		 */</span>
         <span class="nx">_unbindEvents</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
-            <span class="c1">// TBD</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s2">&quot;_unbindEvents:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+			
+			<span class="kd">var</span> <span class="nx">instance</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">instance</span><span class="p">;</span>
+			
+			<span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">instance</span><span class="p">.</span><span class="nx">Elements</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">handler</span><span class="p">){</span>
+				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Removing all previously registered event.&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">die</span><span class="p">();</span>
+			<span class="p">});</span>
+			
         <span class="p">}</span>
     <span class="p">});</span>
     
-    <span class="nx">$</span><span class="p">.</span><span class="nx">ui</span><span class="p">.</span><span class="nx">controller</span><span class="p">.</span><span class="nx">defaults</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ui</span><span class="p">.</span><span class="nx">controller</span><span class="p">.</span><span class="nx">defaults</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="nx">basePath</span><span class="o">:</span> <span class="nx">getScriptPath</span><span class="p">(</span><span class="s2">&quot;ui.controller.js&quot;</span><span class="p">)</span>
+	<span class="p">};</span>
     
 	<span class="c1">// Make cache globaly accesible via ui controller namespace</span>
     <span class="nx">$</span><span class="p">.</span><span class="nx">ui</span><span class="p">.</span><span class="nx">controller</span><span class="p">.</span><span class="nx">controllers</span> <span class="o">=</span> <span class="nx">controllers</span><span class="p">;</span>
@@ -398,18 +450,18 @@
     <span class="p">};</span>
     
     <span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">load</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;load:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;load:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">,</span> <span class="nx">_load</span><span class="p">);</span>
         
         <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
             <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">triggerHandler</span><span class="p">(</span><span class="s2">&quot;remove&quot;</span><span class="p">);</span>
         <span class="p">});</span>
-        
+		
         <span class="k">return</span> <span class="nx">_load</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
     <span class="p">};</span>
 	
-	<span class="cm">/* * /</span>
-<span class="cm">	// May be not so elegant... Responsible of re-binding controller&#39;s widget with previously stored instance, if any.</span>
-<span class="cm">	// Non event live event a la livequery may be very usefull there.</span>
+	<span class="cm">/*</span>
+<span class="cm">	 May be not so elegant... Responsible of re-binding controller&#39;s widget with previously stored instance, if any.</span>
+<span class="cm">	 Non event live event a la livequery may be very usefull there.</span>
 <span class="cm">    $(document).ajaxComplete(function(e, xhr, settings){</span>
 <span class="cm">		var t = $(xhr.responseText);</span>
 <span class="cm">		var context = settings.context;</span>
@@ -423,18 +475,20 @@
 <span class="cm">			</span>
 <span class="cm">		});</span>
 <span class="cm">    });</span>
-<span class="cm">    /* */</span>
+<span class="cm">    */</span>
 	
 	<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;[class^=&#39;ui-controller&#39;]&quot;</span><span class="p">).</span><span class="nx">livequery</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Livequery in:&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-		
 		<span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+		<span class="kd">var</span> <span class="nx">basePath</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">ui</span><span class="p">.</span><span class="nx">controller</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">basePath</span><span class="p">;</span>
 		<span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">parent</span><span class="p">();</span>
-		<span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;ui-controller&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/-/g</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.js&quot;</span><span class="p">;</span>
+		<span class="kd">var</span> <span class="nx">cssClass</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;class&quot;</span><span class="p">)</span>
+		<span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="nx">cssClass</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;ui-controller-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/-/g</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.js&quot;</span><span class="p">;</span>
 		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Load features &quot;</span><span class="p">,</span> <span class="nx">basePath</span> <span class="o">+</span> <span class="nx">url</span><span class="p">);</span>
 		
-		<span class="nx">wtf</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="nx">basePath</span> <span class="o">+</span> <span class="nx">url</span><span class="p">);</span>
-		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;parent:&quot;</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
+		<span class="c1">// Try a require case its our first met</span>
+		<span class="nx">require</span><span class="p">(</span><span class="nx">basePath</span> <span class="o">+</span> <span class="nx">url</span><span class="p">);</span>
+
+		<span class="c1">// Iterate trough controllers case we already met</span>
 		<span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">controllers</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
 			<span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">sel</span><span class="p">,</span> <span class="nx">context</span><span class="p">);</span>
 			<span class="k">if</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)){</span>
@@ -465,20 +519,31 @@
 <span class="cm">	 * FIXME: Prevent multiple instantiation of same controller. </span>
 <span class="cm">	 *   Will have to check in cache first.</span>
 <span class="cm">	 * </span>
-<span class="cm">	 * @method _createInstance</span>
 <span class="cm">	 * @private</span>
 <span class="cm">	 * @param {Object} baseController</span>
 <span class="cm">	 * @param {Object} prototype</span>
 <span class="cm">	 */</span>
     <span class="kd">function</span> <span class="nx">_createInstance</span><span class="p">(</span><span class="nx">baseController</span><span class="p">,</span> <span class="nx">prototype</span><span class="p">){</span>
-        <span class="kd">var</span> <span class="nx">Base</span> <span class="o">=</span> <span class="nx">baseController</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">prototype</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Base</span><span class="p">(</span><span class="k">this</span><span class="p">),</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">method</span><span class="p">;</span>
-        
-        <span class="kd">var</span> <span class="nx">controllerId</span> <span class="o">=</span> <span class="nx">prototype</span><span class="p">.</span><span class="nx">id</span> <span class="o">?</span> <span class="nx">prototype</span><span class="p">.</span><span class="nx">id</span> <span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/-/g</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">);</span>
-        
+        <span class="kd">var</span> <span class="nx">Base</span><span class="p">,</span> <span class="nx">_init</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">controllerId</span> <span class="o">=</span> <span class="nx">prototype</span><span class="p">.</span><span class="nx">id</span> <span class="o">?</span> <span class="nx">prototype</span><span class="p">.</span><span class="nx">id</span> <span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/-/g</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">);</span>
+		
+		<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">controllerId</span> <span class="o">||</span> <span class="nx">controllerId</span> <span class="o">===</span> <span class="s2">&quot;&quot;</span><span class="p">){</span>
+			<span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Unable to compute controller identifier, please provide one or an id attribute upon the target DOM Element.&quot;</span><span class="p">)</span>
+		<span class="p">}</span>
+		
+		<span class="c1">// Make sure we always call the BaseController constructor</span>
+		<span class="k">if</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">prototype</span><span class="p">[</span><span class="s1">&#39;init&#39;</span><span class="p">])){</span>
+			<span class="nx">_init</span> <span class="o">=</span> <span class="nx">prototype</span><span class="p">[</span><span class="s1">&#39;init&#39;</span><span class="p">];</span>
+			<span class="nx">prototype</span><span class="p">[</span><span class="s1">&#39;init&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+				<span class="k">this</span><span class="p">.</span><span class="nx">_super</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+				<span class="k">return</span> <span class="nx">_init</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+			<span class="p">};</span>
+		<span class="p">}</span>
+		
+		<span class="nx">Base</span> <span class="o">=</span> <span class="nx">baseController</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">prototype</span><span class="p">);</span>
+		
         <span class="c1">// Store a reference to the instance controller</span>
         <span class="nx">controllers</span><span class="p">[</span><span class="nx">controllerId</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="nx">instance</span><span class="o">:</span> <span class="nx">instance</span><span class="p">,</span>
+            <span class="nx">instance</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Base</span><span class="p">(</span><span class="k">this</span><span class="p">),</span>
             <span class="nx">base</span><span class="o">:</span> <span class="nx">Base</span><span class="p">,</span>
             <span class="nx">sel</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">selector</span>
         <span class="p">};</span>
@@ -500,9 +565,185 @@
                 <span class="p">}</span>
             <span class="p">}</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="nx">instance</span><span class="p">;</span>
+		
+        <span class="k">return</span> <span class="nx">controllers</span><span class="p">[</span><span class="nx">controllerId</span><span class="p">].</span><span class="nx">instance</span><span class="p">;</span>
     <span class="p">};</span>
-    
+	
+	<span class="kd">function</span> <span class="nx">require</span><span class="p">(</span><span class="nx">options</span><span class="p">){</span>
+	    <span class="kd">var</span> <span class="nx">xhr</span><span class="p">,</span> <span class="nx">requestDone</span><span class="p">,</span> <span class="nx">ival</span><span class="p">,</span> <span class="nx">head</span><span class="p">,</span> <span class="nx">script</span><span class="p">,</span> <span class="nx">length</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">callback</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">[</span><span class="nx">length</span><span class="p">];</span>
+	    
+	    <span class="k">if</span> <span class="p">(</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+	        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">callback</span><span class="p">))</span> <span class="p">{</span>
+	            <span class="nx">callback</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+	            <span class="nx">length</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+	        <span class="p">}</span>
+	        
+	        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+	            <span class="c1">// We only need to run the callback after all the scripts have loaded</span>
+	            <span class="nx">require</span><span class="p">(</span><span class="nx">arguments</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">i</span> <span class="o">===</span> <span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">?</span> <span class="nx">callback</span> <span class="o">:</span>                    
+					<span class="c1">// Make sure that a blank callback is provided to ensure async transport</span>
+	            	<span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="o">?</span> <span class="kd">function</span><span class="p">(){}</span> <span class="o">:</span> <span class="kc">null</span><span class="p">);</span>
+	        <span class="p">}</span>
+	        
+	        <span class="k">return</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    
+	    <span class="k">if</span> <span class="p">(</span><span class="nx">options</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">)</span> <span class="p">{</span>
+	        <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+	            <span class="nx">url</span><span class="o">:</span> <span class="nx">options</span><span class="p">,</span>
+	            <span class="nx">success</span><span class="o">:</span> <span class="nx">callback</span>
+	        <span class="p">};</span>
+	    <span class="p">}</span>
+	    
+	    <span class="nx">options</span><span class="p">.</span><span class="nx">url</span> <span class="o">=</span> <span class="nx">urlFilter</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">);</span>
+	    
+	    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">options</span> <span class="o">||</span> <span class="nx">requireCache</span><span class="p">[</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+	        <span class="c1">// File is already loaded, immediately execute the callback</span>
+	        <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">callback</span><span class="p">))</span> <span class="p">{</span>
+	            <span class="nx">callback</span><span class="p">();</span>
+	        <span class="p">}</span>
+	        
+	        <span class="k">return</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    
+	    <span class="nx">requireQueue</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+	    <span class="nx">requireCache</span><span class="p">[</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+	    
+	    <span class="c1">// If the DOM ready event has already occurred, we need to go synchronous</span>
+	    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">isRemote</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">))</span> <span class="p">{</span>
+	        <span class="nx">xhr</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">ActiveXObject</span> <span class="o">?</span> <span class="k">new</span> <span class="nx">ActiveXObject</span><span class="p">(</span><span class="s2">&quot;Microsoft.XMLHTTP&quot;</span><span class="p">)</span> <span class="o">:</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+	        
+	        <span class="nx">xhr</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="o">!</span><span class="nx">$</span><span class="p">.</span><span class="nx">isReady</span><span class="p">);</span>
+	        <span class="nx">xhr</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+	        
+	        <span class="kd">function</span> <span class="nx">checkDone</span><span class="p">(){</span>
+	            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">requestDone</span> <span class="o">&amp;&amp;</span> <span class="nx">xhr</span> <span class="o">&amp;&amp;</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+	                <span class="nx">requestDone</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+	                
+	                <span class="c1">// clear poll interval</span>
+	                <span class="k">if</span> <span class="p">(</span><span class="nx">ival</span><span class="p">)</span> <span class="p">{</span>
+	                    <span class="nx">clearInterval</span><span class="p">(</span><span class="nx">ival</span><span class="p">);</span>
+	                    <span class="nx">ival</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+	                <span class="p">}</span>
+	                
+	                <span class="nx">execRequire</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">responseText</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+	            <span class="p">}</span>
+	        <span class="p">}</span>
+	        
+	        <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isReady</span><span class="p">)</span> <span class="p">{</span>
+	            <span class="nx">checkDone</span><span class="p">();</span>
+	        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	            <span class="nx">ival</span> <span class="o">=</span> <span class="nx">setInterval</span><span class="p">(</span><span class="nx">checkDone</span><span class="p">,</span> <span class="mi">13</span><span class="p">);</span>
+	        <span class="p">}</span>
+	        
+	        <span class="c1">// Otherwise we can still load scripts asynchronously</span>
+	    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	        <span class="nx">head</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;head&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">;</span>
+	        <span class="nx">script</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;script&quot;</span><span class="p">);</span>
+	        
+	        <span class="nx">script</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">;</span>
+	        
+	        <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">scriptCharset</span><span class="p">)</span> <span class="p">{</span>
+	            <span class="nx">script</span><span class="p">.</span><span class="nx">charset</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">scriptCharset</span><span class="p">;</span>
+	        <span class="p">}</span>
+	        
+	        <span class="c1">// Attach handlers for all browsers</span>
+	        <span class="nx">script</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">script</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+	            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">requestDone</span> <span class="o">&amp;&amp;</span>
+	            <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">||</span>
+	            <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s2">&quot;loaded&quot;</span> <span class="o">||</span>
+	            <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s2">&quot;complete&quot;</span><span class="p">))</span> <span class="p">{</span>
+	            
+	                <span class="nx">requestDone</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+	                
+	                <span class="c1">// Handle memory leak in IE</span>
+	                <span class="nx">script</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">script</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+	                
+	                <span class="k">if</span> <span class="p">(</span><span class="nx">head</span> <span class="o">&amp;&amp;</span> <span class="nx">script</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">)</span> <span class="p">{</span>
+	                    <span class="nx">head</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">script</span><span class="p">);</span>
+	                <span class="p">}</span>
+	                
+	                <span class="nx">execRequire</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+	            <span class="p">}</span>
+	        <span class="p">};</span>
+	        
+	        <span class="c1">// Use insertBefore instead of appendChild  to circumvent an IE6 bug.</span>
+	        <span class="c1">// This arises when a base node is used </span>
+	        <span class="nx">head</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">script</span><span class="p">,</span> <span class="nx">head</span><span class="p">.</span><span class="nx">firstChild</span><span class="p">);</span>
+	    <span class="p">}</span>
+	<span class="p">};</span>
+	
+	<span class="nx">require</span><span class="p">.</span><span class="nx">namespace</span> <span class="o">=</span> <span class="p">{};</span>
+	
+	<span class="kd">function</span> <span class="nx">execRequire</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">script</span><span class="p">,</span> <span class="nx">callback</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">exec</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        
+        <span class="nx">requireCache</span><span class="p">[</span><span class="nx">url</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">requireQueue</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">item</span> <span class="o">=</span> <span class="nx">requireQueue</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">url</span> <span class="o">===</span> <span class="nx">url</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">script</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">item</span><span class="p">.</span><span class="nx">script</span> <span class="o">=</span> <span class="nx">script</span><span class="p">;</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="nx">next</span><span class="p">();</span>
+                    <span class="k">continue</span><span class="p">;</span>
+                <span class="p">}</span>
+                
+            <span class="p">}</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="nx">exec</span> <span class="o">&amp;&amp;</span> <span class="nx">item</span><span class="p">.</span><span class="nx">script</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">$</span><span class="p">.</span><span class="nx">globalEval</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">script</span><span class="p">);</span>	
+                <span class="nx">next</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">exec</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">callback</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">callback</span><span class="p">();</span>
+        <span class="p">}</span>
+        
+        <span class="c1">// Check to see if all scripts have been loaded</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">script</span> <span class="k">in</span> <span class="nx">requireCache</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">requireCache</span><span class="p">[</span><span class="nx">script</span><span class="p">]</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="nx">readyReady</span><span class="p">();</span>
+        
+        <span class="kd">function</span> <span class="nx">next</span><span class="p">(){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isFunction</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">callback</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">item</span><span class="p">.</span><span class="nx">callback</span><span class="p">();</span>
+            <span class="p">}</span>
+            
+            <span class="nx">requireQueue</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="o">--</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+	
+	<span class="kd">function</span> <span class="nx">readyReady</span><span class="p">(){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">isReady</span> <span class="o">&amp;&amp;</span> <span class="nx">requireQueue</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// If there are functions bound, to execute</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">readyList</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// Execute all of them</span>
+                <span class="kd">var</span> <span class="nx">fn</span><span class="p">,</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                <span class="k">while</span> <span class="p">((</span><span class="nx">fn</span> <span class="o">=</span> <span class="nx">readyList</span><span class="p">[</span><span class="nx">i</span><span class="o">++</span><span class="p">]))</span> <span class="p">{</span>
+                    <span class="nx">fn</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nb">document</span><span class="p">,</span> <span class="nx">$</span><span class="p">);</span>
+                <span class="p">}</span>
+                
+                <span class="c1">// Reset the list of functions</span>
+                <span class="nx">readyList</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+                
+                <span class="c1">// Trigger any bound ready events</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">triggerHandler</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">triggerHandler</span><span class="p">(</span><span class="s2">&quot;ready&quot;</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+			
     <span class="cm">/**</span>
 <span class="cm">     * Based on DUI&#39;s one.  &lt;br /&gt;</span>
 <span class="cm">     *</span>
@@ -571,29 +812,21 @@
             <div class="nav">
 
                     <div id="moduleList" class="module">
-                        <h4>Modules</h4>
+                        <h4 class="ui-widget-header ui-corner-top">Modules</h4>
                         <ul class="content">
-                                <li class="selected"><a href="module_controller.html" title="controller">controller</a></li>
-                                <li class=""><a href="module_table-controller.html" title="table-controller">table-controller</a></li>
+                                <li class="ui-state-default ui-state-active"><a href="module_bootstrap.html" title="bootstrap">bootstrap</a></li>
+                                <li class="ui-state-default "><a href="module_controller.html" title="controller">controller</a></li>
+                                <li class="ui-state-default "><a href="module_layout.html" title="layout">layout</a></li>
                         </ul>
                     </div>
 
-                    <div id="classList" class="module">
-                        <h4>Classes</h4>
-                        <ul class="content">
-                                <li class=""><a href="$.ui.controller.html" title="$.ui.controller">$.ui.controller</a></li>
-                                <li class=""><a href="BaseController.html" title="BaseController">BaseController</a></li>
-                                <li class=""><a href="Class.html" title="Class">Class</a></li>
-                                <li class=""><a href="SandBox.html" title="SandBox">SandBox</a></li>
-                        </ul>
-                    </div>
 
                     <div id="fileList" class="module">
-                        <h4>Files</h4>
+                        <h4 class="ui-widget-header ui-corner-top">Files</h4>
                         <ul class="content">        
-                                <li class=""><a href="table.js.html" title="table.js">table.js</a></li>
-                                <li class=""><a href="testCase.js.html" title="testCase.js">testCase.js</a></li>
-                                <li class="selected"><a href="ui.controller.js.html" title="ui.controller.js">ui.controller.js</a></li>
+                                <li class="ui-state-default "><a href="api.bootstrap.js.html" title="api.bootstrap.js">api.bootstrap.js</a></li>
+                                <li class="ui-state-default "><a href="bootstrap.js.html" title="bootstrap.js">bootstrap.js</a></li>
+                                <li class="ui-state-default ui-state-active"><a href="ui.controller.js.html" title="ui.controller.js">ui.controller.js</a></li>
                         </ul>
                     </div>
 
@@ -604,13 +837,21 @@
             </div>
 		</div>
 	</div>
-	<div id="ft" class="ui-widget ui-widget-header">
+	<div id="ft" class="ui-widget-header">
         <hr />
         Copyright &copy; 2010 Yahoo! Inc. All rights reserved.
 	</div>
 </div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../js/external/jquery.jqGrid.js"></script>
+<script type="text/javascript" src="../js/external/jquery.layout.js"></script>
+<script type="text/javascript" src="../js/external/jquery.themeswitcher.js"></script>
+<script type="text/javascript" src="../js/external/jquery.livequery.js"></script>
+<script type="text/javascript" src="../js/src/ui.controller.js"></script>
+<script type="text/javascript" src="../js/src/api.bootstrap.js"></script>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "$.ui.controller.html#method_destroy", "access": "", "host": "$.ui.controller", "type": "method", "name": "destroy"}, {"url": "SandBox.html#method_getController", "access": "", "host": "SandBox", "type": "method", "name": "getController"}];
+    ALL_YUI_PROPS = [];
 </script>
 </body>
 </html>

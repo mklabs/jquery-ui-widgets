@@ -1,17 +1,73 @@
 <?xml version="1.0"?>
 
 <project name="gh-ui-controller">
-	<property name="build_dir" location="./"/>
-	<property name="target_dir" location="/Applications/MAMP/htdocs/gh-pages"/>
-	
+
+	<property name="build_dir" location="./" />
+	<property name="target_dir" location="/Applications/MAMP/htdocs/gh-pages" />
+
+	<!-- Supporting Tools -->
+	<property name="libs" location="libs" />
+	<property name="rhino.jar" location="${libs}/rhino/js.jar" />
+	<property name="jslintconsole.js" location="${libs}/jslint/jslint-console.js" />
+	<property name="jslintsrc.js" location="${libs}/jslint/fulljslint.js" />
+	<property name="yuicompressor.jar" location="${libs}/yuicompressor/yuicompressor-2.4.2.jar" />
+	<property name="yuicompressor-ant-task.jar" location="${libs}/yuicompressor-ant-task/yuicompressor-ant-task-0.4.jar" />
+	<property name="yuidoc_home" location="${libs}/yuidoc" />
+
+	<!-- YUI Compressor arguments for JS and CSS files -->
+	<property name="yuicompressor.js.args" value="-v --charset utf-8  --disable-optimizations --preserve-semi --line-break 6000" />
+
+	<property name="src_dir" location="js/src" />
+	<property name="test_dir" location="tests" />
+	<property name="tmp_dir" location="tmp" />
+	<property name="parser_out" location="${tmp_dir}/parsertmp" />
+	<property name="version" value="1.0" />
+
 	<target name="init">
 		<echo>
             Making sure build dir is there
         </echo>
 		<mkdir dir="${target_dir}" />
+		<mkdir dir="${tmp_dir}" />
+		<mkdir dir="${tmp_dir}/parsertmp" />
 	</target>
 
-	<target name="build" depends="init" description="A simple build file">
+	<target name="doc" description="Generate documentation via YUI Doc." depends="init">
+		<property name="projectname" value="jquery-ui-controller" />
+
+		<property name="project_url" value="http://mklabs.github.com/${projectname}/" />
+
+
+		<property name="doc_dir" location="docs" />
+		<property name="out_dir" location="out" />
+		<property name="parser_in" location="${src_dir}" />
+		<property name="generator_out" location="${doc_dir}" />
+		<property name="yuidoc_tmpl" location="${yuidoc_home}/myTemplate" />
+
+		<property name="yuiversion" location="3.0.0" />
+
+		<echo>generating documentation</echo>
+		<exec dir="${yuidoc_home}/bin/" executable="python">
+			<arg value="yuidoc.py" />
+			<arg value="${parser_in}" />
+			<arg value="-p" />
+			<arg value="${parser_out}" />
+			<arg value="-o" />
+			<arg value="${generator_out}" />
+			<arg value="-t" />
+			<arg value="${yuidoc_tmpl}" />
+			<arg value="-m" />
+			<arg value="${projectname}" />
+			<arg value="-Y" />
+			<arg value="${yuiversion}" />
+			<arg value="-v" />
+			<arg value="${version}" />
+			<arg value="-u" />
+			<arg value="${project_url}" />
+		</exec>
+	</target>
+
+	<target name="build" depends="init, doc" description="A simple build file">
 		<echo>
             Starting build
         </echo>

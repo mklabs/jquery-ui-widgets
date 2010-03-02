@@ -1,4 +1,4 @@
-YAHOO.env.classMap = {"$.ui.controller": "controller", "SandBox": "controller", "wt.controller.LogMyRow": "table-controller", "BaseController": "controller", "Class": "controller"};
+YAHOO.env.classMap = {"$.ui.controller": "controller", "SandBox": "controller", "BaseController": "controller", "demo.layout.InitLayout": "layout", "Class": "controller"};
 
 YAHOO.env.resolveClass = function(className) {
     var a=className.split('.'), ns=YAHOO.env.classMap;

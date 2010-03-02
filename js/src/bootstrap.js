@@ -1,4 +1,7 @@
 /**
+ * Bootstrap file.
+ * 
+ * @module bootstrap
  * @author mdaniel
  */
 (function(){

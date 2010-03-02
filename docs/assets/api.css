@@ -9,7 +9,7 @@ a:visited { color: #003399;}
 #doc3 #hd { margin-bottom:1em; position: relative; zoom: 1; }
 #doc3 #hd h1 { color: #545454; font-size: 170%; padding: 0px 0 8px 150px; background: url(yui.png) 15px 9px no-repeat; height: 60px; font-weight: bold; }
 #doc3 #hd h1 a { position: relative; top: 14px; }
-#doc3 #hd a { text-decoration: none; color: black; }
+#doc3 #hd a { text-decoration: none; /*color: black;*/ }
 #doc3 #hd h3 {
     background: #98AAB1; background-image: url(bg_hd.gif); color: #000; font-size: 100%; padding: 4px 10px; margin: 0 0 7px 0;
     border: 1px solid #98AAB1;
@@ -18,7 +18,7 @@ a:visited { color: #003399;}
     display: none;
 }
 #ft {
-    background: #98AAB1; background-image: url(bg_hd.gif); color: #000; font-size: 100%; padding: 4px 10px; margin: 7px 0 0 0; border: 1px solid #98AAB1;
+    /*background: #98AAB1; background-image: url(bg_hd.gif); color: #000; font-size: 100%; border: 1px solid #98AAB1;*/ padding: 4px 10px; margin: 7px 0 0 0;
 }
 #doc3 #hd h3 A { color: #FFF; text-decoration: none; }
 #doc3 #hd .breadcrumbs { font-size: 85%; margin-bottom:10px;}
@@ -39,8 +39,8 @@ a:visited { color: #003399;}
 
 }
 #bd {
-    border: 1px solid #98AAB1;
-    background-color: #fff;
+   /* border: 1px solid #98AAB1;
+    background-color: #fff;*/
 }
 
 .submodules dd {
@@ -60,43 +60,40 @@ a:visited { color: #003399;}
 #doc3 .description em {padding: 2px; background-color: #EFECCA}
 #doc3 pre { padding: 10px;}
 
-#doc3 .summary { margin: 0px 10px 10px 0; padding:10px; background-color:#ECF0F6; border:1px solid #98AAB1; }
+#doc3 .summary { margin: 0px 10px 10px 0; padding:10px; /*background-color:#ECF0F6; border:1px solid #98AAB1;*/ }
 #doc3 .extends {font-weight: normal; font-size: 90%}
 
 #doc3 .nav {min-height: 400px;}
 #doc3 .nav .module {
     width:100%;
-    border-right: 1px solid #98AAB1;
+   /* border-right: 1px solid #98AAB1;
     border-bottom: 1px solid #98AAB1;
-    padding: 0; overflow:hidden;
+    padding: 0; overflow:hidden;*/
 }
 #doc3 .nav .module h4 {
     padding: 3px 5px;
-    border-bottom: 1px solid #98AAB1;
-    background-image: url(bg_hd.gif);
+    /*border-bottom: 1px solid #98AAB1;
+    background-image: url(bg_hd.gif);*/
 }
 #doc3 .nav .module h4 A { color: #000; text-decoration: none; }
 #doc3 .nav .module .content { padding: 2px; }
 #doc3 .nav .module UL.content LI { font-size: 90%; }
-#doc3 .nav .module UL.content A { text-decoration: none; color: black; display: block; padding: 2px 4px 2px 4px; }
+#doc3 .nav .module UL.content A { text-decoration: none; /*color: black;*/ display: block; padding: 2px 4px 2px 4px; }
 #doc3 .nav .module LI,
 #doc3 .nav .module LI A {
     zoom: 1; 
 }
 #doc3 .nav .module LI.selected A,
 #doc3 .nav .module LI A:hover {
-    background-color: #ECF0F6;
-    zoom: 1;
+    /*background-color: #ECF0F6;
+    zoom: 1;*/
 }
 
 #doc3 .section { margin: 0 7px 7px 0; }
 #doc3 .section strong { font-weight: bold;}
 #doc3 .section hr { border: none 0; border-top: 1px solid #ccc; }
 #doc3 .section h4 { font-size:110%;}
-#doc3 .section h3 { background: #98AAB1; background-image: url(bg_hd.gif); width: 98%; color: #000; padding: 3px; margin: 0 0 7px 0;
-    border: 1px solid #98AAB1;
-
-}
+#doc3 .section h3 { /*background: #98AAB1; background-image: url(bg_hd.gif); width: 98%; color: #000; border: 1px solid #98AAB1; */padding: 3px; margin: 0 0 7px 0;}
 #doc3 .section h3 .top { font-size: 60%; font-weight: normal; width: 100%; font-family: verdana; padding-left: 20px; }
 #doc3 .section h3 .top A { color: #000; text-decoration: none;  }
 
@@ -130,7 +127,7 @@ a:visited { color: #003399;}
 }
 #searchinput {
     width: 83%;
-    height: 1.4em;
+    /*height: 1.4em;*/
 }
 #searchresults {
     position: absolute;

@@ -1,77 +1,27 @@
 /**
- * The Controller widget module provides clean and handy way to organize your jQuery code.
+ * The Controller widget module provides clean and handy way 
+ * to organize your jQuery code.
+ * 
+ * 
  * @module controller
  * @author mdaniel
  */
 (function($){
 
-	// set this according to your debug will regarding errors thrown in controllers
-    var debug = true;
-	   
-	// proxied
-    var _controller, _live = $.fn.live, _empty = $.fn.empty, _load = $.fn.load;
-    
-	// controllers cache
-    var controllers = {};
-    
-	// The queue of required scripts currently being loaded
-    var requireQueue = [];
-	
-	// Keep track of URLs that have been loaded
-	var requireCache = {};
-	
-	// The functions to execute on DOM ready
-    var readyList = [];
-	
-	// Match portions of a URL
-    var rurl = /^(\w+:)?\/\/([^\/?#]+)/;
-	
-	var getScriptPath = function(script){
-        var scripts = null, reg = null, path = null;
-        
-        if (document) {
-            scripts = $("script[type='text/javascript']");
-            reg = new RegExp(script, 'i');
-            
-            scripts.each(function(i){
-                var src = $(this).attr('src'), m = null;
-                
-                if (src) {
-                    m = src.match(reg);
-                    if (m && !path) {
-                        path = src.substring(0, m.index);
-                    }
-                }
-            });
-        }
-        
-        return path;
-    };
 	
     var Class, SandBox, BaseController;
 	
-	/**
-	 * urlFilter from jQuery. Needed for require feature.
-	 * @param {Object} url
-	 */
 	var urlFilter = function(url){
         if (!/\./.test(url) || (/^(\w+)./.test(url) && !/\//.test(url) && !/.js$/.test(url))) {
             url = url.replace(/^(\w+)./, function(all, name){
-                return (wtf.require.namespace[name] || name) + "/";
-            }).replace(/\./g, "/") +
-            ".js";
+                return (require.namespace[name] || name) + "/";
+            });
+			
         }
         
         return url;
     };
-	
-	 /**
-	  * isRemote from jQuery.
-	  * 
-	  * Check to see if a URL is a remote URL.
-	  * 
-	  * @param {String} url
-	  */
+
 	var isRemote = function(url){
         var parts = rurl.exec(url);
         return parts && (parts[1] && parts[1] !== location.protocol || parts[2] !== location.host);
@@ -85,6 +35,7 @@
      * All subsequent controllers are inherited from BaseController which extend this Class.
      * 
      * @class Class
+     * 
      */
     (function(){
         var initializing = false, fnTest = /xyz/.test(function(){
@@ -246,7 +197,6 @@
 	 *     </li>
 	 *     <li>Setup event delegation restricted to controller container.</li>
 	 * </ul>
-
      * 
      * @class controller
      * @namespace $.ui
@@ -441,9 +391,9 @@
         return _load.apply(this, arguments);
     };
 	
-	/* * /
-	// May be not so elegant... Responsible of re-binding controller's widget with previously stored instance, if any.
-	// Non event live event a la livequery may be very usefull there.
+	/*
+	 May be not so elegant... Responsible of re-binding controller's widget with previously stored instance, if any.
+	 Non event live event a la livequery may be very usefull there.
     $(document).ajaxComplete(function(e, xhr, settings){
 		var t = $(xhr.responseText);
 		var context = settings.context;
@@ -457,7 +407,7 @@
 			
 		});
     });
-    /* */
+    */
 	
 	$("[class^='ui-controller']").livequery(function(){
 		var target = $(this);
@@ -501,7 +451,6 @@
 	 * FIXME: Prevent multiple instantiation of same controller. 
 	 *   Will have to check in cache first.
 	 * 
-	 * @method _createInstance
 	 * @private
 	 * @param {Object} baseController
 	 * @param {Object} prototype
@@ -552,9 +501,6 @@
         return controllers[controllerId].instance;
     };
 	
-	/**
-	 * Based on jresig's commit 
-	 */
 	function require(options){
 	    var xhr, requestDone, ival, head, script, length = arguments.length - 1, callback = arguments[length];
 	    
@@ -659,12 +605,8 @@
 	    }
 	};
 	
-	/**
-	 * Exec require
-	 * @param {Object} url
-	 * @param {Object} script
-	 * @param {Object} callback
-	 */
+	require.namespace = {};
+	
 	function execRequire(url, script, callback){
         var item, i, exec = true;
         
@@ -713,9 +655,6 @@
         }
     };
 	
-	/**
-	 * readyReady function from jQuery
-	 */
 	function readyReady(){
         if ($.isReady && requireQueue.length === 0) {
             // If there are functions bound, to execute

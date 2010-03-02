@@ -1,3 +1,10 @@
+/**
+ * Controller responsible of main layout rendering and behaviour
+ * (jqGrid, tabs, layout).
+ * 
+ * @module layout
+ * 
+ */
 (function(){
 	
 	/**
@@ -5,9 +12,8 @@
 	 * 
 	 * Init the layout plugin.
 	 * 
-	 * @param {Object} "Controller demo.layout.init:"
-	 * @param {Object} this
-	 * @param {Object} arguments
+	 * @class InitLayout
+	 * @namespace demo.layout
 	 */
 	$(".ui-controller-demo-layout-init").controller(function(sandbox){
 		console.log("Controller demo.layout.init:", this, arguments);
@@ -109,6 +115,11 @@
 			init: function(){
 				this.listen("gridComplete", this.gridCompleteHandler);
 			},
+			
+			/**
+			 * event grid
+			 * @event gridCompleteHandler
+			 */
 			gridCompleteHandler: function(){
 				console.log("Grid Complete Handler:", this, arguments);
 				var url = window.location.href;
