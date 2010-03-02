@@ -15,9 +15,9 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
 
 #mk-header-title {
     padding: 0.3em;
-	font-style:italic;
-	font-weight:bolder;
-	letter-spacing:0.1em;
+    font-style: italic;
+    font-weight: bolder;
+    letter-spacing: 0.1em;
 }
 
 #mk-switcher {
@@ -49,8 +49,8 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
     margin: auto;
 }
 
-.ui-controller-demo-simple .ui-widget-header{
-	position: relative;
+.ui-controller-demo-simple .ui-widget-header {
+    position: relative;
 }
 
 .ui-controller-demo-simple .ui-widget-header h2 {
@@ -69,4 +69,11 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
 
 .ui-controller-demo-simple ol li {
     padding: 1em;
+}
+
+.mk-main-content {
+    margin: 0 auto;
+    padding: 0 15px;
+    text-align: left;
+    width: 920px;
 }
