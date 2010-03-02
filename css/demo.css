@@ -2,8 +2,8 @@ html {
     font-size: 11px;
 }
 
-img{
-	border: none;
+img {
+    border: none;
 }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
@@ -24,8 +24,10 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
     letter-spacing: 0.1em;
 }
 
-#mk-header-title .mk-header-title-sub{
-    bottom: 0;
+#mk-header-title .mk-header-title-sub {
+    bottom: 1em;
+    left: 120px;
+    position: absolute;
 }
 
 #mk-switcher {
