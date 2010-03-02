@@ -2,6 +2,10 @@ html {
     font-size: 11px;
 }
 
+img{
+	border: none;
+}
+
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
     margin: 0;
     padding: 0;
@@ -18,6 +22,10 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
     font-style: italic;
     font-weight: bolder;
     letter-spacing: 0.1em;
+}
+
+#mk-header-title .mk-header-title-sub{
+    bottom: 0;
 }
 
 #mk-switcher {
