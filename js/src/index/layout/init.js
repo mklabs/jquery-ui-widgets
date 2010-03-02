@@ -77,11 +77,6 @@
             onSelectRow: function(rowid){
                 var st, tab, treedata = grid.jqGrid('getRowData', rowid), url;
 				console.log("id:", treedata.id, typeof treedata.id);
-				if(treedata.id !== "0"){
-					alert("More to come soon...");
-					return;
-				}
-				
                 if (treedata.isLeaf == "true") {
                     st = Constants.tabPrefix + treedata.id;
 					tab = mainTabs.find(st);
