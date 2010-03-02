@@ -71,7 +71,7 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
     padding: 1em;
 }
 
-.mk-main-content {
+#mk-main-content {
     margin: 0 auto;
     padding: 0 15px;
     text-align: left;
