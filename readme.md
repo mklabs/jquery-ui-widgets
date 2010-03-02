@@ -3,12 +3,12 @@ Github powered web site
 
 Demo Page
 ---------
-See the [Demo](/demos/) page for details.   
+See the [Demo](http://mklabs.github.com/jquery-ui-controller/demos/#demos/simple.html) page for details.   
 
 API
 ---------
-You could browse the API documentation [there.](/docs/).
+You could browse the API documentation [there.](http://mklabs.github.com/jquery-ui-controller/docs/).
 
 Unit Tests
 ---------
-And check unit testing [there.](/tests/).
+And check unit testing [there.](http://mklabs.github.com/jquery-ui-controller/tests/).
