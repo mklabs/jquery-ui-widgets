@@ -1,66 +1,64 @@
-<h2>Welcome to the jQuery-UI-Controller wiki</h2>
-
-<p>
+jQuery-UI-Controller
+====================
 A jQuery UI Widget that provides you clean and handy way to organize your jQuery code. 
 Controllers organize event handlers through the power of event delegation. If something happens 
 in your application, either it is browser event or custom ones, a controller should respond to it.
-</p>
 
-<ul>
-<li>Controllers let you know where your code is!</li>
-<li>Controllers force you to group events and label your html in specific ways.</li>
-<li>Controllers are inheritable.</li>
-<li>Controllers use event delegation.</li>
-</ul>
+*Controllers let you know where your code is!
+*Controllers force you to group events and label your html in specific ways.
+*Controllers are inheritable.
+*Controllers use event delegation.
 
-<h2>Key concepts</h2>
+
+Key concepts
+---------------------
 Mosf of the purpose of this widget is to try to implement key concept's from Nicholas C. Zakas' great presentation.
 
 <a href="http://developer.yahoo.com/yui/theater/video.php?v=zakas-architecture">Nicholas C. Zakas — Scalable JavaScript Application Architecture</a>
 
 Without going as far as Nicolas advise us to do so, the idea of core / application / core / module is omnipresent in this widget proposal.
-<ul>
-    <li>Base Library: jQuery.</li>
-    <li>Application Core: jQuery UI Widget Factory, through the Controller widget.</li>
-    <li>Sandbox: Passed as a parameter in every controller entry point. Responsible for example of controller communication (read module in Nicolas' video).</li>
-    <li>Modules: Controllers in our terminology.</li>
-</ul>
+
+    *Base Library: jQuery.
+    *Application Core: jQuery UI Widget Factory, through the Controller widget.
+    *Sandbox: Passed as a parameter in every controller entry point. Responsible for example of controller communication (read module in Nicolas' video).
+    *Modules: Controllers in our terminology.
+
 
 This widget proposal is more like a playground for me and experience in trying to implement those key concepts in a jQuery / jQuery UI environment.
 
 <h2>Key features</h2>
-<ul>
-    <li>Lazy loading</li>
-    <ul>
-        <li>Ala <a href="http://github.com/digg/dui">DUI</a>: Definitly a very good and promising library. We use a different convention to trigger JS loading and different <a href="behind-this-widget/#ui-github-wiki-jquery-require">techniques</a> to dynamically load and execute JS files, but this widget is heavily inspired by their work.  
-    </ul>
-    <li>Inheritence</li>
-    <ul>
-        <li>Thanks to <a href="behind-this-widget/#ui-github-wiki-inheritence">John Resig's proposal</a>. Aims to introduce/reinforce a pattern for developing large applications with jQuery. I didn't invent any of this, but I find that, when using jQuery, developers seem to forget the paradigms they learned for well structured code in other languages (at least, in my very near environment...). jQuery is effectively neutral and doesn't push you in any direction. Many times in other libraries a paradigm is provided, and then code generally ends up more uniform than it does with pure jQuery style. This is necessary for large JavaScript applications where scalability and maintainability are part of the objectives of a project.</li>
-    </ul>
-    <li>Modularity</li>
-    <ul>
-        <li>By providing you modular and re-usable architecture pattern.</li>
-    </ul>
-    <li>Loose coupling</li>
-    <ul>
-         <li>Remember Nicolas' rules:</li>
-        <ul>
-           <li>Only call your own methods or those on the sandbox.</li>
-           <li>Don't access DOM elements outside of your box.</li>
-           <li>Ask, don't take.</li>
-           <li>Anything else you need, ask the sandbox.</li>
-           <li>Don't create global objects.</li>
-           <li>Don't talk to strangers.</li>
-           <li>Don't directly reference other modules.</li>
-        </ul>
-        <li>Ends up in a robust application structure where each modules (controllers) don't know about each other as long as they follow's the above rules. Controller communication is provided by the Observer pattern via te use of fire / listen methods (which internally use jQuery custom event's system and bind / live / trigger methods).</li>
-    </ul>
-    <li>Attach / Detach System</li>
-    <ul>
-        <li>Each controller, when first matched in the DOM Tree, will trigger an asynchronous loading of the JS file that describes it. A controller is instantiated by using the jQuery plugin / UI widget paradigm and registered by the application core, eg. $(someSelector).controller(prototype); Each Controller, if no parent defined, will inherit from a BaseController Class that provides some handy method to subscribe / publish events among registered controllers. Once a controller is registered, it is immediatly started if a matching DOM elements is available in the DOM Tree. When the latter is removed, controller disposal is performed (basically call your provided destroy method while cleaning up controller's event). Whenever a controller previously registered re-apear in the DOM Tree, either is is by Ajax means or direct DOM Manipulation, any new HTTP Request is done and cached controller's instance is re-used to re-attach the controller.</li>
-    </ul>
-</ul>
+
+    *Lazy loading
+    
+        *Ala <a href="http://github.com/digg/dui">DUI</a>: Definitly a very good and promising library. We use a different convention to trigger JS loading and different <a href="behind-this-widget/#ui-github-wiki-jquery-require">techniques</a> to dynamically load and execute JS files, but this widget is heavily inspired by their work.  
+    
+    *Inheritence
+    
+        *Thanks to <a href="behind-this-widget/#ui-github-wiki-inheritence">John Resig's proposal</a>. Aims to introduce/reinforce a pattern for developing large applications with jQuery. I didn't invent any of this, but I find that, when using jQuery, developers seem to forget the paradigms they learned for well structured code in other languages (at least, in my very near environment...). jQuery is effectively neutral and doesn't push you in any direction. Many times in other libraries a paradigm is provided, and then code generally ends up more uniform than it does with pure jQuery style. This is necessary for large JavaScript applications where scalability and maintainability are part of the objectives of a project.
+    
+    *Modularity
+    
+        *By providing you modular and re-usable architecture pattern.
+    
+    *Loose coupling
+    
+         *Remember Nicolas' rules:
+        
+           *Only call your own methods or those on the sandbox.
+           *Don't access DOM elements outside of your box.
+           *Ask, don't take.
+           *Anything else you need, ask the sandbox.
+           *Don't create global objects.
+           *Don't talk to strangers.
+           *Don't directly reference other modules.
+        
+        *Ends up in a robust application structure where each modules (controllers) don't know about each other as long as they follow's the above rules. Controller communication is provided by the Observer pattern via te use of fire / listen methods (which internally use jQuery custom event's system and bind / live / trigger methods).
+    
+    *Attach / Detach System
+    
+        *Each controller, when first matched in the DOM Tree, will trigger an asynchronous loading of the JS file that describes it. A controller is instantiated by using the jQuery plugin / UI widget paradigm and registered by the application core, eg. $(someSelector).controller(prototype); Each Controller, if no parent defined, will inherit from a BaseController Class that provides some handy method to subscribe / publish events among registered controllers. Once a controller is registered, it is immediatly started if a matching DOM elements is available in the DOM Tree. When the latter is removed, controller disposal is performed (basically call your provided destroy method while cleaning up controller's event). Whenever a controller previously registered re-apear in the DOM Tree, either is is by Ajax means or direct DOM Manipulation, any new HTTP Request is done and cached controller's instance is re-used to re-attach the controller.
+    
+
 
 <h2>Configuration</h2>
 <em>In progress...</em>
@@ -325,12 +323,12 @@ notifyRefresh: function(){
 <h2>Controller lifecycle</h2>
 A controller usually follows the below lifecycle:
 <ol>
-    <li>First, a DOM element with a cssClass that begins with ui-controller is matched in the DOM Tree. At this time, controller feature is not yet known by the application core. An HTTP request is made to dynamically retrieve the controller definition.</li>
-    <li>Controller Class is created thanks to the entrypoint provided (or plain object provided as prototype one). If the $(selector).controller() syntax is used and if the selector passed in matches an available element in the DOM Tree, controller is immediatly instantiated upon the according DOM node or it will listen via event delegation for "lazy binding".</li>
-    <li>Controller can be roughly removed from the DOM Tree using standard Ajax mean or plain jQuery DOM manipulation. The controller is properly destroyed (not really) by calling the destroy method provided in the prototype chain, while removing all bounded events.</li>
-    <li>At this time, our controller is now longer running in our page but still available for further use.</li>
-    <li>If some HTML markup appears again in the DOM Tree that match the initial selector provided with your controller implementation, cached controller is automatically "re-bound" to the DOM with the newly created markup. All events listener are rebound, the init method re-called and Model Object Graph (also called MOG aha!) is refreshed.</li>
-    <li>And then goes the 3 to 5 step again.</li>
+    *First, a DOM element with a cssClass that begins with ui-controller is matched in the DOM Tree. At this time, controller feature is not yet known by the application core. An HTTP request is made to dynamically retrieve the controller definition.
+    *Controller Class is created thanks to the entrypoint provided (or plain object provided as prototype one). If the $(selector).controller() syntax is used and if the selector passed in matches an available element in the DOM Tree, controller is immediatly instantiated upon the according DOM node or it will listen via event delegation for "lazy binding".
+    *Controller can be roughly removed from the DOM Tree using standard Ajax mean or plain jQuery DOM manipulation. The controller is properly destroyed (not really) by calling the destroy method provided in the prototype chain, while removing all bounded events.
+    *At this time, our controller is now longer running in our page but still available for further use.
+    *If some HTML markup appears again in the DOM Tree that match the initial selector provided with your controller implementation, cached controller is automatically "re-bound" to the DOM with the newly created markup. All events listener are rebound, the init method re-called and Model Object Graph (also called MOG aha!) is refreshed.
+    *And then goes the 3 to 5 step again.
 </ol>
 
 <h3>Just to be sure...</h3>
