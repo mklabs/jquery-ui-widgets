@@ -186,16 +186,32 @@
      * 
      * @class BaseController
      * @extends Class
-     * @constructor
      */
     BaseController = Class.extend({
+		/**
+		 * Init method. Called each time a controller is destroyed 
+		 * (usually removed from the dom).
+		 * @method init
+		 * @constructor
+		 */
         init: function(container){
-            console.info("new Controller", this, arguments);
-            
-            this.container = container;
             this.Model = {};
             this.Elements = {};
         },
+		
+		/**
+		 * Destroy method. Called each time a controller is destroyed 
+		 * (usually removed from the dom).
+		 * 
+		 * Basically just delete container reference and re-init the model.
+		 * Elements are kept since are needed for events unbinding.
+		 * 
+		 * @method destroy
+		 */
+		destroy: function(){
+			console.info("BaseController.destroy()", this, arguments);
+			this.Model = null;
+		},
         
         listen: function(eventType, handler){
             console.log("listen:", this, arguments);
@@ -244,11 +260,9 @@
 		 */
         _init: function(){
             console.info("Controller widget init", this, arguments);
-            
             this.instance = this.options;
-            
+			this.instance.container = this.element;
             this._initModel();
-            
             this._initEvents();
         },
         
@@ -268,9 +282,7 @@
             if ($.isFunction(instance.destroy)) {
                 instance.destroy.apply(this, arguments);
             }
-            
             this._unbindEvents();
-			
 			$.widget.prototype.destroy.apply(this, arguments);
         },
         
@@ -286,10 +298,12 @@
 		 */
         _initEvents: function(){
             var self = this, instance = this.instance;
+			
+			// Iterate trough controller instance to attach event handlers
             $.each(instance, function(prop, value){
                 var sel = prop.split(" ")[0];
                 var action = prop.split(" ")[1];
-                var callback, context;
+                var callback;
                 
                 if (!action) return;
                 
@@ -327,7 +341,15 @@
 		 * 
 		 */
         _unbindEvents: function(){
-            // TBD
+            console.info("_unbindEvents:", this, arguments);
+			
+			var instance = this.instance;
+			
+			$.each(instance.Elements, function(i, handler){
+				console.log("Removing all previously registered event.", this);
+				this.die();
+			});
+			
         }
     });
     
