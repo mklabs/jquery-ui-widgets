@@ -6,6 +6,7 @@
 	<!-- Supporting Tools -->
 	<property name="libs" location="lib" />
 	<property name="rhino.jar" location="lib/rhino/js.jar" />
+	<property name="yuidoc.home" location="lib/yuidoc" />
 	<property name="jslintconsole.js" location="lib/jslint/jslint-console.js" />
 	<property name="jslintsrc.js" location="lib/jslint/fulljslint.js" />
 	<property name="yuicompressor.jar" location="${libs}/yuicompressor/yuicompressor-2.4.2.jar" />
@@ -59,14 +60,14 @@
 	<target name="doc" description="Generate documentation via YUI Doc." depends="init">
 		<property name="projectname" value="jQuery UI Controller" />
 
-		<property name="project_url" value="http://weekly-task.appspot.com/weekly/test/" />
+		<property name="project_url" value="http://github.com/MkLabs/jquery-ui-controller" />
 
 
 		<property name="doc_dir" location="docs" />
 		<property name="out_dir" location="out" />
 		<property name="parser_in" location="${src_dir}" />
 		<property name="generator_out" location="${doc_dir}" />
-		<property name="yuidoc_home" location="yuidoc" />
+		<property name="yuidoc_home" location="${yuidoc.home}" />
 		<property name="yuidoc_tmpl" location="${yuidoc_home}/template" />
 
 		<property name="yuiversion" location="3.0.0" />
