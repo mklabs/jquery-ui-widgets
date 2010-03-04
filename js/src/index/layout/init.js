@@ -78,8 +78,28 @@
                 leaf: 'ui-icon-document-b'
             },
             onSelectRow: function(rowid){
-                var treedata = grid.jqGrid('getRowData', rowid);
-                window.location.href = treedata.url;
+                var st, tab, treedata = grid.jqGrid('getRowData', rowid), url;
+                console.log("id:", treedata.id, typeof treedata.id);
+                
+                if (treedata.id !== "6") {
+                    window.location.href = treedata.url;
+                    return;
+                }
+                
+                if (treedata.isLeaf == "true") {
+                    st = Constants.tabPrefix + "blog";
+                    tab = mainTabs.find(st);
+                    if (tab.html() != null) {
+                        mainTabs.tabs('select', st);
+                    } else {
+                        mainTabs.tabs('add', st, treedata.menu);
+                        url = Constants.basePath + "../../" + treedata.url.replace("#", "");
+                        window.location.href = treedata.url;
+                        mainTabs.find(st).load(url + " .demo-container");
+                    }
+                }
+                
+                
             },
             gridComplete: function(){
                 console.log("Grid Complete:", this, arguments);

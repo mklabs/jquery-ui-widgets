@@ -10,30 +10,28 @@
         <link type="text/css" rel="stylesheet" media="screen" href="./css/github/bundle_github.css">
         <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAHc5vTX1b5JRG_TmDg-P9jhRvrMqQnLMZwfguGtkSuJg5ok_uCRQp0JbMRamMFH0ORRWUh4wLw39nuw"></script>
         <script type="text/javascript">
-            
-            google.load("feeds", "1");
-            
-            function initialize(){
-                var feed = new google.feeds.Feed("http://dansledoutereboot.wordpress.com/feed/");
-                feed.load(function(result){
-					var container = $("#feed");
-					console.log("load result", this, arguments);
-                    if (!result.error) {
-						
-						$.each(result.feed.entries, function(i, entry){
-							console.log("feed:", i, entry);
-                            var div = $("<div />");
-							var title = $("<h1 />").text(entry.title);
-							var content = $("<div />").html(entry.content);
-							
-							div.append(title).append(content).appendTo(container);
-							
-						});
-                    }
-                });
-            }
-            
-            google.setOnLoadCallback(initialize);
+            (function(){
+                google.load("feeds", "1");
+                google.setOnLoadCallback(function(){
+					var feed = new google.feeds.Feed("http://dansledoutereboot.wordpress.com/feed/");
+                    feed.load(function(result){
+                        var container = $("#mk-tabs-blog");
+                        console.log("load result", this, arguments);
+                        if (!result.error) {
+                        
+                            $.each(result.feed.entries, function(i, entry){
+                                console.log("feed:", i, entry);
+                                var div = $("<div />");
+                                var title = $("<h1 />").text(entry.title);
+                                var content = $("<div />").html(entry.content);
+                                
+                                div.append(title).append(content).appendTo(container);
+                                
+                            });
+                        }
+                    });
+				});
+            })();
         </script>
     </head>
     <body>
@@ -56,12 +54,12 @@
                     </ul>
                     <div id="mk-tabs-1">
                         <div id="mk-main-content">
-                        	
-							 <div id="feed"></div>
-							
                             {{ content }}
                         </div>
                     </div>
+					<div id="mk-tabs-blog" class="ui-helper-hidden">
+						
+					</div>
                 </div>
             </div>
             <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
