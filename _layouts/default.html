@@ -14,8 +14,9 @@
             google.load("feeds", "1");
             
             function initialize(){
-                var feed = new google.feeds.Feed("http://www.digg.com/rss/index.xml");
+                var feed = new google.feeds.Feed("http://dansledoutereboot.wordpress.com/feed/");
                 feed.load(function(result){
+					console.log("load result", this, arguments);
                     if (!result.error) {
                         var container = document.getElementById("feed");
                         for (var i = 0; i < result.feed.entries.length; i++) {
@@ -53,8 +54,6 @@
                         <div id="mk-main-content">
                         	
 							 <div id="feed"></div>
-							 
-							 <hr />
 							
                             {{ content }}
                         </div>
