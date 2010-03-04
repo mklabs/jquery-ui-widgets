@@ -18,6 +18,11 @@
                 feed.load(function(result){
 					console.log("load result", this, arguments);
                     if (!result.error) {
+						
+						$.each(result.feed.entries, function(i, val){
+							console.log("feed:", i, val);
+						});
+						
                         var container = document.getElementById("feed");
                         for (var i = 0; i < result.feed.entries.length; i++) {
                             var entry = result.feed.entries[i];
