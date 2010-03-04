@@ -46,7 +46,7 @@
         });
         
         grid.jqGrid({
-            url: Constants.basePath + "/index/layout/tree.xml",
+            url: Constants.basePath + "/ndex/layout/tree.xml",
             datatype: "xml",
             height: "auto",
             pager: false,
