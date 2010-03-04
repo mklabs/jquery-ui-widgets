@@ -86,18 +86,8 @@
                     return;
                 }
                 
-                if (treedata.isLeaf == "true") {
-                    st = Constants.tabPrefix + "blog";
-                    tab = mainTabs.find(st);
-                    if (tab.html() != null) {
-                        mainTabs.tabs('select', st);
-                    } else {
-                        mainTabs.tabs('add', st, treedata.menu);
-                        url = Constants.basePath + "../../" + treedata.url.replace("#", "");
-                        window.location.href = treedata.url;
-                        mainTabs.find(st).load(url + " .demo-container");
-                    }
-                }
+                st = Constants.tabPrefix + "blog";
+                mainTabs.tabs('add', st, treedata.menu);
                 
                 
             },
