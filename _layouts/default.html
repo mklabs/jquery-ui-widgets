@@ -6,50 +6,68 @@
         <link rel='stylesheet' type='text/css' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/pepper-grinder/jquery-ui.css' />
         <link rel="stylesheet" type="text/css" href='./css/ui.jqgrid.css' />
         <link rel="stylesheet" type="text/css" href='./css/ui.jqgrid.css' />
-		<link rel='stylesheet' type='text/css' href='./css/demo.css' />
+        <link rel='stylesheet' type='text/css' href='./css/demo.css' />
         <link type="text/css" rel="stylesheet" media="screen" href="./css/github/bundle_github.css">
+        <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAHc5vTX1b5JRG_TmDg-P9jhRvrMqQnLMZwfguGtkSuJg5ok_uCRQp0JbMRamMFH0ORRWUh4wLw39nuw"></script>
+        <script type="text/javascript">
+            
+            google.load("feeds", "1");
+            
+            function initialize(){
+                var feed = new google.feeds.Feed("http://www.digg.com/rss/index.xml");
+                feed.load(function(result){
+                    if (!result.error) {
+                        var container = document.getElementById("feed");
+                        for (var i = 0; i < result.feed.entries.length; i++) {
+                            var entry = result.feed.entries[i];
+                            var div = document.createElement("div");
+                            div.appendChild(document.createTextNode(entry.title));
+                            container.appendChild(div);
+                        }
+                    }
+                });
+            }
+            
+            google.setOnLoadCallback(initialize);
+        </script>
     </head>
     <body>
         <body id="doc3" class="ui-controller-index-layout-init ui-widget ui-widget-content">
-			
-		<div class="ui-layout-north">
-			<h1 id="mk-header-title" class="ui-widget-header">
-				<a href="./">
-					<img alt="github pages" src="http://github.com/images/modules/header/logo_pages.png" width="104" height="30">
-				</a>
-				<span class="mk-header-title-sub">
-					jQuery UI Controller
-				</span>
-			</h1>
-			<div id="mk-switcher"></div>
-		</div>
-		
-		<div class="ui-layout-west ui-widget ui-widget-content">
-            <table id="mk-west-grid"></table>
-		</div>
-		
-		<div class="ui-layout-center ui-controller-layout-init" style="overflow: auto;">
-			<div id="mk-tabs">
-                <ul>
-                    <li>
-                        <a href="#mk-tabs-1">Home</a>
-                    </li>
-                </ul>
-                <div id="mk-tabs-1">
-                	<div id="mk-main-content">
-	                	{{ content }}
-					</div>
+            <div class="ui-layout-north">
+                <h1 id="mk-header-title" class="ui-widget-header"><a href="./"><img alt="github pages" src="http://github.com/images/modules/header/logo_pages.png" width="104" height="30"></a><span class="mk-header-title-sub">jQuery UI Controller</span></h1>
+                <div id="mk-switcher">
                 </div>
             </div>
-		</div>
-		
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="./js/external/jquery.jqGrid.js"></script>
-		<script type="text/javascript" src="./js/external/jquery.layout.js"></script>
-		<script type="text/javascript" src="./js/external/jquery.themeswitcher.js"></script>
-		<script type="text/javascript" src="./js/external/jquery.livequery.js"></script>
-		<script type="text/javascript" src="./js/src/ui.controller.js"></script>
-		<script type="text/javascript" src="./js/src/bootstrap.js"></script>
-    </body>
-</html>
+            <div class="ui-layout-west ui-widget ui-widget-content">
+                <table id="mk-west-grid">
+                </table>
+            </div>
+            <div class="ui-layout-center ui-controller-layout-init" style="overflow: auto;">
+                <div id="mk-tabs">
+                    <ul>
+                        <li>
+                            <a href="#mk-tabs-1">Home</a>
+                        </li>
+                    </ul>
+                    <div id="mk-tabs-1">
+                        <div id="mk-main-content">
+                        	
+							 <div id="feed"></div>
+							 
+							 <hr />
+							
+                            {{ content }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="./js/external/jquery.jqGrid.js"></script>
+            <script type="text/javascript" src="./js/external/jquery.layout.js"></script>
+            <script type="text/javascript" src="./js/external/jquery.themeswitcher.js"></script>
+            <script type="text/javascript" src="./js/external/jquery.livequery.js"></script>
+            <script type="text/javascript" src="./js/src/ui.controller.js"></script>
+            <script type="text/javascript" src="./js/src/bootstrap.js"></script>
+        </body>
+        </html>
