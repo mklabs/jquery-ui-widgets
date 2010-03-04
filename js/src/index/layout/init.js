@@ -122,7 +122,7 @@
                 if (anchor.length > 1) {
                     anchor = anchor[1];
                 }
-                container.find("td[title='#" + anchor + "']").trigger('click');
+                container.find("td[title='" + anchor + "']").trigger('click');
             }
         };
     });
