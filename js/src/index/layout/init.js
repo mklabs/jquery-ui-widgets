@@ -93,7 +93,7 @@
             },
             gridComplete: function(){
                 console.log("Grid Complete:", this, arguments);
-                sandbox.getController("demo.layout.init").fire('gridComplete');
+                sandbox.getController("index.layout.init").fire('gridComplete');
             }
         });
         
