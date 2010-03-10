@@ -36,6 +36,6 @@
 	
 	$(function(){
 		$("#doc3 #bd .module li:last").addClass("ui-corner-bottom");
-	})
+	});
 	
 })();

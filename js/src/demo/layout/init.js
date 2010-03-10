@@ -85,7 +85,7 @@
                 if (treedata.isLeaf == "true") {
                     st = Constants.tabPrefix + treedata.id;
 					tab = mainTabs.find(st);
-                    if (tab.html() != null) {
+                    if (tab.html() !== null) {
                         mainTabs.tabs('select', st);
                     } else {
                         mainTabs.tabs('add', st, treedata.menu);
