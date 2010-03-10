@@ -50,14 +50,14 @@
         return path;
     };
 	
-    var Class, SandBox, BaseController, isRemote, urlFilter;
+    var Class, SandBox, BaseController;
 
-	isRemote = function(url){
+	var isRemote = function(url){
         var parts = rurl.exec(url);
         return parts && (parts[1] && parts[1] !== location.protocol || parts[2] !== location.host);
     };
     
-	require = function (options){
+	var require = function (options){
 	    var xhr, requestDone, ival, head, script, length = arguments.length - 1, callback = arguments[length];
 	    
 	    if (length > 1) {
@@ -72,7 +72,7 @@
 		            require(arguments[i], i === length - 1 ? callback :                    
 						// Make sure that a blank callback is provided to ensure async transport
 		            	$.isFunction(callback) ? function(){} : null);					
-				})();
+				}());
 	        }
 	        
 	        return;
@@ -85,7 +85,17 @@
 	        };
 	    }
 	    
-	    options.url = urlFilter(options.url);
+	    options.url = (function(url){
+	        if (!/\./.test(url) || (/^(\w+)./.test(url) && !/\//.test(url) && !/.js$/.test(url))) {
+	            url = url.replace(/^(\w+)./, function(all, name){
+	                return (require.namespace[name] || name) + "/";
+	            });
+				
+	        }
+	        
+	        return url;
+	    })(options.url);
+		
 	    
 	    if (!options || requireCache[options.url] != null) {
 	        // File is already loaded, immediately execute the callback
@@ -165,16 +175,6 @@
 	
 	require.namespace = {};
 	
-	urlFilter = function(url){
-        if (!/\./.test(url) || (/^(\w+)./.test(url) && !/\//.test(url) && !/.js$/.test(url))) {
-            url = url.replace(/^(\w+)./, function(all, name){
-                return (require.namespace[name] || name) + "/";
-            });
-			
-        }
-        
-        return url;
-    };
 	
     /**
      * Base Class.
