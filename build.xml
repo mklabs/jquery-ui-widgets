@@ -90,7 +90,7 @@
 		<exec executable="git">
 			<arg value="push" />
 			<arg value="origin" />
-			<arg value="master" />
+			<arg value="git@github.com:MkLabs/jquery-ui-controller.git" />
 		</exec>
 
 	</target>
