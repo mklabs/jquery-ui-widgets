@@ -51,17 +51,6 @@
     };
 	
     var Class, SandBox, BaseController;
-	
-	var urlFilter = function(url){
-        if (!/\./.test(url) || (/^(\w+)./.test(url) && !/\//.test(url) && !/.js$/.test(url))) {
-            url = url.replace(/^(\w+)./, function(all, name){
-                return (require.namespace[name] || name) + "/";
-            });
-			
-        }
-        
-        return url;
-    };
 
 	var isRemote = function(url){
         var parts = rurl.exec(url);
@@ -173,6 +162,17 @@
 	};
 	
 	require.namespace = {};
+	
+	var urlFilter = function(url){
+        if (!/\./.test(url) || (/^(\w+)./.test(url) && !/\//.test(url) && !/.js$/.test(url))) {
+            url = url.replace(/^(\w+)./, function(all, name){
+                return (require.namespace[name] || name) + "/";
+            });
+			
+        }
+        
+        return url;
+    };
 	
     /**
      * Base Class.
