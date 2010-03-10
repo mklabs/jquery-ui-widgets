@@ -56,9 +56,78 @@
         var parts = rurl.exec(url);
         return parts && (parts[1] && parts[1] !== location.protocol || parts[2] !== location.host);
     };
+	
+	var readyReady = function(){
+        if ($.isReady && requireQueue.length === 0) {
+            // If there are functions bound, to execute
+            if (readyList) {
+                // Execute all of them
+                var fn, i = 0;
+                while ((fn = readyList[i++])) {
+                    fn.call(document, $);
+                }
+                
+                // Reset the list of functions
+                readyList = null;
+                
+                // Trigger any bound ready events
+                if ($.fn.triggerHandler) {
+                    $(document).triggerHandler("ready");
+                }
+            }
+        }
+    };
+	
+	var execRequire = function(url, script, callback){
+        var item, i, exec = true;
+        
+        requireCache[url] = true;
+        
+        for (i = 0; i < requireQueue.length; i++) {
+            item = requireQueue[i];
+            
+            if (item.url === url) {
+                if (script != null) {
+                    item.script = script;
+                } else {
+                    next();
+                    continue;
+                }
+                
+            }
+            
+            if (exec && item.script) {
+                $.globalEval(item.script);	
+                next();
+            } else {
+                exec = false;
+            }
+        }
+        
+        if ($.isFunction(callback)) {
+            callback();
+        }
+        
+        // Check to see if all scripts have been loaded
+        for (var script in requireCache) {
+            if (requireCache[script] === false) {
+                return;
+            }
+        }
+        
+        readyReady();
+        
+        function next(){
+            if ($.isFunction(item.callback)) {
+                item.callback();
+            }
+            
+            requireQueue.splice(i--, 1);
+        }
+    };
     
 	var require = function (options){
-	    var xhr, requestDone, ival, head, script, length = arguments.length - 1, callback = arguments[length];
+	    var xhr, requestDone, ival, head, script, length = arguments.length - 1, callback = arguments[length], checkDone;
 	    
 	    if (length > 1) {
 	        if (!$.isFunction(callback)) {
@@ -97,7 +166,7 @@
 	    })(options.url);
 		
 	    
-	    if (!options || requireCache[options.url] != null) {
+	    if (!options || requireCache[options.url] !== null) {
 	        // File is already loaded, immediately execute the callback
 	        if ($.isFunction(callback)) {
 	            callback();
@@ -116,7 +185,7 @@
 	        xhr.open("GET", options.url, !$.isReady);
 	        xhr.send(null);
 	        
-	        function checkDone(){
+	        checkDone = function(){
 	            if (!requestDone && xhr && xhr.readyState === 4) {
 	                requestDone = true;
 	                
@@ -128,7 +197,7 @@
 	                
 	                execRequire(options.url, xhr.responseText, callback);
 	            }
-	        }
+	        };
 	        
 	        if ($.isReady) {
 	            checkDone();
@@ -648,77 +717,6 @@
         }
 		
         return controllers[controllerId].instance;
-    };
-	
-	
-	
-	function execRequire(url, script, callback){
-        var item, i, exec = true;
-        
-        requireCache[url] = true;
-        
-        for (i = 0; i < requireQueue.length; i++) {
-            item = requireQueue[i];
-            
-            if (item.url === url) {
-                if (script != null) {
-                    item.script = script;
-                } else {
-                    next();
-                    continue;
-                }
-                
-            }
-            
-            if (exec && item.script) {
-                $.globalEval(item.script);	
-                next();
-            } else {
-                exec = false;
-            }
-        }
-        
-        if ($.isFunction(callback)) {
-            callback();
-        }
-        
-        // Check to see if all scripts have been loaded
-        for (var script in requireCache) {
-            if (requireCache[script] === false) {
-                return;
-            }
-        }
-        
-        readyReady();
-        
-        function next(){
-            if ($.isFunction(item.callback)) {
-                item.callback();
-            }
-            
-            requireQueue.splice(i--, 1);
-        }
-    };
-	
-	function readyReady(){
-        if ($.isReady && requireQueue.length === 0) {
-            // If there are functions bound, to execute
-            if (readyList) {
-                // Execute all of them
-                var fn, i = 0;
-                while ((fn = readyList[i++])) {
-                    fn.call(document, $);
-                }
-                
-                // Reset the list of functions
-                readyList = null;
-                
-                // Trigger any bound ready events
-                if ($.fn.triggerHandler) {
-                    $(document).triggerHandler("ready");
-                }
-            }
-        }
     };
 			
     /**
