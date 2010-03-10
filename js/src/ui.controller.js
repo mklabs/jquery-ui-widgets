@@ -50,14 +50,14 @@
         return path;
     };
 	
-    var Class, SandBox, BaseController;
+    var Class, SandBox, BaseController, isRemote, urlFilter;
 
-	var isRemote = function(url){
+	isRemote = function(url){
         var parts = rurl.exec(url);
         return parts && (parts[1] && parts[1] !== location.protocol || parts[2] !== location.host);
     };
     
-	var require = function (options){
+	require = function (options){
 	    var xhr, requestDone, ival, head, script, length = arguments.length - 1, callback = arguments[length];
 	    
 	    if (length > 1) {
@@ -67,10 +67,12 @@
 	        }
 	        
 	        for (var i = 0; i < length; i++) {
-	            // We only need to run the callback after all the scripts have loaded
-	            require(arguments[i], i === length - 1 ? callback :                    
-					// Make sure that a blank callback is provided to ensure async transport
-	            	$.isFunction(callback) ? function(){} : null);
+				(function(){
+					 // We only need to run the callback after all the scripts have loaded
+		            require(arguments[i], i === length - 1 ? callback :                    
+						// Make sure that a blank callback is provided to ensure async transport
+		            	$.isFunction(callback) ? function(){} : null);					
+				})();
 	        }
 	        
 	        return;
@@ -163,7 +165,7 @@
 	
 	require.namespace = {};
 	
-	var urlFilter = function(url){
+	urlFilter = function(url){
         if (!/\./.test(url) || (/^(\w+)./.test(url) && !/\//.test(url) && !/.js$/.test(url))) {
             url = url.replace(/^(\w+)./, function(all, name){
                 return (require.namespace[name] || name) + "/";
