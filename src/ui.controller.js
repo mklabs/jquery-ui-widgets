@@ -358,24 +358,6 @@
         return _load.apply(this, arguments);
     };
 	
-	/* * /
-	// May be not so elegant... Responsible of re-binding controller's widget with previously stored instance, if any.
-	// Non event live event a la livequery may be very usefull there.
-    $(document).ajaxComplete(function(e, xhr, settings){
-		var t = $(xhr.responseText);
-		var context = settings.context;
-
-		$.each(controllers, function(){
-			var f = $(this.sel, context);
-			if(f.get(0)){
-				// Reinit controller with previously stored instance
-				f.controller(this.instance);
-			}
-			
-		});
-    });
-    /* */
-	
 	$("[class^='ui-controller']").livequery(function(){
 		console.log("Livequery in:", this, arguments);
 		
