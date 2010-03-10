@@ -51,6 +51,131 @@
     };
 	
     var Class, SandBox, BaseController;
+	
+	/**
+     * Based on DUI's one.  <br />
+     *
+     * Make a namespace within a class.
+     * Usage 1: MyClass.ns('foo.bar');
+     * Usage 2: MyClass.ns('foo.bar', 'baz');
+     * 
+     * @param {String} name Period separated list of namespaces to nest. MyClass.ns('foo.bar') makes MyClass['foo']['bar'].
+     * @param {optional mixed} value Set the contents of the deepest specified namespace to this value. 
+     * 
+     */
+    var ns = function(){
+        if (arguments.length == 0) throw new Error('ns should probably have some arguments passed to it.');
+        
+        var arg = arguments[0];
+        var levels = null;
+        var get = (arguments.length == 1 || arguments[1] === undefined) && arg.constructor != Object ? true : false;
+        
+        if (arg.constructor == String) {
+            var dummy = {};
+            dummy[arg] = arguments[1] ? arguments[1] : undefined;
+            
+            arg = dummy;
+        }
+        
+        if (arg.constructor == Object) {
+            var _class = this, miss = false, last = this;
+            
+            $.each(arg, function(nsName, nsValue){
+                //Reset nsobj back to the top each time
+                var nsobj = _class;
+                var levels = nsName.split('.');
+                
+                $.each(levels, function(i, level){
+                    //First, are we using ns as a getter? Also, did our get attempt fail?
+                    if (get && typeof nsobj[level] == 'undefined') {
+                        //Dave's not here, man
+                        miss = true;
+                        
+                        //Break out of each
+                        return false;
+                    } else if (i == levels.length - 1 && nsValue) {
+                        //Ok, so we're setting. Is it time to set yet or do we move on?
+                        nsobj[level] = nsValue;
+                    } else if (typeof nsobj[level] == 'undefined') {
+                        //...nope, not yet. Check to see if the ns doesn't already exist in our class...
+                        //...and make it a new static class
+                        nsobj[level] = {};
+                    }
+                    
+                    //Move one level deeper for the next iteration
+                    last = nsobj = nsobj[level];
+                });
+            });
+            
+            return miss ? undefined : last;
+        }
+    };
+	
+	/**
+	 * Internal use only.
+	 * 
+	 * Does three things:
+	 * <ul>
+	 *     <li>Extends the baseController and create a fresh a new instance.</li>
+	 *     <li>
+	 *       Stores a reference of newly created instance in an internal controllers cache 
+	 *       (with some metadata, namely used selector and base Class)</li>
+	 *     <li>Setup error handling in controllers instance.</li>
+	 * </ul>
+	 * 
+	 * FIXME: Prevent multiple instantiation of same controller. 
+	 *   Will have to check in cache first.
+	 * 
+	 * @private
+	 * @param {Object} baseController
+	 * @param {Object} prototype
+	 */
+    var _createInstance = function(baseController, prototype){
+        var Base, _init, name, method, instance, controllerId = prototype.id ? prototype.id : this.attr("id").replace(/-/g, "_");
+		
+		if(!controllerId || controllerId === ""){
+			throw new Error("Unable to compute controller identifier, please provide one or an id attribute upon the target DOM Element.");
+		}
+		
+		// Make sure we always call the BaseController constructor
+		if($.isFunction(prototype.init)){
+			_init = prototype.init;
+			prototype.init = function(){
+				this._super.apply(this, arguments);
+				return _init.apply(this, arguments);
+			};
+		}
+		
+		Base = baseController.extend(prototype);
+		
+        // Store a reference to the instance controller
+        controllers[controllerId] = {
+            instance: new Base(this),
+            base: Base,
+            sel: this.selector
+        };
+        
+		instance = controllers[controllerId].instance;
+        
+        if (!debug) {
+            for (name in instance) {
+                if ($.isFunction(instance[name])) {
+					method = instance[name];
+                    instance[name] = function(name, method){
+                        return function(){
+                            try {
+                                return method.apply(this, arguments);
+                            } catch (ex) {
+                                console.error(1, name + "(): " + ex.message);
+                            }
+                        };
+                    }(name, method);
+                }
+            }
+        }
+		
+        return controllers[controllerId].instance;
+    };
 
 	var isRemote = function(url){
         var parts = rurl.exec(url);
@@ -79,7 +204,13 @@
     };
 	
 	var execRequire = function(url, script, callback){
-        var item, i, exec = true;
+        var item, i, exec = true, next= function(){
+            if ($.isFunction(item.callback)) {
+                item.callback();
+            }
+            
+            requireQueue.splice(i--, 1);
+        };
         
         requireCache[url] = true;
         
@@ -87,7 +218,7 @@
             item = requireQueue[i];
             
             if (item.url === url) {
-                if (script != null) {
+                if (script !== null) {
                     item.script = script;
                 } else {
                     next();
@@ -109,21 +240,13 @@
         }
         
         // Check to see if all scripts have been loaded
-        for (var script in requireCache) {
-            if (requireCache[script] === false) {
+        for (var cachedScript in requireCache) {
+            if (requireCache[cachedScript] === false) {
                 return;
             }
         }
         
         readyReady();
-        
-        function next(){
-            if ($.isFunction(item.callback)) {
-                item.callback();
-            }
-            
-            requireQueue.splice(i--, 1);
-        }
     };
     
 	var require = function (options){
@@ -345,7 +468,7 @@
                 
                 return controllers[id].instance;
             }
-        }
+        };
     }();
     
     /**
@@ -473,7 +596,9 @@
                 var action = prop.split(" ")[1];
                 var callback;
                 
-                if (!action) return;
+                if (!action) {
+					return;
+				}
                 
                 callback = $.isFunction(value) ? value : function(){};
                 instance.Elements[sel] = $(sel, self.element);
@@ -546,7 +671,7 @@
         
         if (parent.constructor === String) {
             // We depends on some Base Controller
-            baseController = controllers[parent] ? _controllers[parent].base : ns.call($, parent);
+            baseController = controllers[parent] ? controllers[parent].base : ns.call($, parent);
             
             if (!baseController) {
                 throw new Error("$.fn.controller: Unable to retrieve base controller: " + parent);
@@ -559,7 +684,7 @@
         
         if ($.isFunction(entrypoint)) {
             prototype = entrypoint.call(this, SandBox);
-            instance = _createInstance.call(this, baseController, prototype)
+            instance = _createInstance.call(this, baseController, prototype);
             
             // Start the controller by calling controller widget			
             return _controller.call(this, instance);
@@ -609,29 +734,11 @@
         return _load.apply(this, arguments);
     };
 	
-	/*
-	 May be not so elegant... Responsible of re-binding controller's widget with previously stored instance, if any.
-	 Non event live event a la livequery may be very usefull there.
-    $(document).ajaxComplete(function(e, xhr, settings){
-		var t = $(xhr.responseText);
-		var context = settings.context;
-
-		$.each(controllers, function(){
-			var f = $(this.sel, context);
-			if(f.get(0)){
-				// Reinit controller with previously stored instance
-				f.controller(this.instance);
-			}
-			
-		});
-    });
-    */
-	
 	$("[class^='ui-controller']").livequery(function(){
 		var target = $(this);
 		var basePath = $.ui.controller.defaults.basePath;
 		var context = target.parent();
-		var cssClass = target.attr("class")
+		var cssClass = target.attr("class");
 		var url = cssClass.split(" ")[0].replace("ui-controller-", "").replace(/-/g, "/") + ".js";
 		console.log("Load features ", basePath + url);
 		
@@ -651,131 +758,5 @@
 	}, function(){
 		console.log("Livequery out:", this, arguments);
 	});
-	
-    
-	
-	/**
-	 * Internal use only.
-	 * 
-	 * Does three things:
-	 * <ul>
-	 *     <li>Extends the baseController and create a fresh a new instance.</li>
-	 *     <li>
-	 *       Stores a reference of newly created instance in an internal controllers cache 
-	 *       (with some metadata, namely used selector and base Class)</li>
-	 *     <li>Setup error handling in controllers instance.</li>
-	 * </ul>
-	 * 
-	 * FIXME: Prevent multiple instantiation of same controller. 
-	 *   Will have to check in cache first.
-	 * 
-	 * @private
-	 * @param {Object} baseController
-	 * @param {Object} prototype
-	 */
-    function _createInstance(baseController, prototype){
-        var Base, _init, name, method, controllerId = prototype.id ? prototype.id : this.attr("id").replace(/-/g, "_");
-		
-		if(!controllerId || controllerId === ""){
-			throw new Error("Unable to compute controller identifier, please provide one or an id attribute upon the target DOM Element.")
-		}
-		
-		// Make sure we always call the BaseController constructor
-		if($.isFunction(prototype['init'])){
-			_init = prototype['init'];
-			prototype['init'] = function(){
-				this._super.apply(this, arguments);
-				return _init.apply(this, arguments);
-			};
-		}
-		
-		Base = baseController.extend(prototype);
-		
-        // Store a reference to the instance controller
-        controllers[controllerId] = {
-            instance: new Base(this),
-            base: Base,
-            sel: this.selector
-        };
-        
-        
-        if (!debug) {
-            for (name in instance) {
-                method = instance[name];
-                if ($.isFunction(method)) {
-                    instance[name] = function(name, method){
-                        return function(){
-                            try {
-                                return method.apply(this, arguments);
-                            } catch (ex) {
-                                console.error(1, name + "(): " + ex.message);
-                            }
-                        };
-                    }(name, method);
-                }
-            }
-        }
-		
-        return controllers[controllerId].instance;
-    };
-			
-    /**
-     * Based on DUI's one.  <br />
-     *
-     * Make a namespace within a class.
-     * Usage 1: MyClass.ns('foo.bar');
-     * Usage 2: MyClass.ns('foo.bar', 'baz');
-     * 
-     * @param {String} name Period separated list of namespaces to nest. MyClass.ns('foo.bar') makes MyClass['foo']['bar'].
-     * @param {optional mixed} value Set the contents of the deepest specified namespace to this value. 
-     * 
-     */
-    function ns(){
-        if (arguments.length == 0) throw new Error('ns should probably have some arguments passed to it.');
-        
-        var arg = arguments[0];
-        var levels = null;
-        var get = (arguments.length == 1 || arguments[1] === undefined) && arg.constructor != Object ? true : false;
-        
-        if (arg.constructor == String) {
-            var dummy = {};
-            dummy[arg] = arguments[1] ? arguments[1] : undefined;
-            
-            arg = dummy;
-        }
-        
-        if (arg.constructor == Object) {
-            var _class = this, miss = false, last = this;
-            
-            $.each(arg, function(nsName, nsValue){
-                //Reset nsobj back to the top each time
-                var nsobj = _class;
-                var levels = nsName.split('.');
-                
-                $.each(levels, function(i, level){
-                    //First, are we using ns as a getter? Also, did our get attempt fail?
-                    if (get && typeof nsobj[level] == 'undefined') {
-                        //Dave's not here, man
-                        miss = true;
-                        
-                        //Break out of each
-                        return false;
-                    } else if (i == levels.length - 1 && nsValue) {
-                        //Ok, so we're setting. Is it time to set yet or do we move on?
-                        nsobj[level] = nsValue;
-                    } else if (typeof nsobj[level] == 'undefined') {
-                        //...nope, not yet. Check to see if the ns doesn't already exist in our class...
-                        //...and make it a new static class
-                        nsobj[level] = {};
-                    }
-                    
-                    //Move one level deeper for the next iteration
-                    last = nsobj = nsobj[level];
-                });
-            });
-            
-            return miss ? undefined : last;
-        }
-    };
     
 })(jQuery);
