@@ -89,8 +89,8 @@
 
 		<exec executable="git">
 			<arg value="push" />
-			<arg value="HEAD" />
 			<arg value="git@github.com:MkLabs/jquery-ui-controller.git" />
+			<arg value="HEAD" />
 		</exec>
 
 	</target>
