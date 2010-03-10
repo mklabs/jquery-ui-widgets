@@ -68,6 +68,112 @@
         return parts && (parts[1] && parts[1] !== location.protocol || parts[2] !== location.host);
     };
     
+	var require = function (options){
+	    var xhr, requestDone, ival, head, script, length = arguments.length - 1, callback = arguments[length];
+	    
+	    if (length > 1) {
+	        if (!$.isFunction(callback)) {
+	            callback = null;
+	            length = arguments.length;
+	        }
+	        
+	        for (var i = 0; i < length; i++) {
+	            // We only need to run the callback after all the scripts have loaded
+	            require(arguments[i], i === length - 1 ? callback :                    
+					// Make sure that a blank callback is provided to ensure async transport
+	            	$.isFunction(callback) ? function(){} : null);
+	        }
+	        
+	        return;
+	    }
+	    
+	    if (options && !options.url) {
+	        options = {
+	            url: options,
+	            success: callback
+	        };
+	    }
+	    
+	    options.url = urlFilter(options.url);
+	    
+	    if (!options || requireCache[options.url] != null) {
+	        // File is already loaded, immediately execute the callback
+	        if ($.isFunction(callback)) {
+	            callback();
+	        }
+	        
+	        return;
+	    }
+	    
+	    requireQueue.push(options);
+	    requireCache[options.url] = false;
+	    
+	    // If the DOM ready event has already occurred, we need to go synchronous
+	    if (!isRemote(options.url)) {
+	        xhr = window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") : new XMLHttpRequest();
+	        
+	        xhr.open("GET", options.url, !$.isReady);
+	        xhr.send(null);
+	        
+	        function checkDone(){
+	            if (!requestDone && xhr && xhr.readyState === 4) {
+	                requestDone = true;
+	                
+	                // clear poll interval
+	                if (ival) {
+	                    clearInterval(ival);
+	                    ival = null;
+	                }
+	                
+	                execRequire(options.url, xhr.responseText, callback);
+	            }
+	        }
+	        
+	        if ($.isReady) {
+	            checkDone();
+	        } else {
+	            ival = setInterval(checkDone, 13);
+	        }
+	        
+	        // Otherwise we can still load scripts asynchronously
+	    } else {
+	        head = document.getElementsByTagName("head")[0] || document.documentElement;
+	        script = document.createElement("script");
+	        
+	        script.src = options.url;
+	        
+	        if (options.scriptCharset) {
+	            script.charset = options.scriptCharset;
+	        }
+	        
+	        // Attach handlers for all browsers
+	        script.onload = script.onreadystatechange = function(){
+	            if (!requestDone &&
+	            (!this.readyState ||
+	            this.readyState === "loaded" ||
+	            this.readyState === "complete")) {
+	            
+	                requestDone = true;
+	                
+	                // Handle memory leak in IE
+	                script.onload = script.onreadystatechange = null;
+	                
+	                if (head && script.parentNode) {
+	                    head.removeChild(script);
+	                }
+	                
+	                execRequire(options.url, null, callback);
+	            }
+	        };
+	        
+	        // Use insertBefore instead of appendChild  to circumvent an IE6 bug.
+	        // This arises when a base node is used 
+	        head.insertBefore(script, head.firstChild);
+	    }
+	};
+	
+	require.namespace = {};
+	
     /**
      * Base Class.
      * 
@@ -79,9 +185,9 @@
      * 
      */
     (function(){
-        var initializing = false, fnTest = /xyz/.test(function(){
-            xyz;
-        }) ? /\b_super\b/ : /.*/;
+        var 
+			initializing = false, 
+			fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
         
         // The base Class implementation (does nothing)
         Class = function(){};
@@ -542,111 +648,7 @@
         return controllers[controllerId].instance;
     };
 	
-	function require(options){
-	    var xhr, requestDone, ival, head, script, length = arguments.length - 1, callback = arguments[length];
-	    
-	    if (length > 1) {
-	        if (!$.isFunction(callback)) {
-	            callback = null;
-	            length = arguments.length;
-	        }
-	        
-	        for (var i = 0; i < length; i++) {
-	            // We only need to run the callback after all the scripts have loaded
-	            require(arguments[i], i === length - 1 ? callback :                    
-					// Make sure that a blank callback is provided to ensure async transport
-	            	$.isFunction(callback) ? function(){} : null);
-	        }
-	        
-	        return;
-	    }
-	    
-	    if (options && !options.url) {
-	        options = {
-	            url: options,
-	            success: callback
-	        };
-	    }
-	    
-	    options.url = urlFilter(options.url);
-	    
-	    if (!options || requireCache[options.url] != null) {
-	        // File is already loaded, immediately execute the callback
-	        if ($.isFunction(callback)) {
-	            callback();
-	        }
-	        
-	        return;
-	    }
-	    
-	    requireQueue.push(options);
-	    requireCache[options.url] = false;
-	    
-	    // If the DOM ready event has already occurred, we need to go synchronous
-	    if (!isRemote(options.url)) {
-	        xhr = window.ActiveXObject ? new ActiveXObject("Microsoft.XMLHTTP") : new XMLHttpRequest();
-	        
-	        xhr.open("GET", options.url, !$.isReady);
-	        xhr.send(null);
-	        
-	        function checkDone(){
-	            if (!requestDone && xhr && xhr.readyState === 4) {
-	                requestDone = true;
-	                
-	                // clear poll interval
-	                if (ival) {
-	                    clearInterval(ival);
-	                    ival = null;
-	                }
-	                
-	                execRequire(options.url, xhr.responseText, callback);
-	            }
-	        }
-	        
-	        if ($.isReady) {
-	            checkDone();
-	        } else {
-	            ival = setInterval(checkDone, 13);
-	        }
-	        
-	        // Otherwise we can still load scripts asynchronously
-	    } else {
-	        head = document.getElementsByTagName("head")[0] || document.documentElement;
-	        script = document.createElement("script");
-	        
-	        script.src = options.url;
-	        
-	        if (options.scriptCharset) {
-	            script.charset = options.scriptCharset;
-	        }
-	        
-	        // Attach handlers for all browsers
-	        script.onload = script.onreadystatechange = function(){
-	            if (!requestDone &&
-	            (!this.readyState ||
-	            this.readyState === "loaded" ||
-	            this.readyState === "complete")) {
-	            
-	                requestDone = true;
-	                
-	                // Handle memory leak in IE
-	                script.onload = script.onreadystatechange = null;
-	                
-	                if (head && script.parentNode) {
-	                    head.removeChild(script);
-	                }
-	                
-	                execRequire(options.url, null, callback);
-	            }
-	        };
-	        
-	        // Use insertBefore instead of appendChild  to circumvent an IE6 bug.
-	        // This arises when a base node is used 
-	        head.insertBefore(script, head.firstChild);
-	    }
-	};
 	
-	require.namespace = {};
 	
 	function execRequire(url, script, callback){
         var item, i, exec = true;

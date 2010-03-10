@@ -69,12 +69,30 @@
 
 	<target name="build" depends="init, doc" description="A simple build file">
 		<echo>
-            Starting build
-        </echo>
+	            Starting build
+	        </echo>
 		<copy todir="${target_dir}">
 			<fileset dir="${build_dir}">
 			</fileset>
 		</copy>
+	</target>
+
+	<target name="upload" description="A simple build file">
+		<echo>Starting upload</echo>
+
+		<exec executable="git">
+			<arg value="commit" />
+			<arg value="-a" />
+			<arg value="-m" />
+			<arg value="Auto commit" />
+		</exec>
+
+		<exec executable="git">
+			<arg value="push" />
+			<arg value="origin" />
+			<arg value="master" />
+		</exec>
+
 	</target>
 
 </project>
