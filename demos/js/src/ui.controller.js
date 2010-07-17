@@ -513,7 +513,7 @@
 		/**
 		 * Setup event delegation restricted to the controller container.
 		 * 
-		 * Each eventHandler is given a context (thanks to $.proxy method) that matchs the correct instance. This means that you could use something 
+		 * Each eventHandler is given a context that matchs the correct instance. This means that you could use something 
 		 * like this.doThing() in there. The original or current target are still available in Event object passed in as parameter.
 		 * 
 		 * @method _initEvents
