@@ -1,0 +1,92 @@
+html {
+    font-size: 11px;
+}
+
+img {
+    border: none;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+.alt {
+    font-family: "Warnock Pro", "Goudy Old Style", "Palatino", "Book Antiqua", Georgia, serif;
+    font-style: italic;
+    font-weight: normal;
+}
+
+#mk-header-title {
+	position: relative;
+    padding: 0.3em;
+    font-style: italic;
+    font-weight: bolder;
+    letter-spacing: 0.1em;
+}
+
+#mk-header-title .mk-header-title-sub {
+    top: 0.6em;
+    left: 120px;
+    position: absolute;
+	font-size: 0.7em;
+	font-style: normal;
+}
+
+#mk-switcher {
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+}
+
+.ui-tabs-close {
+    display: none;
+    position: absolute;
+    top: 3px;
+    right: 0px;
+    z-index: 800;
+    width: 16px;
+    height: 14px;
+    font-size: 10px;
+    font-style: normal;
+    cursor: pointer;
+}
+
+.ui-tabs-selected .ui-tabs-close {
+    display: block;
+}
+
+/* ui-controller-demo-simple */
+.ui-controller-demo-simple {
+    width: 50%;
+    margin: auto;
+}
+
+.ui-controller-demo-simple .ui-widget-header {
+    position: relative;
+}
+
+.ui-controller-demo-simple .ui-widget-header h2 {
+    padding: 0.2em;
+}
+
+.ui-controller-demo-simple .ui-widget-header button {
+    position: absolute;
+    right: 2em;
+    top: 0.4em;
+}
+
+.ui-controller-demo-simple ol {
+    list-style: none;
+}
+
+.ui-controller-demo-simple ol li {
+    padding: 1em;
+}
+
+#mk-main-content {
+    margin: 0 auto;
+    padding: 0 15px;
+    text-align: left;
+    width: 920px;
+}

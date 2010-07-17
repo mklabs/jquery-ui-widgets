@@ -16,3 +16,7 @@ Wiki
 -----------------------------
 
 [http://wiki.github.com/MkLabs/jquery-ui-controller/](http://wiki.github.com/MkLabs/jquery-ui-controller/).
+
+Demo
+-----------------------------
+[http://mklabs.github.com/jquery-ui-controller/demos/#demos/simple.html](http://mklabs.github.com/jquery-ui-controller/demos/#demos/simple.html).
