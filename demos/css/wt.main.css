@@ -162,3 +162,10 @@ ol.formatted li {
 table tbody tr td{
 	padding: 0.5em;
 }
+.site {
+  width: 60em;
+}
+
+#content.site {
+  width: 59em;
+}

@@ -1,0 +1,75 @@
+#doc3 #mk-header-title {
+    position: relative;
+}
+
+#doc3 #mk-header-title span.mk-header-title-sub {
+    position: absolute;
+    left: 120px;
+    bottom: 1em;
+    /* color: #939393; */
+}
+
+#doc3 #mk-header-title .subtitle {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 1em;
+    top: 0.7em;
+}
+
+#doc3 #mk-switcher {
+    right: 3em;
+}
+
+#doc3 #hd #path a {
+    /* color: #4183C4; */
+    height: 2em;
+}
+
+#doc3 #hd #path {
+    padding: 0.8em 0 0;
+	height: 2em;
+}
+
+#doc3 #hd #propertysearch {
+    padding: 0.5em;
+    position: absolute;
+    right: 1em;
+    top: 4px;
+    width: 30em;
+}
+
+#doc3 #bd .nav .module li {
+    padding: 0.3em 0 0.3em 0.6em;
+}
+
+#doc3 .summary {
+}
+
+#doc3 #bd .nav .module li, #doc3 #bd .nav .module li a {
+    font-size: 0.8em;
+}
+
+#doc3 #bd .classopts {
+    background-color: #ECF0F6;
+    border: 1px solid #98AAB1;
+    float: right;
+    font-size: 85%;
+    margin: 0;
+    padding: 2px;
+}
+
+#doc3 #bd .nav .module {
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+    margin-top: 0.5em;
+}
+
+#doc3 #bd #yui-classopts-form {
+    padding-right: 2em;
+}
+
+#doc3 #hd #path a {
+    font-size: 100%;
+}
