@@ -15,4 +15,4 @@ in your application, either it is browser event or custom ones, a controller sho
 Wiki
 -----------------------------
 
-http://wiki.github.com/MkLabs/jquery-ui-controller/
+[http://wiki.github.com/MkLabs/jquery-ui-controller/](http://wiki.github.com/MkLabs/jquery-ui-controller/).
