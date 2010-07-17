@@ -12,9 +12,7 @@ in your application, either it is browser event or custom ones, a controller sho
 
 * Controllers use event delegation.
 
-Demo
+Wiki
 -----------------------------
 
-CRUD Use case: http://weekly-task.appspot.com/weekly/test/
-
-Use Google App Engine as a backend.
+[http://wiki.github.com/MkLabs/jquery-ui-controller/](http://wiki.github.com/MkLabs/jquery-ui-controller/).
