@@ -1,6 +1,6 @@
 jQuery UI Controller Widget
 ================================
-A jQuery UI Widget that provides you clean and handy way to organize your jQuery code. 
+A jQuery UI Widget that provides you clean and handy way to organise your jQuery code. 
 Controllers organize event handlers through the power of event delegation. If something happens 
 in your application, either it is browser event or custom ones, a controller should respond to it.
 
@@ -24,8 +24,8 @@ It was a really good exercise to me, try to find solutions and code hard is one 
 Wiki
 -----------------------------
 
-[http://wiki.github.com/MkLabs/jquery-ui-controller/](http://wiki.github.com/MkLabs/jquery-ui-controller/).
+[http://wiki.github.com/mklabs/jquery-ui-widgets/](http://wiki.github.com/mklabs/jquery-ui-widgets/)
 
 Demo
 -----------------------------
-[http://mklabs.github.com/jquery-ui-controller/demos/#demos/simple.html](http://mklabs.github.com/jquery-ui-controller/demos/#demos/simple.html).
+[http://mklabs.github.com/jquery-ui-widgets/demos/#demos/simple.html](http://mklabs.github.com/jquery-ui-widgets/demos/#demos/simple.html)
