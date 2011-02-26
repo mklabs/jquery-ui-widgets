@@ -1,0 +1,89 @@
+/** Buttons **/
+.mk-button {
+    outline: 0;
+	margin-left: 4px;
+    padding: .4em 1em;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    zoom: 1;
+    font-size: 100%;
+}
+
+.mk-button .ui-icon {
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    left: 50%;
+    margin-left: -8px;
+}
+
+/* remove extra button width in IE */
+button.mk-button {
+    width: auto;
+    overflow: visible;
+}
+
+.mk-button-icon-left {
+    padding-left: 2.1em;
+}
+
+.mk-button-icon-right {
+    padding-right: 2.1em;
+}
+
+.mk-button-icon-left .ui-icon {
+    right: auto;
+    left: .2em;
+    margin-left: 0;
+}
+
+.mk-button-icon-right .ui-icon {
+    left: auto;
+    right: .2em;
+    margin-left: 0;
+}
+
+/* solo icon buttons must have block properties for the text-indent to work */
+.mk-button-icon-solo {
+    display: block;
+    width: 8px;
+    height: 12px;
+    text-indent: -9999px;
+}
+
+.mk-buttonset{
+	margin: 1em auto;
+}
+
+/* specific display block for inner table button */
+table .mk-button{
+	display: block;	
+}
+
+.mk-buttonset-block .mk-button{
+	display: inline;
+} 
+
+.mk-buttonset-single .mk-button, .mk-buttonset-multi .mk-button {
+	margin-right: -8px !important;
+    margin-right: -5px;
+}
+
+.mk-toolbar {
+    padding: 0.5em 1.5em 0.5em 0.5em !important;
+	padding: 0.5em 0.7em 0.5em 0.5em;
+    margin: 0;    
+}
+
+.mk-toolbar .mk-buttonset, .mk-toolbar .mk-buttonset-multi, .mk-toolbar .mk-buttonset-single {
+    margin: 0 1.5em 0 0;
+    padding-left: 1px;
+}
+
+.mk-toolbar .mk-button {
+    font-size: 1em;
+	margin-right: -8px !important;
+    margin-right: -5px;
+}

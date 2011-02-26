@@ -1,0 +1,96 @@
+<!doctype html>  
+
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title></title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ui.socialize.css">
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/themes/overcast/jquery-ui.css">
+  
+  <script id="ui-socialize-tmpl-main" type="text/x-jquery-tmpl">
+    <div class="ui-socialize-wrapper">
+      <div class="ui-socialize-header ui-socialize-toolbar ui-widget-header ui-corner-top ui-helper-clearfix">
+        <div class="ui-socialize-buttonset ui-socialize-buttonset-single ui-helper-clearfix">
+          {{each(src, url) headers}}
+            <span title="${src}" data-src="${src}" class="ui-socialize-button ui-socialize-button-icon-left ui-state-default">
+              <span class="ui-icon ui-icon-${src}"></span>${src}
+            </span>
+          {{/each}}
+        </div>
+      </div>
+    	<div class="ui-socialize-content-resizable">
+	      <div class="ui-socialize-content ui-widget-content ui-corner-bottom">
+	        {{each(src, url) headers}}
+	          <ul class="ui-socialize-content-${src} ui-socialize-content-pane ui-state-hidden" data-src="${src}">
+	            <li class="ui-state-highlight ui-socialize-loading ui-corner-all">
+	              Loading...
+	            </li>
+	          </ul>
+	        {{/each}}
+	      </div>
+	    </div>
+	    </div>
+  </script>
+  
+  <script id="ui-socialize-tmpl-list" type="text/x-jquery-tmpl">
+    {{each(i, data) items}}
+      <li class="ui-socialize-content-item ui-widget-content">
+        {{if src !== 'twitter'}} 
+          <b>${data.title}</b> 
+        {{/if}}
+        <div>{{html data.content}}</div>
+      </li>
+    {{/each}}
+  </script>
+  
+</head>
+
+<body>
+
+  <div id="container">
+    <header class="ui-widget-header">
+      <h1>How To Build a Widget to Display your Buzzing, Tweeting, Githubing (Using <a href="http://developer.yahoo.com/yql/console/">YQL</a>, <a href="http://api.jquery.com/category/plugins/templates/">jQuery Templates plugin</a> and the <a href="http://jqueryui.com/docs/Upgrade_Guide#Widget_Factory|default">jQuery UI Widget factory</a>)</h1>
+      <div id="switcher"></div>
+    </header>
+    
+    <div id="main">
+      
+      <div class="ui-socialize-demo">
+        <div class="ui-socialize-demo-widget"
+          data-socialize-github="mklabs"
+          data-socialize-twitter="mklabs"
+          data-socialize-buzz="daniel.mickael">
+        </div>
+      </div>
+      
+      
+    </div>
+   
+    <footer>
+      
+    </footer>
+  </div> <!-- end of #container -->
+
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.4.4.js"%3E%3C/script%3E'))</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.js"></script>  
+
+  <script src="js/libs/jquery.tmpl.js"></script>
+  <script src="js/libs/jquery.themeswitcher.js"></script>
+  
+  <script src="js/mylibs/ui.socialize.js"></script>
+  
+  <script src="js/script.js"></script>
+  
+</body>
+</html>

@@ -1,0 +1,89 @@
+body {
+	font-size: 11px;
+	color: #222;
+	font-family: "Helvetica,Arial,FreeSans";
+}
+
+#icon {
+	position: absolute;
+	top: 1.3em;
+	left: 0.8em;
+}
+
+#container{
+	width: 700px;
+	margin: 3em auto;
+	padding: 2em;
+}
+
+.ui-widget-header div {
+	position: absolute;
+	top: 1em;
+	right: 2em;
+}
+
+.alt {
+	color: #666666;
+	font-family: "Warnock Pro", "Goudy Old Style", "Palatino",
+		"Book Antiqua", Georgia, serif;
+	font-style: italic;
+	font-weight: normal;
+}
+
+p {
+	margin: 1em;
+	font-size: 0.8em;
+	line-height: 1.5em;
+}
+
+h1 {
+	font-size: 3.8em;
+	margin-bottom: 3px;
+}
+
+h1 .small {
+	font-size: 0.4em;
+}
+
+h1 a {
+	text-decoration: none
+}
+
+h2 {
+	font-size: 1.5em;
+}
+
+h3 {
+	text-align: center;
+}
+
+
+a:hover{
+	opacity: 0.8;	
+}
+
+.description {
+	font-size: 1.2em;
+	margin-bottom: 30px;
+	margin-top: 30px;
+	font-style: italic;
+}
+
+.download {
+	float: right;
+}
+
+pre {
+	padding: 15px;
+}
+
+hr {
+	border: 0;
+	width: 80%;
+	border-bottom: 1px solid #aaa
+}
+
+.footer {
+	text-align: center;
+	font-style: italic;
+}

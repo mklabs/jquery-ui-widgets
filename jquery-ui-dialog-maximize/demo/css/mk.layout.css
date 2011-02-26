@@ -1,0 +1,152 @@
+/* Sets up basic grid floating and margin. */
+.column, div.col-05, div.col-10, div.col-15, div.col-20, div.col-25, div.col-30, div.col-40, div.col-50, div.col-60, div.col-70, div.col-80, div.col-90, div.col-100 {	
+    float: left;
+    margin-right: 1%;
+}
+/* The last column in a row needs this class. */
+.last, div.last {
+    margin-right: 0;
+}
+
+/* Use these classes to set the width of a column. */
+.col-100{
+	width: 100%;
+}
+
+/* Use this class for blocks (div) with 100% width. */
+.div-100 {
+	width: 100%;	
+}
+
+/** Always set 2% lower due to IE double float margin bug **/
+.col-90{
+	width: 88%;
+}
+
+.col-85{
+	width: 83%;
+}
+
+.col-80{
+	width: 78%;
+}
+
+.col-70{
+	width: 68%;
+}
+
+.col-60{
+	width: 58%;
+}
+
+.col-50{
+	width: 48%;
+}
+
+.col-40{
+	width: 38%;	
+}
+
+.col-35{
+	width: 35%;
+}
+
+.col-30{
+	width: 28%;	
+}
+
+.col-25{
+	width: 24%;
+}
+
+.col-20{
+	width: 18%;	
+}
+
+.col-16{
+	width: 15%;	
+}
+
+.col-15{
+	width: 14%;	
+}
+
+.col-10{
+	width: 9%;	
+}
+
+.col-07{
+	width: 6%;	
+}
+
+.col-05{
+	width: 4%;	
+}
+
+/* Border on right hand side of a column. */
+div.border {
+    padding-right: 4px;
+    margin-right: 5px;
+    border-right: 1px solid #eee;
+}
+
+/* Border with more whitespace, spans one column. */
+div.colborder {
+    padding-right: 24px;
+    margin-right: 25px;
+    border-right: 1px solid #eee;
+}
+
+/* Use a .box to create a padded box inside a column.  */
+.box {
+    padding: 1.5em;
+    margin-bottom: 1.5em;
+    background: #E5ECF9;
+}
+/* Use this to create a horizontal ruler across a column. */
+hr {
+    background: #ddd;
+    color: #ddd;
+    clear: both;
+    float: none;
+    width: 100%;
+    height: .1em;
+    margin: 0 0 1.45em;
+    border: none;
+}
+
+hr.space {
+    background: #fff;
+    color: #fff;
+}
+
+hr.dashed{
+	background: #fff;
+	border-bottom: 1px dashed #333;
+}
+
+hr.blue{
+	background: #656e99;
+    color: #656e99;
+}
+
+.mk-margin-top{
+	margin: 3em 0 0 0;
+}
+
+/** dashed border. **/
+.mk-border-top-dashed{
+	border-top: 1px dashed #333;
+}
+
+.mk-border-right-dashed{
+	border-right: 1px dashed #333;
+}
+
+.mk-border-bottom-dashed{
+	border-bottom: 1px dashed #333;
+}
+
+.mk-border-left-dashed{
+	border-left: 1px dashed #333;
+}
